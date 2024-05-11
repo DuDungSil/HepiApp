@@ -1,0 +1,110 @@
+name: flutter_app
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_svg: ^2.0.10+1
+
+flutter:
+  uses-material-design: true
+  assets:
+  - assets/images/image_3.png
+  - assets/images/image_6.png
+  - assets/images/image_5.png
+  - assets/images/image_4.png
+  - assets/vectors/battery_5_x2.svg
+  - assets/vectors/cellular_6_x2.svg
+  - assets/vectors/wifi_5_x2.svg
+  - assets/vectors/time_x2.svg
+  - assets/images/image_3.png
+  - assets/images/image_2.png
+  - assets/images/image_5.png
+  - assets/images/image_6.png
+  - assets/images/image_4.png
+  - assets/vectors/wifi_1_x2.svg
+  - assets/vectors/battery_1_x2.svg
+  - assets/vectors/vector_9_x2.svg
+  - assets/vectors/cellular_4_x2.svg
+  - assets/vectors/shape_3_x2.svg
+  - assets/vectors/time_6_x2.svg
+  - assets/vectors/vector_12_x2.svg
+  - assets/vectors/vector_13_x2.svg
+  - assets/vectors/wifi_7_x2.svg
+  - assets/vectors/battery_3_x2.svg
+  - assets/vectors/vector_9_x2.svg
+  - assets/vectors/vector_2_x2.svg
+  - assets/vectors/vector_3_x2.svg
+  - assets/vectors/vector_7_x2.svg
+  - assets/vectors/vector_x2.svg
+  - assets/vectors/vector_4_x2.svg
+  - assets/vectors/cellular_5_x2.svg
+  - assets/vectors/vector_6_x2.svg
+  - assets/vectors/time_7_x2.svg
+  - assets/vectors/vector_5_x2.svg
+  - assets/vectors/vector_1_x2.svg
+  - assets/vectors/shape_x2.svg
+  - assets/vectors/vector_8_x2.svg
+  - assets/vectors/shape_4_x2.svg
+  - assets/images/image_7.png
+  - assets/images/image_3.png
+  - assets/images/image_2.png
+  - assets/images/image_5.png
+  - assets/images/image_1.jpeg
+  - assets/images/image.jpeg
+  - assets/vectors/wifi_6_x2.svg
+  - assets/vectors/cellular_7_x2.svg
+  - assets/vectors/vector_91_x2.svg
+  - assets/vectors/time_2_x2.svg
+  - assets/vectors/battery_6_x2.svg
+  - assets/images/image_3.png
+  - assets/images/image_1.png
+  - assets/vectors/wifi_4_x2.svg
+  - assets/vectors/cellular_x2.svg
+  - assets/vectors/battery_x2.svg
+  - assets/vectors/time_3_x2.svg
+  - assets/vectors/vector_10_x2.svg
+  - assets/vectors/shape_5_x2.svg
+  - assets/vectors/vector_11_x2.svg
+  - assets/images/image_5.png
+  - assets/images/image_3.png
+  - assets/images/image_6.png
+  - assets/images/image_4.png
+  - assets/images/image_2.png
+  - assets/vectors/cellular_3_x2.svg
+  - assets/vectors/shape_6_x2.svg
+  - assets/vectors/time_1_x2.svg
+  - assets/vectors/battery_2_x2.svg
+  - assets/vectors/wifi_x2.svg
+  - assets/images/image_5.png
+  - assets/images/image_6.png
+  - assets/images/image_3.png
+  - assets/images/image_2.png
+  - assets/images/image_4.png
+  - assets/vectors/time_4_x2.svg
+  - assets/vectors/shape_2_x2.svg
+  - assets/vectors/cellular_1_x2.svg
+  - assets/vectors/battery_4_x2.svg
+  - assets/vectors/wifi_2_x2.svg
+  - assets/images/image_2.png
+  - assets/images/image_1.png
+  - assets/images/image_2.png
+  - assets/vectors/cellular_2_x2.svg
+  - assets/vectors/time_5_x2.svg
+  - assets/vectors/battery_7_x2.svg
+  - assets/vectors/wifi_3_x2.svg
+  - assets/vectors/shape_1_x2.svg
+
