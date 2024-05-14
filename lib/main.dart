@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_app/pages/homePage.dart';
-import 'package:flutter_app/bottombar.dart';
+import 'package:flutter_app/pages/myPage.dart';
+import 'package:flutter_app/widget/bottombar.dart';
 import 'package:flutter_app/pages/searchPage.dart';
+import 'package:flutter_app/store/user.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+import 'function/login.dart';
+
+void main() => runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(create: (c) => user()),
+    ], child: MyApp()));
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -32,11 +39,13 @@ class _MyAppState extends State<MyApp> {
         statusBarIconBrightness: Brightness.dark,
       ),
     );
-    pageList = [homePage(), searchPage()];
+    pageList = [homePage(), searchPage(), myPage()];
   }
 
   @override
   Widget build(BuildContext context) {
+    login(context);
+
     return MaterialApp(
       title: 'Flutter App',
       home: SafeArea(
@@ -48,3 +57,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+

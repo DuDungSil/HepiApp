@@ -168,7 +168,8 @@ class goodsDetailPage extends StatelessWidget {
                       'California Gold Nutrition SPORT 분리유청단백질, 1lb\n'
                           '단백질 27g, BCAA 6.1g, 글루탐산 4.6g\n'
                           '무맛\n'
-                          '저유당 유전자 재조합 소 성장호르몬 무함유\n'
+                          '저유당\n'
+                          '전자 재조합 소 성장호르몬 무함유\n'
                           '근육 성장 증진\n'
                           '증량제, 글루텐, 유전자 변형 성분, 대두 무함유\n'
                           '인공 색소, 인공 향료, 인공 감미료 무함유\n'

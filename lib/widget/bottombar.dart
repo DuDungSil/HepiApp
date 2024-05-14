@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_app/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../function/login.dart';
 
 class Bottombar extends StatelessWidget {
   Bottombar({Key? key, this.setTab }) : super(key: key);
@@ -101,7 +101,7 @@ class Bottombar extends StatelessWidget {
             ),
             InkWell( // 마이페이지 버튼
               onTap: () {
-                print('클릭');
+                setTab(2);
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

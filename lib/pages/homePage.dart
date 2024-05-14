@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_app/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../store/user.dart';
 
 class homePage extends StatelessWidget {
   @override
@@ -148,18 +150,15 @@ class homePage extends StatelessWidget {
             Container(
               // 진행중인 이벤트 품목 텍스트
               margin: EdgeInsets.fromLTRB(12, 28, 12, 0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  child: Text(
-                    '진행 중인 이벤트 품목',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      height: 1.3,
-                      color: Color(0xFF000000),
-                    ),
+              child: Container(
+                child: Text(
+                  '진행 중인 이벤트 품목',
+                  style: GoogleFonts.getFont(
+                    'Roboto',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    height: 1.3,
+                    color: Color(0xFF000000),
                   ),
                 ),
               ),
@@ -183,6 +182,8 @@ class homePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
+                            width: 150,
+                            height: 150,
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
@@ -191,13 +192,8 @@ class homePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                            ),
                           ),
                           Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
