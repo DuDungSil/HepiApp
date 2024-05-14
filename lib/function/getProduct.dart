@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/store/product.dart';
+import 'package:flutter_app/store/products.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -16,5 +16,10 @@ getProduct (BuildContext context) async{
       'pwd': 'admin',
     }),
   );
-  context.read<product>().setProduct(jsonDecode(response.body));
+
+  var _productList = [];
+  for (var _product in jsonDecode(response.body)) {
+    _productList.add(new product(_product['id'], _product['name'], _product['price'], _product['explain'], _product['event'], _product['mainImage']));
+  }
+  context.read<products>().setRecommendProductList(_productList);
 }

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../store/products.dart';
 import '../store/user.dart';
 
 class homePage extends StatelessWidget {
@@ -201,7 +202,7 @@ class homePage extends StatelessWidget {
                                 Container(
                                   margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
                                   child: Text(
-                                    'Optimum Nutrition, 더블 리치 초콜릿 Whey,  2.27kg(5lb)',
+                                    context.watch<products>().recommendProductList[0].name,
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w400,
@@ -266,7 +267,7 @@ class homePage extends StatelessWidget {
                                 Container(
                                   margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
                                   child: Text(
-                                    'Life Extension, 투 퍼 데이 종합 비타민 캡슐 120 정',
+                                    context.watch<products>().recommendProductList[1].name,
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w400,

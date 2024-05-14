@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/function/getProduct.dart';
 
 import 'package:flutter_app/pages/homePage.dart';
 import 'package:flutter_app/pages/myPage.dart';
 import 'package:flutter_app/pages/chattingPage.dart';
 import 'package:flutter_app/pages/qrPage.dart';
+import 'package:flutter_app/store/products.dart';
 import 'package:flutter_app/widget/bottombar.dart';
 import 'package:flutter_app/pages/searchPage.dart';
 import 'package:flutter_app/store/user.dart';
@@ -14,6 +16,7 @@ import 'function/login.dart';
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (c) => user()),
+      ChangeNotifierProvider(create: (c) => products()),
     ], child: MyApp()));
 
 class MyApp extends StatefulWidget {
@@ -47,6 +50,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     login(context);
+    getProduct(context);
 
     return MaterialApp(
       title: 'Flutter App',
@@ -59,4 +63,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
