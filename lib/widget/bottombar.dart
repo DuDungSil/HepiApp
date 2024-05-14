@@ -134,7 +134,7 @@ class Bottombar extends StatelessWidget {
             ),
             InkWell( //채팅 버튼
               onTap: () {
-                print('클릭');
+                setTab(3);
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +167,7 @@ class Bottombar extends StatelessWidget {
             ),
             InkWell(// QR 코드 인식 버튼
               onTap: () {
-                print('클릭');
+                setTab(4);
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

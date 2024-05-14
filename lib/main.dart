@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_app/pages/homePage.dart';
 import 'package:flutter_app/pages/myPage.dart';
+import 'package:flutter_app/pages/chattingPage.dart';
+import 'package:flutter_app/pages/qrPage.dart';
 import 'package:flutter_app/widget/bottombar.dart';
 import 'package:flutter_app/pages/searchPage.dart';
 import 'package:flutter_app/store/user.dart';
@@ -39,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         statusBarIconBrightness: Brightness.dark,
       ),
     );
-    pageList = [homePage(), searchPage(), myPage()];
+    pageList = [homePage(), searchPage(), myPage(), chattingPage(), qrPage()];
   }
 
   @override
