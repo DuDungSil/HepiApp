@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/function/getMyProduct.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../function/getProduct.dart';
+import '../function/getRecommendProduct.dart';
 import '../function/login.dart';
 
 class Bottombar extends StatelessWidget {
@@ -36,7 +37,7 @@ class Bottombar extends StatelessWidget {
           children: [
             InkWell( // 홈 버튼
               onTap: () {
-                getProduct(context, "event");
+                getRecommendProduct(context, "event");
                 setTab(0);
               },
               child: Column(
@@ -103,6 +104,7 @@ class Bottombar extends StatelessWidget {
             ),
             InkWell( // 마이페이지 버튼
               onTap: () {
+                getMyProduct(context, "mine");
                 setTab(2);
               },
               child: Column(

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../store/products.dart';
 import '../store/user.dart';
 
 class myPage extends StatelessWidget {
@@ -132,8 +133,8 @@ class myPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_1.png',
+                                image: NetworkImage(
+                                  context.watch<products>().myProductList[0].main_image,
                                 ),
                               ),
                             ),
@@ -148,7 +149,7 @@ class myPage extends StatelessWidget {
                                   margin:
                                       EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   child: Text(
-                                    'Optimum Nutrition, 더블 리치 초콜릿 Whey,  2.27kg(5lb)',
+                                    context.watch<products>().myProductList[0].name,
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w400,
@@ -162,7 +163,10 @@ class myPage extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   child: Text(
-                                    '400/454g (12%)',
+                                    context.watch<products>().myProductList[0].my_amount.toString()
+                                    + '/' + context.watch<products>().myProductList[0].amount.toString()
+                                    + context.watch<products>().myProductList[0].unit + ' '
+                                    + '(${((context.watch<products>().myProductList[0].my_amount/context.watch<products>().myProductList[0].amount)*100).toStringAsFixed(0)}%)',
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w500,
@@ -194,8 +198,8 @@ class myPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_7.png',
+                                image: NetworkImage(
+                                  context.watch<products>().myProductList[1].main_image,
                                 ),
                               ),
                             ),
@@ -210,7 +214,7 @@ class myPage extends StatelessWidget {
                                   margin:
                                   EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   child: Text(
-                                    'Life Extension, 투 퍼 데이 종합 비타민 캡슐 120 정',
+                                    context.watch<products>().myProductList[1].name,
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w400,
@@ -224,7 +228,10 @@ class myPage extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   child: Text(
-                                    '100/120정 (17%)',
+                                    context.watch<products>().myProductList[1].my_amount.toString()
+                                        + '/' + context.watch<products>().myProductList[1].amount.toString()
+                                        + context.watch<products>().myProductList[1].unit + ' '
+                                        + '(${((context.watch<products>().myProductList[1].my_amount/context.watch<products>().myProductList[1].amount)*100).toStringAsFixed(0)}%)',
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w500,
@@ -255,8 +262,8 @@ class myPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_5.png',
+                                image: NetworkImage(
+                                  context.watch<products>().myProductList[2].main_image,
                                 ),
                               ),
                             ),
@@ -271,7 +278,7 @@ class myPage extends StatelessWidget {
                                   margin:
                                   EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   child: Text(
-                                    'California Gold Nutrition, 오메가3 프리미엄 피쉬 오일, 피쉬 젤라틴 소프트젤 100정',
+                                    context.watch<products>().myProductList[2].name,
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w400,
@@ -285,7 +292,10 @@ class myPage extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   child: Text(
-                                    '35/100정 (65%)',
+                                    context.watch<products>().myProductList[2].my_amount.toString()
+                                        + '/' + context.watch<products>().myProductList[2].amount.toString()
+                                        + context.watch<products>().myProductList[2].unit + ' '
+                                        + '(${((context.watch<products>().myProductList[2].my_amount/context.watch<products>().myProductList[2].amount)*100).toStringAsFixed(0)}%)',
                                     style: GoogleFonts.getFont(
                                       'Roboto',
                                       fontWeight: FontWeight.w500,

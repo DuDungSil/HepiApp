@@ -499,8 +499,8 @@ class goodsDetailPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.fitHeight,
-                            image: AssetImage(
-                              'assets/images/image_1.png',
+                            image: new NetworkImage(
+                              '1LUwu6vdonubHkj4_EWs-NYsnyOdZSbA7'
                             ),
                           ),
                         ),

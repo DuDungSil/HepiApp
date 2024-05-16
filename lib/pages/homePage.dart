@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../function/getProduct.dart';
 import '../function/moneyFormat.dart';
 import '../store/products.dart';
 
@@ -138,7 +137,7 @@ class homePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fitHeight,
-                    image: new NetworkImage(
+                    image: NetworkImage(
                       'https://drive.google.com/uc?export=view&id=15Q8YZqiLrGH_zACN2YvaDx8NSaMpgNKC'
                     )
                   ),
@@ -190,7 +189,7 @@ class homePage extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image: new NetworkImage(
+                                image: NetworkImage(
                                   context.watch<products>().recommendProductList[0].main_image,
                                 )
                               ),
@@ -250,7 +249,7 @@ class homePage extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image: new NetworkImage(
+                                image: NetworkImage(
                                   context.watch<products>().recommendProductList[1].main_image,
                                 ),
                               ),
