@@ -12,7 +12,6 @@ import '../store/products.dart';
 class homePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    getProduct(context, "event");
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(

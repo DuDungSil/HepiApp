@@ -36,6 +36,7 @@ class Bottombar extends StatelessWidget {
           children: [
             InkWell( // 홈 버튼
               onTap: () {
+                getProduct(context, "event");
                 setTab(0);
               },
               child: Column(
