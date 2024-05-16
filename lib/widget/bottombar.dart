@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../function/getProduct.dart';
 import '../function/login.dart';
 
 class Bottombar extends StatelessWidget {

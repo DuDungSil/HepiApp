@@ -18,8 +18,8 @@ class product {
   var price;
   var explain;
   var event;
-  var mainImage;
+  var main_image;
 
-  product(this.id, this.name, this.price, this.explain, this.event, this.mainImage);
+  product(this.id, this.name, this.price, this.explain, this.event, this.main_image);
 
 }
