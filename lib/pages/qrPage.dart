@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../function/getMyProduct.dart';
+import '../store/products.dart';
 import '../store/user.dart';
 import 'loginPage.dart';
 
@@ -14,6 +16,7 @@ class qrPage extends StatelessWidget {
     if (loginUser.id == null) {
       return loginPage();
     } else {
+      getMyProduct(context, "mine", loginUser.id);
       return SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -274,200 +277,97 @@ class qrPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                height: 280,
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Container(
-                      width: 160,
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 160,
+              Consumer<products>(builder: (consumer, products, child) {
+                if (products.myProductList.isEmpty) {
+                  return CircularProgressIndicator();
+                } else {
+                  return Container(
+                    height: 280,
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: products.myProductList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            print(products.myProductList[index].name);
+                          },
+                          child: Container(
+                            width: 160,
+                            margin: EdgeInsets.only(right: 10),
                             decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_1.png',
-                                ),
-                              ),
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                          ),
-                          Container(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin:
-                                  EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: Text(
-                                    'Optimum Nutrition, 더블 리치 초콜릿 Whey,  2.27kg(5lb)',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.fitHeight,
+                                      image: NetworkImage(
+                                        products.myProductList[index].main_image,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: Text(
-                                    '400/454g (12%)',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
-                                    ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin:
+                                        EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        child: Text(
+                                          products.myProductList[index].name,
+                                          style: GoogleFonts.getFont(
+                                            'Roboto',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            color: Color(0xFF000000),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin:
+                                        EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        child: Text(
+                                          products.myProductList[index].my_amount
+                                              .toString() +
+                                              '/' +
+                                              products.myProductList[index].amount
+                                                  .toString() +
+                                              products.myProductList[index].unit +
+                                              ' ' +
+                                              '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
+                                          style: GoogleFonts.getFont(
+                                            'Roboto',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            height: 1.5,
+                                            color: Color(0xFF000000),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                    Container(
-                      width: 160,
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 160,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_7.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin:
-                                  EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: Text(
-                                    'Life Extension, 투 퍼 데이 종합 비타민 캡슐 120 정',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: Text(
-                                    '100/120정 (17%)',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 160,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 160,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_5.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin:
-                                  EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: Text(
-                                    'California Gold Nutrition, 오메가3 프리미엄 피쉬 오일, 피쉬 젤라틴 소프트젤 100정',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: Text(
-                                    '35/100정 (65%)',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  );
+                }
+              }),
             ],
           ),
         ),

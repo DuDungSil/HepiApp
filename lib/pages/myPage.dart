@@ -124,220 +124,92 @@ class myPage extends StatelessWidget {
                   } else {
                     return Container(
                       height: 280,
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: ListView(
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            width: 160,
-                            margin: EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: NetworkImage(
-                                        products.myProductList[0].main_image,
+                        itemCount: products.myProductList.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              print(products.myProductList[index].name);
+                            },
+                            child: Container(
+                              width: 160,
+                              margin: EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0x1A000000)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 160,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.fitHeight,
+                                        image: NetworkImage(
+                                          products
+                                              .myProductList[index].main_image,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          products.myProductList[0].name,
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              10, 10, 10, 0),
+                                          child: Text(
+                                            products.myProductList[index].name,
+                                            style: GoogleFonts.getFont(
+                                              'Roboto',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                              height: 1.3,
+                                              color: Color(0xFF000000),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          products.myProductList[0].my_amount
-                                                  .toString() +
-                                              '/' +
-                                              products.myProductList[0].amount
-                                                  .toString() +
-                                              products.myProductList[0].unit +
-                                              ' ' +
-                                              '(${((products.myProductList[0].my_amount / products.myProductList[0].amount) * 100).toStringAsFixed(0)}%)',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.5,
-                                            color: Color(0xFF000000),
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          margin: EdgeInsets.fromLTRB(
+                                              10, 10, 10, 0),
+                                          child: Text(
+                                            products.myProductList[index]
+                                                    .my_amount
+                                                    .toString() +
+                                                '/' +
+                                                products
+                                                    .myProductList[index].amount
+                                                    .toString() +
+                                                products
+                                                    .myProductList[index].unit +
+                                                ' ' +
+                                                '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
+                                            style: GoogleFonts.getFont(
+                                              'Roboto',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              height: 1.5,
+                                              color: Color(0xFF000000),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 160,
-                            margin: EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: NetworkImage(
-                                        products.myProductList[1].main_image,
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          products.myProductList[1].name,
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          products.myProductList[1].my_amount
-                                                  .toString() +
-                                              '/' +
-                                              products.myProductList[1].amount
-                                                  .toString() +
-                                              products.myProductList[1].unit +
-                                              ' ' +
-                                              '(${((products.myProductList[1].my_amount / products.myProductList[1].amount) * 100).toStringAsFixed(0)}%)',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.5,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: 160,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: NetworkImage(
-                                        products.myProductList[2].main_image,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          products.myProductList[2].name,
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          products.myProductList[2].my_amount
-                                                  .toString() +
-                                              '/' +
-                                              products.myProductList[2].amount
-                                                  .toString() +
-                                              products.myProductList[2].unit +
-                                              ' ' +
-                                              '(${((products.myProductList[2].my_amount / products.myProductList[2].amount) * 100).toStringAsFixed(0)}%)',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.5,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     );
                   }

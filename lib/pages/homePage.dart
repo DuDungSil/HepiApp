@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/function/getEventImage.dart';
 import 'package:flutter_app/function/getRecommendProduct.dart';
+import 'package:flutter_app/store/eventImages.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +15,7 @@ class homePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getRecommendProduct(context, "event");
+    getEventImage(context);
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
@@ -167,8 +170,7 @@ class homePage extends StatelessWidget {
             Consumer<products>(builder: (consumer, products, child) {
               if (products.recommendProductList.isEmpty) {
                 return CircularProgressIndicator();
-              }
-              else {
+              } else {
                 return Container(
                   // 진행중인 이벤트 품목 컨테이너
                   height: 250,
@@ -256,7 +258,8 @@ class homePage extends StatelessWidget {
                                   image: DecorationImage(
                                     fit: BoxFit.fitHeight,
                                     image: NetworkImage(
-                                      products.recommendProductList[1].main_image,
+                                      products
+                                          .recommendProductList[1].main_image,
                                     ),
                                   ),
                                 ),
