@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../store/user.dart';
 
-login (BuildContext context) async{
+login (BuildContext context, String id, String pwd) async{
   print("Connect to Server");
   var serverIP = dotenv.get("serverIP");
   var response = await http.post(

@@ -38,7 +38,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var pageList;
+  var pageList = [homePage(), searchPage(), myPage(), chattingPage(), qrPage()];
   var tab = 0;
 
   setTab(a) {
@@ -59,16 +59,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    login(context);
-    pageList = [homePage(), searchPage(), myPage(), chattingPage(), qrPage()];
-
     return MaterialApp(
       title: 'Flutter App',
       home: SafeArea(
         child: Scaffold(
-          // body: pageList[tab],
-          // bottomNavigationBar: Bottombar(setTab: setTab),
-          body: loginPage(),
+          body: pageList[tab],
+          bottomNavigationBar: Bottombar(setTab: setTab),
         ),
       ),
     );
