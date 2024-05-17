@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/function/getRecommendProduct.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +12,7 @@ import '../store/products.dart';
 class homePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    getRecommendProduct(context, "event");
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
@@ -136,11 +138,9 @@ class homePage extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    fit: BoxFit.fitHeight,
-                    image: NetworkImage(
-                      'https://drive.google.com/uc?export=view&id=15Q8YZqiLrGH_zACN2YvaDx8NSaMpgNKC'
-                    )
-                  ),
+                      fit: BoxFit.fitHeight,
+                      image: NetworkImage(
+                          'https://drive.google.com/uc?export=view&id=15Q8YZqiLrGH_zACN2YvaDx8NSaMpgNKC')),
                 ),
                 child: Container(
                   width: 336,
@@ -164,145 +164,155 @@ class homePage extends StatelessWidget {
                 ),
               ),
             ),
+            Consumer<products>(builder: (consumer, products, child) {
+              if (products.recommendProductList.isEmpty) {
+                return CircularProgressIndicator();
+              }
+              else {
+                return Container(
+                  // 진행중인 이벤트 품목 컨테이너
+                  height: 250,
+                  margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.fitHeight,
+                                      image: NetworkImage(
+                                        products
+                                            .recommendProductList[0].main_image,
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
+                                      child: Text(
+                                        products.recommendProductList[0].name,
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          height: 1.3,
+                                          color: Color(0xFF000000),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 4),
+                                      child: Text(
+                                        money.format(products
+                                            .recommendProductList[0].price),
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          height: 1.5,
+                                          color: Color(0xFF000000),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: NetworkImage(
+                                      products.recommendProductList[1].main_image,
+                                    ),
+                                  ),
+                                ),
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
+                                      child: Text(
+                                        products.recommendProductList[1].name,
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          height: 1.3,
+                                          color: Color(0xFF000000),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 4),
+                                      child: Text(
+                                        money.format(products
+                                            .recommendProductList[1].price),
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          height: 1.5,
+                                          color: Color(0xFF000000),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }),
             Container(
-              // 진행중인 이벤트 품목 컨테이너
-              height: 250,
-              margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: NetworkImage(
-                                  context.watch<products>().recommendProductList[0].main_image,
-                                )
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
-                                  child: Text(
-                                    context.watch<products>().recommendProductList[0].name,
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.fromLTRB(6, 4, 0, 4),
-                                  child: Text(
-                                    money.format(context.watch<products>().recommendProductList[0].price),
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: NetworkImage(
-                                  context.watch<products>().recommendProductList[1].main_image,
-                                ),
-                              ),
-                            ),
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
-                                  child: Text(
-                                    context.watch<products>().recommendProductList[1].name,
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.fromLTRB(6, 4, 0, 4),
-                                  child: Text(
-                                    money.format(context.watch<products>().recommendProductList[1].price),
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container( // 전체 물품 카테고리 텍스트
+              // 전체 물품 카테고리 텍스트
               margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
               child: Align(
                 alignment: Alignment.topLeft,
@@ -320,7 +330,8 @@ class homePage extends StatelessWidget {
                 ),
               ),
             ),
-            Container( // 전체 물품 카테고리 컨테이너
+            Container(
+              // 전체 물품 카테고리 컨테이너
               margin: EdgeInsets.fromLTRB(12, 16, 12, 12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

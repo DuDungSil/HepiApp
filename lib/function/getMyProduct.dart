@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../store/products.dart';
 
 
-getMyProduct (BuildContext context, String type) async{
+getMyProduct (BuildContext context, String type, String userID) async{
   print("Connect to Server");
   var serverIP = dotenv.get("serverIP");
   var response = await http.post(
@@ -17,7 +17,7 @@ getMyProduct (BuildContext context, String type) async{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'id': 'admin',
+      'id': userID,
     }),
   );
 
