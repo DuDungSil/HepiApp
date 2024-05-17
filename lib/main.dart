@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_app/pages/homePage.dart';
+import 'package:flutter_app/pages/loginPage.dart';
 import 'package:flutter_app/pages/myPage.dart';
 import 'package:flutter_app/pages/chattingPage.dart';
 import 'package:flutter_app/pages/qrPage.dart';
@@ -65,8 +66,9 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter App',
       home: SafeArea(
         child: Scaffold(
-          body: pageList[tab],
-          bottomNavigationBar: Bottombar(setTab: setTab),
+          // body: pageList[tab],
+          // bottomNavigationBar: Bottombar(setTab: setTab),
+          body: loginPage(),
         ),
       ),
     );
