@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/getEventImage.dart';
 import 'package:flutter_app/function/getRecommendProduct.dart';
 import 'package:flutter_app/store/eventImages.dart';
@@ -8,8 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../function/moneyFormat.dart';
-import '../../store/products.dart';
+import '../function/moneyFormat.dart';
+import '../store/products.dart';
 
 class homePage extends StatelessWidget {
   @override
@@ -40,7 +41,7 @@ class homePage extends StatelessWidget {
                 ],
               ),
               child: Container(
-                margin: EdgeInsets.fromLTRB(16, 34, 0, 12),
+                margin: EdgeInsets.fromLTRB(15, 30, 0, 10),
                 width: double.infinity,
                 child: Text(
                   'HEPI ONLINE STORE',
@@ -56,7 +57,7 @@ class homePage extends StatelessWidget {
             ),
             Container(
               // 검색 창 외곽선
-              margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
               width: double.infinity,
               height: 40,
               decoration: BoxDecoration(
@@ -94,7 +95,7 @@ class homePage extends StatelessWidget {
                       child: Container(
                         width: 36,
                         height: 28,
-                        padding: EdgeInsets.fromLTRB(9.7, 5.7, 9.4, 5.4),
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         child: InkWell(
                           onTap: () {},
                           child: SizedBox(
@@ -113,7 +114,7 @@ class homePage extends StatelessWidget {
             ),
             Container(
               // 할인정보 텍스트
-              margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Container(
@@ -130,30 +131,36 @@ class homePage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
-              width: double.infinity,
-              height: 164,
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0x1A000000)),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fitHeight,
-                      image: NetworkImage(
-                          'https://drive.google.com/uc?export=view&id=15Q8YZqiLrGH_zACN2YvaDx8NSaMpgNKC')),
-                ),
-                child: Container(
-                  width: 336,
+            Consumer<eventImages>(builder: (consumer, eventImages, child) {
+              if (eventImages.eventImageList.isEmpty) {
+                return CircularProgressIndicator();
+              } else {
+                return Container(
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  width: double.infinity,
                   height: 164,
-                ),
-              ),
-            ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0x1A000000)),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image:
+                              NetworkImage(eventImages.eventImageList[0].url)),
+                    ),
+                    child: Container(
+                      width: 336,
+                      height: 164,
+                    ),
+                  ),
+                );
+              }
+            }),
             Container(
               // 진행중인 이벤트 품목 텍스트
-              margin: EdgeInsets.fromLTRB(12, 28, 12, 0),
+              margin: EdgeInsets.fromLTRB(10, 30, 10, 0),
               child: Container(
                 child: Text(
                   '진행 중인 이벤트 품목',
@@ -173,15 +180,16 @@ class homePage extends StatelessWidget {
               } else {
                 return Container(
                   // 진행중인 이벤트 품목 컨테이너
-                  height: 250,
-                  margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
+                  height: 280,
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                           decoration: BoxDecoration(
                             border: Border.all(color: Color(0x1A000000)),
                             borderRadius: BorderRadius.circular(6),
@@ -208,7 +216,7 @@ class homePage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
+                                      margin: EdgeInsets.only(top: 10),
                                       child: Text(
                                         products.recommendProductList[0].name,
                                         style: GoogleFonts.getFont(
@@ -221,8 +229,8 @@ class homePage extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
+                                      margin: EdgeInsets.only(top: 10),
                                       alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 4),
                                       child: Text(
                                         money.format(products
                                             .recommendProductList[0].price),
@@ -244,7 +252,8 @@ class homePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
                           decoration: BoxDecoration(
                             border: Border.all(color: Color(0x1A000000)),
                             borderRadius: BorderRadius.circular(6),
@@ -269,13 +278,12 @@ class homePage extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 0),
+                                      margin: EdgeInsets.only(top: 10),
                                       child: Text(
                                         products.recommendProductList[1].name,
                                         style: GoogleFonts.getFont(
@@ -289,7 +297,7 @@ class homePage extends StatelessWidget {
                                     ),
                                     Container(
                                       alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.fromLTRB(6, 4, 0, 4),
+                                      margin: EdgeInsets.only(top: 10),
                                       child: Text(
                                         money.format(products
                                             .recommendProductList[1].price),
@@ -316,7 +324,7 @@ class homePage extends StatelessWidget {
             }),
             Container(
               // 전체 물품 카테고리 텍스트
-              margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Container(
@@ -335,38 +343,37 @@ class homePage extends StatelessWidget {
             ),
             Container(
               // 전체 물품 카테고리 컨테이너
-              margin: EdgeInsets.fromLTRB(12, 16, 12, 12),
+              margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            padding: EdgeInsets.fromLTRB(11, 11, 0, 11),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                             decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Color(0x0D000000),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Container(
-                                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                       child: Text(
                                         '💊',
                                         style: GoogleFonts.getFont(
@@ -381,7 +388,6 @@ class homePage extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Text(
                                     '건강기능식품',
                                     style: GoogleFonts.getFont(
@@ -399,24 +405,25 @@ class homePage extends StatelessWidget {
                         ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(11, 11, 0, 11),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
                             decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Color(0x0D000000),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Container(
-                                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                       child: Text(
                                         '😊',
                                         style: GoogleFonts.getFont(
@@ -431,7 +438,6 @@ class homePage extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Text(
                                     '단백질 보충제',
                                     style: GoogleFonts.getFont(
@@ -451,32 +457,32 @@ class homePage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                    margin: EdgeInsets.only(top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            padding: EdgeInsets.fromLTRB(11, 11, 0, 11),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                             decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Color(0x0D000000),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Container(
-                                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                       child: Text(
                                         '⭐',
                                         style: GoogleFonts.getFont(
@@ -491,7 +497,6 @@ class homePage extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Text(
                                     '프로틴 식품',
                                     style: GoogleFonts.getFont(
@@ -509,24 +514,25 @@ class homePage extends StatelessWidget {
                         ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(11, 11, 0, 11),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
                             decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Color(0x0D000000),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Container(
-                                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                       child: Text(
                                         '🍎',
                                         style: GoogleFonts.getFont(
@@ -541,7 +547,6 @@ class homePage extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Text(
                                     '비타민/미네랄',
                                     style: GoogleFonts.getFont(
@@ -560,112 +565,114 @@ class homePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                          padding: EdgeInsets.fromLTRB(11, 11, 17.4, 11),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x0D000000),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
-                                    padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                                    child: Text(
-                                      '💪',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 20,
-                                        height: 1.6,
-                                        color: Color(0xFF000000),
+                                    decoration: BoxDecoration(
+                                      color: Color(0x0D000000),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: Text(
+                                        '💪',
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                          height: 1.6,
+                                          color: Color(0xFF000000),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                child: Text(
-                                  '다이어트 보조제',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.1,
-                                    color: Color(0xFF000000),
+                                Container(
+                                  child: Text(
+                                    '다이어트 보조제',
+                                    style: GoogleFonts.getFont(
+                                      'Roboto',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.1,
+                                      color: Color(0xFF000000),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(11, 11, 0, 11),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x0D000000),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
-                                    padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                                    child: Text(
-                                      '🛍️',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 20,
-                                        height: 1.6,
-                                        color: Color(0xFF000000),
+                                    decoration: BoxDecoration(
+                                      color: Color(0x0D000000),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: Text(
+                                        '🛍️',
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                          height: 1.6,
+                                          color: Color(0xFF000000),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                child: Text(
-                                  '기타',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.1,
-                                    color: Color(0xFF000000),
+                                Container(
+                                  child: Text(
+                                    '기타',
+                                    style: GoogleFonts.getFont(
+                                      'Roboto',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.1,
+                                      color: Color(0xFF000000),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
