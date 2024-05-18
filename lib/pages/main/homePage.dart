@@ -8,8 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../function/moneyFormat.dart';
-import '../store/products.dart';
+import '../../function/moneyFormat.dart';
+import '../../store/products.dart';
 
 class homePage extends StatelessWidget {
   @override

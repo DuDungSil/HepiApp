@@ -4,12 +4,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../function/getMyProduct.dart';
-import '../store/products.dart';
-import '../store/user.dart';
-import 'loginPage.dart';
+import '../../function/getMyProduct.dart';
+import '../../store/products.dart';
+import '../../store/user.dart';
+import '../user/loginPage.dart';
 
-class qrPage extends StatelessWidget {
+class qrPage extends StatefulWidget {
+  @override
+  State<qrPage> createState() => _qrPageState();
+}
+
+class _qrPageState extends State<qrPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     var loginUser = context.watch<user>();
