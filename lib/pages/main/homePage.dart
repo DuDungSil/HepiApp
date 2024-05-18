@@ -566,7 +566,7 @@ class homePage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 30),
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
