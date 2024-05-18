@@ -8,7 +8,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../function/getMyProduct.dart';
 import '../../store/products.dart';
-import '../../store/qr.dart';
 import '../../store/user.dart';
 import '../user/loginPage.dart';
 
