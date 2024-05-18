@@ -13,6 +13,8 @@ import 'package:flutter_app/store/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+import 'store/qr.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();  // 1번코드
   await dotenv.load(fileName: "properties.env");    // 2번코드

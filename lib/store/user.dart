@@ -15,4 +15,9 @@ class user extends ChangeNotifier {
     this.gym = json['gym'];
     notifyListeners();
   }
+
+  String getQr()
+  {
+    return this.id;
+  }
 }
