@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/function/getMyProduct.dart';
+import 'package:flutter_app/function/getProduct.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../function/getRecommendProduct.dart';
 
 class Bottombar extends StatelessWidget {
   Bottombar({Key? key, this.setTab }) : super(key: key);

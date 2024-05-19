@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/getEventImage.dart';
-import 'package:flutter_app/function/getRecommendProduct.dart';
+import 'package:flutter_app/function/getProduct.dart';
 import 'package:flutter_app/store/eventImages.dart';
+import 'package:flutter_app/widget/priceText.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ import '../../store/products.dart';
 class homePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    getRecommendProduct(context, "event");
+    getProduct(context, "event", "");
     getEventImage(context);
     return SingleChildScrollView(
       child: Container(
@@ -175,7 +176,7 @@ class homePage extends StatelessWidget {
               ),
             ),
             Consumer<products>(builder: (consumer, products, child) {
-              if (products.recommendProductList.isEmpty) {
+              if (products.eventProductList.isEmpty) {
                 return CircularProgressIndicator();
               } else {
                 return Container(
@@ -205,8 +206,7 @@ class homePage extends StatelessWidget {
                                   image: DecorationImage(
                                       fit: BoxFit.fitHeight,
                                       image: NetworkImage(
-                                        products
-                                            .recommendProductList[0].main_image,
+                                        products.eventProductList[0].main_image,
                                       )),
                                 ),
                               ),
@@ -218,7 +218,9 @@ class homePage extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(top: 10),
                                       child: Text(
-                                        products.recommendProductList[0].name,
+                                        products.eventProductList[0].name,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
                                         style: GoogleFonts.getFont(
                                           'Roboto',
                                           fontWeight: FontWeight.w400,
@@ -229,20 +231,13 @@ class homePage extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        money.format(products
-                                            .recommendProductList[0].price),
-                                        style: GoogleFonts.getFont(
-                                          'Roboto',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.5,
-                                          color: Color(0xFF000000),
-                                        ),
-                                      ),
-                                    ),
+                                        margin: EdgeInsets.only(top: 10),
+                                        alignment: Alignment.topLeft,
+                                        child: priceText(
+                                            products.eventProductList[0].price,
+                                            products.eventProductList[0].event,
+                                            products
+                                                .eventProductList[0].discount)),
                                   ],
                                 ),
                               ),
@@ -267,8 +262,7 @@ class homePage extends StatelessWidget {
                                   image: DecorationImage(
                                     fit: BoxFit.fitHeight,
                                     image: NetworkImage(
-                                      products
-                                          .recommendProductList[1].main_image,
+                                      products.eventProductList[1].main_image,
                                     ),
                                   ),
                                 ),
@@ -285,7 +279,9 @@ class homePage extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(top: 10),
                                       child: Text(
-                                        products.recommendProductList[1].name,
+                                        products.eventProductList[1].name,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
                                         style: GoogleFonts.getFont(
                                           'Roboto',
                                           fontWeight: FontWeight.w400,
@@ -296,20 +292,13 @@ class homePage extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        money.format(products
-                                            .recommendProductList[1].price),
-                                        style: GoogleFonts.getFont(
-                                          'Roboto',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.5,
-                                          color: Color(0xFF000000),
-                                        ),
-                                      ),
-                                    ),
+                                        alignment: Alignment.topLeft,
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: priceText(
+                                            products.eventProductList[1].price,
+                                            products.eventProductList[1].event,
+                                            products
+                                                .eventProductList[1].discount)),
                                   ],
                                 ),
                               ),
