@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -249,14 +250,23 @@ class loginPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Text(
-                              '회원가입',
-                              style: GoogleFonts.getFont(
-                                'Mulish',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                height: 1.5,
-                                color: Color(0xFF2F80ED),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => registerPage()),
+                                );
+                              },
+                              child: Text(
+                                '회원가입',
+                                style: GoogleFonts.getFont(
+                                  'Mulish',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  height: 1.5,
+                                  color: Color(0xFF2F80ED),
+                                ),
                               ),
                             ),
                           ],
