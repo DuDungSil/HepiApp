@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../function/getMyProduct.dart';
+import '../../function/getProduct.dart';
 import '../../store/products.dart';
 import '../../store/user.dart';
 import '../user/loginPage.dart';
@@ -35,7 +35,7 @@ class _qrPageState extends State<qrPage> {
   @override
   Widget build(BuildContext context) {
     if (isLogin == true) {
-      getMyProduct(context, "mine", loginUser.id);
+      getProduct(context, "mine", loginUser.id);
     }
     return SingleChildScrollView(
       child: Container(

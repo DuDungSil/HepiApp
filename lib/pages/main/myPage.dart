@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/function/getMyProduct.dart';
+import 'package:flutter_app/function/getProduct.dart';
+import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../function/moneyFormat.dart';
 import '../../store/products.dart';
 import '../../store/user.dart';
+import '../../widget/priceText.dart';
+import '../products/cartPage.dart';
 import '../user/loginPage.dart';
 
 class myPage extends StatefulWidget {
@@ -37,7 +41,8 @@ class _myPageState extends State<myPage> {
   @override
   Widget build(BuildContext context) {
     if (isLogin == true) {
-      getMyProduct(context, "mine", loginUser.id);
+      getProduct(context, "mine", loginUser.id);
+      getProduct(context, "cart", loginUser.id);
     }
     return Stack(children: [
       SingleChildScrollView(
@@ -218,6 +223,8 @@ class _myPageState extends State<myPage> {
                                               child: Text(
                                                 products
                                                     .myProductList[index].name,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 3,
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
                                                   fontWeight: FontWeight.w400,
@@ -300,217 +307,100 @@ class _myPageState extends State<myPage> {
                 ),
               ),
               (isLogin == true)
-                  ? Container(
-                      height: 280,
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            width: 160,
-                            margin: EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 160,
+                  ? Consumer<products>(builder: (consumer, products, child) {
+                      if (products.cartProductList.isEmpty) {
+                        return CircularProgressIndicator();
+                      } else {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => cartPage()),
+                            );
+                          },
+                          child: Container(
+                            height: 280,
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: products.cartProductList.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  width: 160,
+                                  margin: EdgeInsets.only(right: 10),
                                   decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: AssetImage(
-                                        'assets/images/image_4.png',
-                                      ),
-                                    ),
+                                    border:
+                                        Border.all(color: Color(0x1A000000)),
+                                    borderRadius: BorderRadius.circular(6),
                                   ),
-                                ),
-                                Container(
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          'EVLution Nutrition, CREATINE5000, 무맛, 300g(10.58oz)',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          '₩21,502',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.5,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 160,
-                            margin: EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: AssetImage(
-                                        'assets/images/image_6.png',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          'California Gold Nutrition, Sport, 분리유청단백질, 무맛, 454g(1lb) ',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: RichText(
-                                          text: TextSpan(
-                                            text: '₩28,251 ',
-                                            style: GoogleFonts.getFont(
-                                              'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              height: 1.5,
-                                              color: Color(0xFF000000),
+                                        height: 160,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.fitHeight,
+                                            image: NetworkImage(
+                                              products.cartProductList[index]
+                                                  .main_image,
                                             ),
-                                            children: [
-                                              TextSpan(
-                                                text: '(10% off)',
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 0),
+                                              child: Text(
+                                                products.cartProductList[index]
+                                                    .name,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 3,
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
                                                   height: 1.3,
-                                                  color: Color(0xFFFF0000),
+                                                  color: Color(0xFF000000),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Container(
+                                                alignment: Alignment.topLeft,
+                                                margin: EdgeInsets.fromLTRB(
+                                                    10, 10, 10, 0),
+                                                child: priceText(
+                                                    products
+                                                        .cartProductList[index]
+                                                        .price,
+                                                    products
+                                                        .cartProductList[index]
+                                                        .event,
+                                                    products
+                                                        .cartProductList[index]
+                                                        .discount)),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
+                                );
+                              },
                             ),
                           ),
-                          Container(
-                            width: 160,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: AssetImage(
-                                        'assets/images/image_3.png',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          'California Gold Nutrition, Sport, 분리유청단백질, 무맛, 454g(1lb) ',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                        child: Text(
-                                          '₩40,101',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.5,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                        );
+                      }
+                    })
                   : Container(
                       height: 280,
                       width: double.infinity,
@@ -793,33 +683,18 @@ class _myPageState extends State<myPage> {
             ],
           ),
           child: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  //뒤로가기 버튼
-                  margin: EdgeInsets.only(left: 15),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.keyboard_arrow_left),
-                    color: Color(0xFF000000),
-                  ),
-                ),
-                Container(
-                  // 상품 정보 텍스트
-                  margin: EdgeInsets.only(left: 15),
-                  child: Text(
-                    '마이페이지',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                      height: 1.3,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                ),
-              ],
+            // 상품 정보 텍스트
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 15),
+            child: Text(
+              '마이페이지',
+              style: GoogleFonts.getFont(
+                'Roboto',
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+                height: 1.3,
+                color: Color(0xFF000000),
+              ),
             ),
           ),
         ),
