@@ -17,9 +17,14 @@ getEventImage (BuildContext context) async {
     },
   );
 
-  var _eventImageList = [];
-  for (var _eventImage in jsonDecode(response.body)) {
-    _eventImageList.add(new eventImage(_eventImage['id'], _eventImage['url']));
+  if (response.statusCode == 200) {
+    var _eventImageList = [];
+    for (var _eventImage in jsonDecode(response.body)) {
+      _eventImageList.add(new eventImage(_eventImage['id'], _eventImage['url']));
+    }
+    context.read<eventImages>().setEventImageList(_eventImageList);
+    return "0";
+  } else {
+    return json.decode(utf8.decode(response.bodyBytes))['message'];
   }
-  context.read<eventImages>().setEventImageList(_eventImageList);
 }
