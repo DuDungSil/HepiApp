@@ -3,6 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../function/register.dart';
+
+class regist {
+  var nameText = TextEditingController();
+  var phoneText = TextEditingController();
+  var idText = TextEditingController();
+  var pwdText = TextEditingController();
+  var rePwdText = TextEditingController();
+}
 
 class registerPage extends StatefulWidget {
   @override
@@ -13,6 +25,8 @@ class _registerPageState extends State<registerPage> {
   var allAgree = false;
   var adAgree = false;
   var authAgree = false;
+
+  var tryRegist = new regist();
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +102,7 @@ class _registerPageState extends State<registerPage> {
                                       child: Icon(Icons.person_2_outlined)),
                                   Expanded(
                                     child: TextField(
+                                      controller: tryRegist.nameText,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: '이름을 입력해주세요',
@@ -139,15 +154,15 @@ class _registerPageState extends State<registerPage> {
                               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                             margin: EdgeInsets.fromLTRB(
@@ -155,6 +170,7 @@ class _registerPageState extends State<registerPage> {
                                             child: Icon(Icons.phone_iphone)),
                                         Expanded(
                                           child: TextField(
+                                            controller: tryRegist.phoneText,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '010-0000-0000',
@@ -185,7 +201,7 @@ class _registerPageState extends State<registerPage> {
                                       ),
                                       child: Container(
                                         padding:
-                                        EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                            EdgeInsets.fromLTRB(10, 5, 10, 5),
                                         child: Text(
                                           '인증하기',
                                           style: GoogleFonts.getFont(
@@ -245,6 +261,7 @@ class _registerPageState extends State<registerPage> {
                                       child: Icon(Icons.mail_outline)),
                                   Expanded(
                                     child: TextField(
+                                      controller: tryRegist.idText,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'name@email.com',
@@ -299,9 +316,9 @@ class _registerPageState extends State<registerPage> {
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                             margin: EdgeInsets.fromLTRB(
@@ -309,6 +326,8 @@ class _registerPageState extends State<registerPage> {
                                             child: Icon(Icons.lock_outline)),
                                         Expanded(
                                           child: TextField(
+                                            obscureText: true,
+                                            controller: tryRegist.pwdText,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '******',
@@ -332,7 +351,7 @@ class _registerPageState extends State<registerPage> {
                                     child: Container(
                                       margin: EdgeInsets.only(right: 10),
                                       child:
-                                      Icon(Icons.visibility_off_outlined),
+                                          Icon(Icons.visibility_off_outlined),
                                     ),
                                   )
                                 ],
@@ -376,9 +395,9 @@ class _registerPageState extends State<registerPage> {
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                             margin: EdgeInsets.fromLTRB(
@@ -386,6 +405,8 @@ class _registerPageState extends State<registerPage> {
                                             child: Icon(Icons.lock_outline)),
                                         Expanded(
                                           child: TextField(
+                                            obscureText: true,
+                                            controller: tryRegist.rePwdText,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '******',
@@ -409,7 +430,7 @@ class _registerPageState extends State<registerPage> {
                                     child: Container(
                                       margin: EdgeInsets.only(right: 10),
                                       child:
-                                      Icon(Icons.visibility_off_outlined),
+                                          Icon(Icons.visibility_off_outlined),
                                     ),
                                   )
                                 ],
@@ -473,11 +494,11 @@ class _registerPageState extends State<registerPage> {
                                     children: [
                                       Checkbox(
                                           materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
+                                              MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(
                                             horizontal: 0,
                                             vertical:
-                                            VisualDensity.minimumDensity,
+                                                VisualDensity.minimumDensity,
                                           ),
                                           value: allAgree,
                                           onChanged: (value) {
@@ -501,10 +522,9 @@ class _registerPageState extends State<registerPage> {
                                 Container(
                                   margin: EdgeInsets.fromLTRB(40, 5, 10, 0),
                                   child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         '[필수] 구매이용약관 동의',
@@ -555,11 +575,11 @@ class _registerPageState extends State<registerPage> {
                                     children: [
                                       Checkbox(
                                           materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
+                                              MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(
                                             horizontal: 0,
                                             vertical:
-                                            VisualDensity.minimumDensity,
+                                                VisualDensity.minimumDensity,
                                           ),
                                           value: adAgree,
                                           onChanged: (value) {
@@ -586,11 +606,11 @@ class _registerPageState extends State<registerPage> {
                                     children: [
                                       Checkbox(
                                           materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
+                                              MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(
                                             horizontal: 0,
                                             vertical:
-                                            VisualDensity.minimumDensity,
+                                                VisualDensity.minimumDensity,
                                           ),
                                           value: authAgree,
                                           onChanged: (value) {
@@ -613,25 +633,51 @@ class _registerPageState extends State<registerPage> {
                                 ),
                               ],
                             ),
-                            Container(
-                              width: double.infinity,
-                              margin: EdgeInsets.only(top: 20),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xFF161616)),
-                                borderRadius: BorderRadius.circular(50),
-                                color: Color(0xFF161616),
-                              ),
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                              child: Text(
-                                '회원가입',
-                                style: GoogleFonts.getFont(
-                                  'Work Sans',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                  height: 1,
-                                  letterSpacing: 1.3,
-                                  color: Color(0xFFFFFFFF),
+                            InkWell(
+                              onTap: () async {
+                                var response =
+                                    await register(context, tryRegist);
+                                if (response == "0") {
+                                  showTopSnackBar(
+                                    Overlay.of(context),
+                                    CustomSnackBar.success(
+                                      message: '회원가입에 성공했습니다',
+                                    ),
+                                    displayDuration:
+                                        Duration(milliseconds: 500),
+                                  );
+                                  Navigator.pop(context);
+                                } else {
+                                  showTopSnackBar(
+                                    Overlay.of(context),
+                                    CustomSnackBar.error(
+                                      message: response,
+                                    ),
+                                    displayDuration:
+                                        Duration(milliseconds: 500),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Color(0xFF161616)),
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Color(0xFF161616),
+                                ),
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                child: Text(
+                                  '회원가입',
+                                  style: GoogleFonts.getFont(
+                                    'Work Sans',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 1.3,
+                                    color: Color(0xFFFFFFFF),
+                                  ),
                                 ),
                               ),
                             ),
