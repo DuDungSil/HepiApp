@@ -11,7 +11,7 @@ login(BuildContext context, String id, String pwd) async {
   print("Connect to Server");
   var serverIP = dotenv.get("serverIP");
   var response = await http.post(
-    Uri.parse('http://' + serverIP + '/flt/login'),
+    Uri.parse('https://' + serverIP + '/flt/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

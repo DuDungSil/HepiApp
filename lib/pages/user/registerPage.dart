@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,14 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../function/register.dart';
 
 class regist {
+  bool hasNullField() {
+    return nameText.text == "" ||
+        phoneText.text == "" ||
+        idText.text == "" ||
+        pwdText.text == "" ||
+        rePwdText.text == "";
+  }
+
   var nameText = TextEditingController();
   var phoneText = TextEditingController();
   var idText = TextEditingController();
@@ -25,6 +34,9 @@ class _registerPageState extends State<registerPage> {
   var allAgree = false;
   var adAgree = false;
   var authAgree = false;
+
+  var hoverPwd = true;
+  var hoverRePwd = true;
 
   var tryRegist = new regist();
 
@@ -63,7 +75,7 @@ class _registerPageState extends State<registerPage> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         // 이름 입력 컨테이너
@@ -101,7 +113,7 @@ class _registerPageState extends State<registerPage> {
                                       margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                       child: Icon(Icons.person_2_outlined)),
                                   Expanded(
-                                    child: TextField(
+                                    child: TextFormField(
                                       controller: tryRegist.nameText,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -112,8 +124,12 @@ class _registerPageState extends State<registerPage> {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                         height: 1.5,
-                                        color: Color(0xFF7B8794),
+                                        color: Colors.black,
                                       ),
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(20),
+                                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -169,19 +185,23 @@ class _registerPageState extends State<registerPage> {
                                                 0, 0, 10, 0),
                                             child: Icon(Icons.phone_iphone)),
                                         Expanded(
-                                          child: TextField(
+                                          child: TextFormField(
                                             controller: tryRegist.phoneText,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              hintText: '010-0000-0000',
+                                              hintText: '01012345678',
                                             ),
                                             style: GoogleFonts.getFont(
                                               'Mulish',
                                               fontWeight: FontWeight.w600,
                                               fontSize: 16,
                                               height: 1.5,
-                                              color: Color(0xFF7B8794),
+                                              color: Colors.black,
                                             ),
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(11),
+                                              FilteringTextInputFormatter.digitsOnly,
+                                            ],
                                           ),
                                         ),
                                       ],
@@ -260,7 +280,7 @@ class _registerPageState extends State<registerPage> {
                                       margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
                                       child: Icon(Icons.mail_outline)),
                                   Expanded(
-                                    child: TextField(
+                                    child: TextFormField(
                                       controller: tryRegist.idText,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -271,8 +291,11 @@ class _registerPageState extends State<registerPage> {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                         height: 1.5,
-                                        color: Color(0xFF7B8794),
+                                        color: Colors.black,
                                       ),
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(30),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -325,8 +348,8 @@ class _registerPageState extends State<registerPage> {
                                                 0, 0, 10, 0),
                                             child: Icon(Icons.lock_outline)),
                                         Expanded(
-                                          child: TextField(
-                                            obscureText: true,
+                                          child: TextFormField(
+                                            obscureText: hoverPwd,
                                             controller: tryRegist.pwdText,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
@@ -337,8 +360,11 @@ class _registerPageState extends State<registerPage> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 16,
                                               height: 1.5,
-                                              color: Color(0xFF7B8794),
+                                              color: Colors.black,
                                             ),
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(20),
+                                            ],
                                           ),
                                         ),
                                       ],
@@ -346,7 +372,9 @@ class _registerPageState extends State<registerPage> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      return print('비밀번호 보이기 클릭');
+                                      setState(() {
+                                        hoverPwd = !hoverPwd;
+                                      });
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(right: 10),
@@ -404,8 +432,8 @@ class _registerPageState extends State<registerPage> {
                                                 0, 0, 10, 0),
                                             child: Icon(Icons.lock_outline)),
                                         Expanded(
-                                          child: TextField(
-                                            obscureText: true,
+                                          child: TextFormField(
+                                            obscureText: hoverRePwd,
                                             controller: tryRegist.rePwdText,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
@@ -416,8 +444,11 @@ class _registerPageState extends State<registerPage> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 16,
                                               height: 1.5,
-                                              color: Color(0xFF7B8794),
+                                              color: Colors.black,
                                             ),
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(20),
+                                            ],
                                           ),
                                         ),
                                       ],
@@ -425,7 +456,9 @@ class _registerPageState extends State<registerPage> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      return print('비밀번호 보이기 클릭');
+                                      setState(() {
+                                        hoverRePwd = !hoverRePwd;
+                                      });
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(right: 10),
@@ -442,7 +475,7 @@ class _registerPageState extends State<registerPage> {
                       Container(
                         margin: EdgeInsets.only(top: 5),
                         child: Text(
-                          '영문, 숫자, 특수문자 중 2종류 이상을 조합하여 최소 10자리 이상또는 3종류 이상을 조합하여 최소 8자리 이상의 길이로 구성',
+                          '영문, 숫자, 특수문자를 모두 조합하여 최소 8자리 이상',
                           style: GoogleFonts.getFont(
                             'Mulish',
                             fontWeight: FontWeight.w600,

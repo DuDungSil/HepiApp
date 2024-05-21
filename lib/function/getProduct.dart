@@ -12,7 +12,7 @@ getProduct (BuildContext context, String type, String userID) async {
   print("Connect to Server");
   var serverIP = dotenv.get("serverIP");
   var response = await http.post(
-    Uri.parse('http://' + serverIP + '/flt/product/' + type),
+    Uri.parse('https://' + serverIP + '/flt/product/' + type),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
