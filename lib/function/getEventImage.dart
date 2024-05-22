@@ -11,7 +11,7 @@ getEventImage (BuildContext context) async {
   print("Connect to Server");
   var serverIP = dotenv.get("serverIP");
   var response = await http.post(
-    Uri.parse('http://'+serverIP+'/flt/eventImage'),
+    Uri.parse('https://'+serverIP+'/flt/eventImage'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
