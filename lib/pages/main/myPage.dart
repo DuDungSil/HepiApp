@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/function/getProduct.dart';
-import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../function/moneyFormat.dart';
 import '../../store/products.dart';
 import '../../store/user.dart';
 import '../../widget/priceText.dart';
@@ -20,8 +18,7 @@ class myPage extends StatefulWidget {
 }
 
 class _myPageState extends State<myPage> {
-  var isLogin = false;
-  var loginUser;
+  var loginUser = null;
 
   @override
   void initState() {}
@@ -31,16 +28,11 @@ class _myPageState extends State<myPage> {
     super.didChangeDependencies();
     // didChangeDependencies에서 context를 안전하게 사용
     loginUser = context.watch<user>();
-    if (loginUser.id != null) {
-      setState(() {
-        isLogin = true;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLogin == true) {
+    if (loginUser.id != null) {
       getProduct(context, "mine", loginUser.id);
       getProduct(context, "cart", loginUser.id);
     }
@@ -78,7 +70,7 @@ class _myPageState extends State<myPage> {
                             ),
                           ),
                         ),
-                        (isLogin == true)
+                        (loginUser.id != null)
                             ? Container(
                                 child: Text(
                                   loginUser.name,
@@ -114,7 +106,7 @@ class _myPageState extends State<myPage> {
                               ),
                       ],
                     ),
-                    (isLogin == true)
+                    (loginUser.id != null)
                         ? Container(
                             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                             decoration: BoxDecoration(
@@ -125,16 +117,21 @@ class _myPageState extends State<myPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Text(
-                                    '내 정보 설정',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
+                                InkWell(
+                                  onTap: () {
+                                    context.read<user>().logout();
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 5),
+                                    child: Text(
+                                      '내 정보 설정',
+                                      style: GoogleFonts.getFont(
+                                        'Roboto',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        height: 1.3,
+                                        color: Color(0xFF000000),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -169,10 +166,29 @@ class _myPageState extends State<myPage> {
                   ),
                 ),
               ),
-              (isLogin == true)
+              (loginUser.id != null)
                   ? Consumer<products>(builder: (consumer, products, child) {
                       if (products.myProductList.isEmpty) {
-                        return CircularProgressIndicator();
+                        return Container(
+                          height: 280,
+                          width: double.infinity,
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                              color: Color(0x1A000000)),
+                          child: Text(
+                            "",
+                            style: GoogleFonts.getFont(
+                              'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              height: 1.3,
+                              color: Color(0xFF000000),
+                            ),
+                          ),
+                        );
                       } else {
                         return Container(
                           height: 280,
@@ -306,10 +322,29 @@ class _myPageState extends State<myPage> {
                   ),
                 ),
               ),
-              (isLogin == true)
+              (loginUser.id != null)
                   ? Consumer<products>(builder: (consumer, products, child) {
                       if (products.cartProductList.isEmpty) {
-                        return CircularProgressIndicator();
+                        return Container(
+                          height: 280,
+                          width: double.infinity,
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                              color: Color(0x1A000000)),
+                          child: Text(
+                            "",
+                            style: GoogleFonts.getFont(
+                              'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              height: 1.3,
+                              color: Color(0xFF000000),
+                            ),
+                          ),
+                        );
                       } else {
                         return InkWell(
                           onTap: () {

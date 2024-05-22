@@ -17,24 +17,18 @@ class qrPage extends StatefulWidget {
 }
 
 class _qrPageState extends State<qrPage> {
-  var isLogin = false;
-  var loginUser;
+  var loginUser = null;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // didChangeDependencies에서 context를 안전하게 사용
     loginUser = context.watch<user>();
-    if (loginUser.id != null) {
-      setState(() {
-        isLogin = true;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLogin == true) {
+    if (loginUser.id != null) {
       getProduct(context, "mine", loginUser.id);
     }
     return SingleChildScrollView(
@@ -69,7 +63,7 @@ class _qrPageState extends State<qrPage> {
                           ),
                         ),
                       ),
-                      (isLogin == true)
+                      (loginUser.id != null)
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +113,7 @@ class _qrPageState extends State<qrPage> {
                             ),
                     ],
                   ),
-                  (isLogin == true)
+                  (loginUser.id != null)
                       ? Container(
                           padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                           decoration: BoxDecoration(
@@ -185,7 +179,7 @@ class _qrPageState extends State<qrPage> {
                       border: Border.all(color: Color(0x1A000000)),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: (isLogin == true)
+                    child: (loginUser.id != null)
                         ? Container(
                             alignment: Alignment.center,
                             child: QrImageView(
@@ -325,10 +319,29 @@ class _qrPageState extends State<qrPage> {
                 ),
               ),
             ),
-            (isLogin == true)
+            (loginUser.id != null)
                 ? Consumer<products>(builder: (consumer, products, child) {
                     if (products.myProductList.isEmpty) {
-                      return CircularProgressIndicator();
+                      return Container(
+                        height: 280,
+                        width: double.infinity,
+                        margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                            color: Color(0x1A000000)),
+                        child: Text(
+                          "",
+                          style: GoogleFonts.getFont(
+                            'Roboto',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                            height: 1.3,
+                            color: Color(0xFF000000),
+                          ),
+                        ),
+                      );
                     } else {
                       return Container(
                         height: 280,

@@ -7,7 +7,9 @@ import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
 import 'package:flutter_app/pages/main/chattingPage.dart';
 import 'package:flutter_app/pages/main/qrPage.dart';
+import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
+import 'package:flutter_app/store/gym.dart';
 import 'package:flutter_app/store/products.dart';
 import 'package:flutter_app/widget/bottombar.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
@@ -23,8 +25,10 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (c) => gym()),
         ChangeNotifierProvider(create: (c) => user()),
         ChangeNotifierProvider(create: (c) => products()),
+        ChangeNotifierProvider(create: (c) => chattings()),
         ChangeNotifierProvider(create: (c) => eventImages()),
       ],
       child: MyApp(),

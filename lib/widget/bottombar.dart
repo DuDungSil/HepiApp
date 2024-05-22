@@ -4,6 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/getProduct.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../store/user.dart';
 
 class Bottombar extends StatelessWidget {
   Bottombar({Key? key, this.setTab }) : super(key: key);
@@ -133,7 +138,18 @@ class Bottombar extends StatelessWidget {
             ),
             InkWell( //채팅 버튼
               onTap: () {
-                setTab(3);
+                if(context.read<user>().id==null) {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    CustomSnackBar.error(
+                      message: '로그인 후 이용해주세요',
+                    ),
+                    displayDuration:
+                    Duration(milliseconds: 500),
+                  );
+                } else {
+                  setTab(3);
+                }
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
