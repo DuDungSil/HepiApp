@@ -19,6 +19,7 @@ class products extends ChangeNotifier {
     notifyListeners();
   }
 }
+
 class product {
 
   var id;         //상품 ID
