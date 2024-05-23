@@ -23,18 +23,13 @@ class _loginPageState extends State<loginPage> {
 
   @override
   void initState() {
-    //SETTING FOR ANDROID
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white, // 원하는 색상으로 변경
-      systemNavigationBarIconBrightness: Brightness.dark, // 아이콘 색상
-    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
           child: SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.all(30),

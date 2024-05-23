@@ -20,6 +20,12 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.white,
+    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarColor: Colors.white,
+    systemNavigationBarIconBrightness: Brightness.dark,
+  ));
   await dotenv.load(fileName: "properties.env");
 
   runApp(
@@ -55,11 +61,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    //SETTING FOR ANDROID
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white, // 원하는 색상으로 변경
-      systemNavigationBarIconBrightness: Brightness.dark, // 아이콘 색상
-    ));
   }
 
   @override
@@ -70,7 +71,6 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Colors.white, // 원하는 배경색으로 설정
       ),
       home: Scaffold(
-        backgroundColor: Colors.white,
         body: SafeArea(child: pageList[tab]),
         bottomNavigationBar: Bottombar(setTab: setTab),
       ),
