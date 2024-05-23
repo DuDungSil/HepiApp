@@ -55,23 +55,24 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-    );
+    //SETTING FOR ANDROID
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white, // 원하는 색상으로 변경
+      systemNavigationBarIconBrightness: Brightness.dark, // 아이콘 색상
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
-      home: SafeArea(
-        child: Scaffold(
-          body: pageList[tab], //registerPage()
-          bottomNavigationBar: Bottombar(setTab: setTab),
-        ),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white, // 원하는 배경색으로 설정
+      ),
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(child: pageList[tab]),
+        bottomNavigationBar: Bottombar(setTab: setTab),
       ),
     );
   }
@@ -82,6 +83,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

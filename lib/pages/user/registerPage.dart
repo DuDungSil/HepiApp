@@ -41,6 +41,14 @@ class _registerPageState extends State<registerPage> {
   var tryRegist = new regist();
 
   @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white, // 상태바의 배경색
+      statusBarIconBrightness: Brightness.dark, // 상태바 아이콘의 색상
+    ));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
