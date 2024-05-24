@@ -69,6 +69,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter App',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white, // 원하는 배경색으로 설정
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
       ),
       home: Scaffold(
         body: SafeArea(child: pageList[tab]),

@@ -160,18 +160,21 @@ class cartPage extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => productDetailPage()),
+                                        builder: (context) =>
+                                            productDetailPage()),
                                   );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0x1A000000)),
+                                    border:
+                                        Border.all(color: Color(0x1A000000)),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
                                         height: 200,
@@ -196,10 +199,11 @@ class cartPage extends StatelessWidget {
                                           Container(
                                             // 상품이름 텍스트
                                             alignment: Alignment.centerLeft,
-                                            margin:
-                                                EdgeInsets.fromLTRB(10, 8, 0, 0),
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 8, 0, 0),
                                             child: Text(
-                                              products.cartProductList[index].name,
+                                              products
+                                                  .cartProductList[index].name,
                                               style: GoogleFonts.getFont(
                                                 'Roboto',
                                                 fontWeight: FontWeight.w400,
@@ -212,13 +216,15 @@ class cartPage extends StatelessWidget {
                                           Container(
                                             // 가격
                                             alignment: Alignment.centerLeft,
-                                            margin:
-                                                EdgeInsets.fromLTRB(10, 4, 0, 8),
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 4, 0, 8),
                                             child: priceText(
-                                              products.cartProductList[index].price,
-                                              products.cartProductList[index].event,
                                               products
-                                                  .cartProductList[index].discount,
+                                                  .cartProductList[index].price,
+                                              products
+                                                  .cartProductList[index].event,
+                                              products.cartProductList[index]
+                                                  .discount,
                                             ),
                                           ),
                                         ],
@@ -448,13 +454,12 @@ class cartPage extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x1F000000),
-                      offset: Offset(0, 0),
-                      blurRadius: 3,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // 테두리 색상
+                      width: 0.3, // 테두리 두께
                     ),
-                  ],
+                  ),
                 ),
                 child: Container(
                   child: Row(

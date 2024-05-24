@@ -990,13 +990,12 @@ class orderPage extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x1F000000),
-                      offset: Offset(0, 0),
-                      blurRadius: 3,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // 테두리 색상
+                      width: 0.3, // 테두리 두께
                     ),
-                  ],
+                  ),
                 ),
                 child: Container(
                   child: Row(

@@ -82,7 +82,8 @@ class productDetailPage extends StatelessWidget {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
@@ -91,8 +92,8 @@ class productDetailPage extends StatelessWidget {
                                       height: 45,
                                       margin: EdgeInsets.fromLTRB(10, 10, 5, 0),
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Color(0xFF000000)),
+                                        border: Border.all(
+                                            color: Color(0xFF000000)),
                                         borderRadius: BorderRadius.circular(8),
                                         color: Color(0xFFFFFFFF),
                                       ),
@@ -126,8 +127,8 @@ class productDetailPage extends StatelessWidget {
                                       height: 45,
                                       margin: EdgeInsets.fromLTRB(5, 10, 10, 0),
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Color(0xFF000000)),
+                                        border: Border.all(
+                                            color: Color(0xFF000000)),
                                         borderRadius: BorderRadius.circular(8),
                                         color: Color(0xFFFFFFFF),
                                       ),
@@ -257,7 +258,8 @@ class productDetailPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -328,7 +330,8 @@ class productDetailPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -398,7 +401,8 @@ class productDetailPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -519,8 +523,7 @@ class productDetailPage extends StatelessWidget {
                                   image: DecorationImage(
                                     fit: BoxFit.fitHeight,
                                     image: NetworkImage(
-                                      products.myProductList[0]
-                                          .main_image,
+                                      products.myProductList[0].main_image,
                                     ),
                                   ),
                                 ),
@@ -638,13 +641,12 @@ class productDetailPage extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x1F000000),
-                      offset: Offset(0, 0),
-                      blurRadius: 3,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // 테두리 색상
+                      width: 0.3, // 테두리 두께
                     ),
-                  ],
+                  ),
                 ),
                 child: Container(
                   child: Row(
