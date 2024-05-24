@@ -11,33 +11,33 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../store/user.dart';
 
 class Bottombar extends StatelessWidget {
-  Bottombar({Key? key, this.setTab }) : super(key: key);
+  Bottombar({Key? key, this.setTab}) : super(key: key);
   final setTab;
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      // 바텀 앱바
-      height: 50,
-      padding: EdgeInsets.all(0),
-      child: Container(
-        // 바텀 전체 컨테이너
-        decoration: BoxDecoration(
-          color: Color(0xFFFFFFFF),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x1F000000),
-              offset: Offset(0, 0),
-              blurRadius: 3,
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey, // 테두리 색상
+            width: 0.3, // 테두리 두께
+          ),
         ),
+      ),
+      child: BottomAppBar(
+        // 바텀 앱바
+        elevation: 0,
+        height: 50,
+        padding: EdgeInsets.all(0),
+        color: Colors.white,
         child: Row(
           // 바텀 앱바 레이아웃
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell( // 홈 버튼
+            InkWell(
+              // 홈 버튼
               onTap: () {
                 setTab(0);
               },
@@ -70,7 +70,8 @@ class Bottombar extends StatelessWidget {
                 ],
               ),
             ),
-            InkWell( // 검색 버튼
+            InkWell(
+              // 검색 버튼
               onTap: () {
                 setTab(1);
               },
@@ -103,7 +104,8 @@ class Bottombar extends StatelessWidget {
                 ],
               ),
             ),
-            InkWell( // 마이페이지 버튼
+            InkWell(
+              // 마이페이지 버튼
               onTap: () {
                 setTab(2);
               },
@@ -136,16 +138,16 @@ class Bottombar extends StatelessWidget {
                 ],
               ),
             ),
-            InkWell( //채팅 버튼
+            InkWell(
+              //채팅 버튼
               onTap: () {
-                if(context.read<user>().id==null) {
+                if (context.read<user>().id == null) {
                   showTopSnackBar(
                     Overlay.of(context),
                     CustomSnackBar.error(
                       message: '로그인 후 이용해주세요',
                     ),
-                    displayDuration:
-                    Duration(milliseconds: 500),
+                    displayDuration: Duration(milliseconds: 500),
                   );
                 } else {
                   setTab(3);
@@ -180,7 +182,8 @@ class Bottombar extends StatelessWidget {
                 ],
               ),
             ),
-            InkWell(// QR 코드 인식 버튼
+            InkWell(
+              // QR 코드 인식 버튼
               onTap: () {
                 setTab(4);
               },

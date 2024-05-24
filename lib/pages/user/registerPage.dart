@@ -41,45 +41,24 @@ class _registerPageState extends State<registerPage> {
   var tryRegist = new regist();
 
   @override
-  void initState() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // 상태바의 배경색
-      statusBarIconBrightness: Brightness.dark, // 상태바 아이콘의 색상
-    ));
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
-            ),
-            child: Column(
-              // 회원가입 전체 레이아웃
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(
-                    // 회원가입 텍스트
-                    '회원가입',
-                    style: GoogleFonts.getFont(
-                      'Work Sans',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 32,
-                      height: 1,
-                      color: Color(0xFF323F4B),
-                    ),
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
                 ),
-                Container(
+                child: Container(
                   // 입력 필드 전체 컨테이너
                   margin: EdgeInsets.only(
-                    top: 30,
+                    top: 50,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +115,8 @@ class _registerPageState extends State<registerPage> {
                                       ),
                                       inputFormatters: [
                                         LengthLimitingTextInputFormatter(20),
-                                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[a-zA-Z\s]')),
                                       ],
                                     ),
                                   ),
@@ -207,8 +187,10 @@ class _registerPageState extends State<registerPage> {
                                               color: Colors.black,
                                             ),
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(11),
-                                              FilteringTextInputFormatter.digitsOnly,
+                                              LengthLimitingTextInputFormatter(
+                                                  11),
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
                                             ],
                                           ),
                                         ),
@@ -371,7 +353,8 @@ class _registerPageState extends State<registerPage> {
                                               color: Colors.black,
                                             ),
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(20),
+                                              LengthLimitingTextInputFormatter(
+                                                  20),
                                             ],
                                           ),
                                         ),
@@ -455,7 +438,8 @@ class _registerPageState extends State<registerPage> {
                                               color: Colors.black,
                                             ),
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(20),
+                                              LengthLimitingTextInputFormatter(
+                                                  20),
                                             ],
                                           ),
                                         ),
@@ -728,9 +712,37 @@ class _registerPageState extends State<registerPage> {
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 60,
+                  padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.grey, // 테두리 색상
+                        width: 0.3, // 테두리 두께
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    // 회원가입 텍스트
+                    '회원가입',
+                    style: GoogleFonts.getFont(
+                      'Work Sans',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 32,
+                      height: 1,
+                      color: Color(0xFF323F4B),
+                    ),
+                  ),
+                ))
+          ],
         ),
       ),
     );

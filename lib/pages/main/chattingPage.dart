@@ -204,7 +204,7 @@ class _chattingPageState extends State<chattingPage> {
                 return Expanded(
                   child: Container(
                     // 채팅, 메시지 입력 컬럼
-                    margin: EdgeInsets.fromLTRB(12, 24, 12, 0),
+                    margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
                     child: ListView.builder(
                       reverse: true,
                       controller: _scrollController,
@@ -214,7 +214,7 @@ class _chattingPageState extends State<chattingPage> {
                         return (chattings.chatList[i].user_id != loginUser.id)
                             ? Container(
                                 // 채팅 1
-                                margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                padding: EdgeInsets.all(5),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +228,7 @@ class _chattingPageState extends State<chattingPage> {
                                         Container(
                                           // 사진
                                           margin:
-                                              EdgeInsets.fromLTRB(0, 0, 12, 6),
+                                              EdgeInsets.fromLTRB(0, 0, 12, 0),
                                           width: 40,
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -316,7 +316,7 @@ class _chattingPageState extends State<chattingPage> {
                               )
                             : Container(
                                 // 내 채팅
-                                margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                padding: EdgeInsets.all(5),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,7 +339,7 @@ class _chattingPageState extends State<chattingPage> {
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   height: 1.3,
                                                   color: Color(0xFF000000),
                                                 ),
@@ -361,7 +361,7 @@ class _chattingPageState extends State<chattingPage> {
                                         Container(
                                           // 사진
                                           margin:
-                                              EdgeInsets.fromLTRB(12, 0, 0, 6),
+                                              EdgeInsets.fromLTRB(12, 0, 0, 0),
                                           width: 40,
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -378,16 +378,11 @@ class _chattingPageState extends State<chattingPage> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
-                                                    Container(
-                                                      margin:
-                                                          EdgeInsets.fromLTRB(
-                                                              2.3, 0, 2.3, 1.3),
-                                                      child: SizedBox(
-                                                        width: 9.5,
-                                                        height: 9.5,
-                                                        child: SvgPicture.asset(
-                                                          'assets/vectors/vector_6_x2.svg',
-                                                        ),
+                                                    SizedBox(
+                                                      width: 9.5,
+                                                      height: 9.5,
+                                                      child: SvgPicture.asset(
+                                                        'assets/vectors/vector_6_x2.svg',
                                                       ),
                                                     ),
                                                     SizedBox(
