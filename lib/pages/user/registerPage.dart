@@ -715,33 +715,34 @@ class _registerPageState extends State<registerPage> {
               ),
             ),
             Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 60,
-                  padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey, // 테두리 색상
-                        width: 0.3, // 테두리 두께
-                      ),
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 50,
+                alignment: Alignment.center,
+                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // 테두리 색상
+                      width: 0.3, // 테두리 두께
                     ),
                   ),
-                  child: Text(
-                    // 회원가입 텍스트
-                    '회원가입',
-                    style: GoogleFonts.getFont(
-                      'Work Sans',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 32,
-                      height: 1,
-                      color: Color(0xFF323F4B),
-                    ),
+                ),
+                child: Text(
+                  '회원가입',
+                  style: GoogleFonts.getFont(
+                    'Roboto',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    height: 1.3,
+                    color: Color(0xFF000000),
                   ),
-                ))
+                ),
+              ),
+            ),
           ],
         ),
       ),

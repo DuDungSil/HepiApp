@@ -203,7 +203,7 @@ class Bottombar extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      'QR코드 인식',
+                      'QR코드',
                       style: GoogleFonts.getFont(
                         'Roboto',
                         fontWeight: FontWeight.w400,

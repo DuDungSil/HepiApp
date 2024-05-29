@@ -245,172 +245,25 @@ class searchPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  // 자주 구매한 상품 컨테이너
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Column(
-                    // 리스트뷰 교체 필요
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        // 상품 1
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 250,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: AssetImage(
-                                    'assets/images/image_3.png',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              // 상품 이름, 가격
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // 상품이름 텍스트
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    'California Gold Nutrition, Sport, 분리유청단백질, 무맛, 454g(1lb) ',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 가격
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 4, 0, 8),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: '₩40,101',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.5,
-                                        color: Color(0xFF000000),
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.3,
-                                            color: Color(0xFFFF0000),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // 상품 2
-                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 250,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: AssetImage(
-                                    'assets/images/image_4.png',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              // 상품 이름, 가격
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // 상품이름 텍스트
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    'EVLution Nutrition, CREATINE5000, 무맛, 300g(10.58oz)',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 가격
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 4, 0, 8),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: '₩21,502 ',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.5,
-                                        color: Color(0xFF000000),
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.3,
-                                            color: Color(0xFFFF0000),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  height: 280,
+                  width: double.infinity,
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Color(0x1A000000)),
+                      borderRadius: BorderRadius.circular(6),
+                      color: Color(0x1A000000)),
+                  child: Text(
+                    "",
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      height: 1.3,
+                      color: Color(0xFF000000),
+                    ),
                   ),
-                ),
-                Container(
+                ),                Container(
                   margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
                   child: Align(
                     alignment: Alignment.topLeft,
@@ -429,172 +282,25 @@ class searchPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  // 자주 구매한 상품 컨테이너
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Column(
-                    // 리스트뷰 교체 필요
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        // 상품 1
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 250,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: AssetImage(
-                                    'assets/images/image_5.png',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              // 상품 이름, 가격
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // 상품이름 텍스트
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    'California Gold Nutrition, 오메가3 프리미엄 피쉬 오일, 피쉬 젤라틴 소프트젤 100정',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 가격
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 4, 0, 8),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: '₩7,706 ',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.5,
-                                        color: Color(0xFF000000),
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '(50% off)',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.3,
-                                            color: Color(0xFFFF0000),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // 상품 2
-                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 250,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: AssetImage(
-                                    'assets/images/image_6.png',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              // 상품 이름, 가격
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // 상품이름 텍스트
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    'California Gold Nutrition, LactoBif 30 프로바이오틱, 300억CFU, 베지 캡슐 60정',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 가격
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.fromLTRB(10, 4, 0, 8),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: '₩28,251 ',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.5,
-                                        color: Color(0xFF000000),
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '(10% off)',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.3,
-                                            color: Color(0xFFFF0000),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  height: 280,
+                  width: double.infinity,
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Color(0x1A000000)),
+                      borderRadius: BorderRadius.circular(6),
+                      color: Color(0x1A000000)),
+                  child: Text(
+                    "",
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      height: 1.3,
+                      color: Color(0xFF000000),
+                    ),
                   ),
-                ),
-              ],
+                ),              ],
             ),
           ),
         ),
