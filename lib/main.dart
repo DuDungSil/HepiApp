@@ -54,24 +54,25 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void initState() { }
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
-      home: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFFFFFFFF),
+      home: SafeArea(
+        child: Scaffold(
+          body: pageList[tab], //registerPage()
+          bottomNavigationBar: Bottombar(setTab: setTab),
         ),
-          child: SafeArea(
-            child: Scaffold(
-              backgroundColor: Color(0xFFFFFFFF),
-              body: pageList[tab], //registerPage()
-              bottomNavigationBar: Bottombar(setTab: setTab),
-            ),
-          ),
-        ),
+      ),
     );
   }
 }

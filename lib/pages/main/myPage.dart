@@ -42,7 +42,7 @@ class _myPageState extends State<myPage> {
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -698,38 +698,30 @@ class _myPageState extends State<myPage> {
           ),
         ),
       ),
-
-      //상단바
       Positioned(
         top: 0,
         left: 0,
         right: 0,
         child: Container(
-          //상단바
-          height: 60,
+          height: 50,
+          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x1F000000),
-                offset: Offset(0, 0),
-                blurRadius: 3,
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey, // 테두리 색상
+                width: 0.3, // 테두리 두께
               ),
-            ],
+            ),
           ),
-          child: Container(
-            // 상품 정보 텍스트
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 15),
-            child: Text(
-              '마이페이지',
-              style: GoogleFonts.getFont(
-                'Roboto',
-                fontWeight: FontWeight.w500,
-                fontSize: 20,
-                height: 1.3,
-                color: Color(0xFF000000),
-              ),
+          child: Text(
+            '마이페이지',
+            style: GoogleFonts.getFont(
+              'Roboto',
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              height: 1.3,
+              color: Color(0xFF000000),
             ),
           ),
         ),

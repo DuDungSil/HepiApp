@@ -28,8 +28,17 @@ class homePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              // 로고 외곽선
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x1F000000),
+                    offset: Offset(0, 0),
+                    blurRadius: 3,
+                  ),
+                ],
               ),
               child: Container(
                 margin: EdgeInsets.fromLTRB(15, 30, 0, 10),

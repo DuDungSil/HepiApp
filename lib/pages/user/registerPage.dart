@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/function/smsAuth.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -35,43 +38,74 @@ class _registerPageState extends State<registerPage> {
   var adAgree = false;
   var authAgree = false;
 
+  var phoneLock = false;
+
   var hoverPwd = true;
   var hoverRePwd = true;
+
+  var auth = false;
+  var authCode = "";
+  var showAuthCode = false;
+  var authCodeText = TextEditingController();
+
+  late Timer timer;
+  int timerTime = 180;
+
+  void startTimer() {
+    setState(() {
+      timerTime = 180;
+    });
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (timerTime > 0) {
+          timerTime--;
+        } else {
+          setState(() {
+            showAuthCode = false;
+            phoneLock = false;
+          });
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.error(
+              message: "인증시간이 만료되었습니다",
+            ),
+            displayDuration: Duration(milliseconds: 500),
+          );
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  String get timeFormat {
+    int minutes = timerTime ~/ 60;
+    int seconds = timerTime % 60;
+    String minutesStr = minutes.toString().padLeft(2, '0');
+    String secondsStr = seconds.toString().padLeft(2, '0');
+    return "$minutesStr:$secondsStr";
+  }
 
   var tryRegist = new regist();
 
   @override
+  void initState() {}
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
-            ),
-            child: Column(
-              // 회원가입 전체 레이아웃
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(
-                    // 회원가입 텍스트
-                    '회원가입',
-                    style: GoogleFonts.getFont(
-                      'Work Sans',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 32,
-                      height: 1,
-                      color: Color(0xFF323F4B),
-                    ),
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
                 ),
-                Container(
+                child: Container(
                   // 입력 필드 전체 컨테이너
                   margin: EdgeInsets.only(
-                    top: 30,
+                    top: 50,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -128,7 +162,8 @@ class _registerPageState extends State<registerPage> {
                                       ),
                                       inputFormatters: [
                                         LengthLimitingTextInputFormatter(20),
-                                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[a-zA-Z\s]')),
                                       ],
                                     ),
                                   ),
@@ -187,6 +222,7 @@ class _registerPageState extends State<registerPage> {
                                         Expanded(
                                           child: TextFormField(
                                             controller: tryRegist.phoneText,
+                                            enabled: !phoneLock,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '01012345678',
@@ -199,49 +235,217 @@ class _registerPageState extends State<registerPage> {
                                               color: Colors.black,
                                             ),
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(11),
-                                              FilteringTextInputFormatter.digitsOnly,
+                                              LengthLimitingTextInputFormatter(
+                                                  11),
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
                                             ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      return print('인증하기 클릭');
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xFF161616)),
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Color(0xFF161616),
-                                      ),
-                                      child: Container(
-                                        padding:
-                                            EdgeInsets.fromLTRB(10, 5, 10, 5),
-                                        child: Text(
-                                          '인증하기',
-                                          style: GoogleFonts.getFont(
-                                            'Work Sans',
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 15,
-                                            height: 1,
-                                            letterSpacing: 1.3,
-                                            color: Color(0xFFFFFFFF),
-                                          ),
+                                  showAuthCode
+                                      ? Text(
+                                        timeFormat,
+                                        style: GoogleFonts.getFont(
+                                          'Mulish',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 15,
+                                          height: 1,
+                                          letterSpacing: 1.3,
+                                          color: Colors.black54,
                                         ),
-                                      ),
-                                    ),
-                                  )
+                                      )
+                                      : auth
+                                          ? Text(
+                                            "인증완료",
+                                            style: GoogleFonts.getFont(
+                                              'Mulish',
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15,
+                                              height: 1,
+                                              letterSpacing: 1.3,
+                                              color: Colors.green,
+                                            ),
+                                          )
+                                          : InkWell(
+                                              onTap: () async {
+                                                if (tryRegist.phoneText.text
+                                                            .length !=
+                                                        11 ||
+                                                    tryRegist.phoneText.text
+                                                            .substring(0, 3) !=
+                                                        "010") {
+                                                  showTopSnackBar(
+                                                    Overlay.of(context),
+                                                    CustomSnackBar.error(
+                                                      message:
+                                                          "올바른 핸드폰 번호를 입력해주세요",
+                                                    ),
+                                                    displayDuration: Duration(
+                                                        milliseconds: 500),
+                                                  );
+                                                } else {
+                                                  var response = await smsAuth(
+                                                      context,
+                                                      tryRegist.phoneText.text);
+                                                  if (response.length == 6) {
+                                                    authCode = response;
+                                                    setState(() {
+                                                      authCodeText.text = "";
+                                                      showAuthCode = true;
+                                                      phoneLock = true;
+                                                    });
+                                                    startTimer();
+                                                  } else {
+                                                    showTopSnackBar(
+                                                      Overlay.of(context),
+                                                      CustomSnackBar.error(
+                                                        message: response,
+                                                      ),
+                                                      displayDuration: Duration(
+                                                          milliseconds: 500),
+                                                    );
+                                                  }
+                                                }
+                                              },
+                                              child: Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 10),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Color(0xFF161616)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: Color(0xFF161616),
+                                                ),
+                                                child: Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  child: Text(
+                                                    '인증하기',
+                                                    style: GoogleFonts.getFont(
+                                                      'Work Sans',
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 15,
+                                                      height: 1,
+                                                      letterSpacing: 1.3,
+                                                      color: Color(0xFFFFFFFF),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                 ],
                               ),
                             ),
                           ],
                         ),
                       ),
+                      if (showAuthCode)
+                        Container(
+                          // 인증번호 입력 컨테이너
+                          margin: EdgeInsets.only(top: 5),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFF7B8794)),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Color(0xFFFFFFFF),
+                          ),
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                        child: Icon(Icons.lock_outline)),
+                                    Expanded(
+                                      child: TextFormField(
+                                        controller: authCodeText,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: '000000',
+                                        ),
+                                        style: GoogleFonts.getFont(
+                                          'Mulish',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          height: 1.5,
+                                          color: Colors.black,
+                                        ),
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(6),
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  if (authCodeText.text == authCode) {
+                                    setState(() {
+                                      timer.cancel();
+                                      showAuthCode = false;
+                                      phoneLock = true;
+                                      auth = true;
+                                    });
+                                    showTopSnackBar(
+                                      Overlay.of(context),
+                                      CustomSnackBar.success(
+                                        message: '핸드폰 인증이 완료되었습니다',
+                                      ),
+                                      displayDuration:
+                                          Duration(milliseconds: 500),
+                                    );
+                                  } else {
+                                    showTopSnackBar(
+                                      Overlay.of(context),
+                                      CustomSnackBar.error(
+                                        message: '인증번호가 일치하지 않습니다',
+                                      ),
+                                      displayDuration:
+                                          Duration(milliseconds: 500),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Color(0xFF161616)),
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xFF161616),
+                                  ),
+                                  child: Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: Text(
+                                      '확인',
+                                      style: GoogleFonts.getFont(
+                                        'Work Sans',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
+                                        height: 1,
+                                        letterSpacing: 1.3,
+                                        color: Color(0xFFFFFFFF),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       Container(
                         // 이메일 주소 입력 컨테이너
                         margin: EdgeInsets.only(top: 10),
@@ -363,7 +567,8 @@ class _registerPageState extends State<registerPage> {
                                               color: Colors.black,
                                             ),
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(20),
+                                              LengthLimitingTextInputFormatter(
+                                                  20),
                                             ],
                                           ),
                                         ),
@@ -447,7 +652,8 @@ class _registerPageState extends State<registerPage> {
                                               color: Colors.black,
                                             ),
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(20),
+                                              LengthLimitingTextInputFormatter(
+                                                  20),
                                             ],
                                           ),
                                         ),
@@ -668,27 +874,38 @@ class _registerPageState extends State<registerPage> {
                             ),
                             InkWell(
                               onTap: () async {
-                                var response =
-                                    await register(context, tryRegist);
-                                if (response == "0") {
-                                  showTopSnackBar(
-                                    Overlay.of(context),
-                                    CustomSnackBar.success(
-                                      message: '회원가입에 성공했습니다',
-                                    ),
-                                    displayDuration:
-                                        Duration(milliseconds: 500),
-                                  );
-                                  Navigator.pop(context);
-                                } else {
+                                if (auth == false) {
                                   showTopSnackBar(
                                     Overlay.of(context),
                                     CustomSnackBar.error(
-                                      message: response,
+                                      message: "핸드폰 인증을 완료해주세요",
                                     ),
                                     displayDuration:
                                         Duration(milliseconds: 500),
                                   );
+                                } else {
+                                  var response =
+                                      await register(context, tryRegist);
+                                  if (response == "0") {
+                                    showTopSnackBar(
+                                      Overlay.of(context),
+                                      CustomSnackBar.success(
+                                        message: '회원가입에 성공했습니다',
+                                      ),
+                                      displayDuration:
+                                          Duration(milliseconds: 500),
+                                    );
+                                    Navigator.pop(context);
+                                  } else {
+                                    showTopSnackBar(
+                                      Overlay.of(context),
+                                      CustomSnackBar.error(
+                                        message: response,
+                                      ),
+                                      displayDuration:
+                                          Duration(milliseconds: 500),
+                                    );
+                                  }
                                 }
                               },
                               child: Container(
@@ -720,9 +937,38 @@ class _registerPageState extends State<registerPage> {
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 50,
+                alignment: Alignment.center,
+                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // 테두리 색상
+                      width: 0.3, // 테두리 두께
+                    ),
+                  ),
+                ),
+                child: Text(
+                  '회원가입',
+                  style: GoogleFonts.getFont(
+                    'Roboto',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    height: 1.3,
+                    color: Color(0xFF000000),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

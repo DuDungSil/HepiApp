@@ -27,8 +27,8 @@ class Bottombar extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Color(0x1F000000),
-              offset: Offset(0, -5),
-              blurRadius: 5,
+              offset: Offset(0, 0),
+              blurRadius: 3,
             ),
           ],
         ),
