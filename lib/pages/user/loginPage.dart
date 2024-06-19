@@ -32,9 +32,6 @@ class _loginPageState extends State<loginPage> {
               child: SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

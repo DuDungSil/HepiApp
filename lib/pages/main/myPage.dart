@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/function/getProduct.dart';
+import 'package:flutter_app/pages/user/myInfoSetting.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -119,7 +120,12 @@ class _myPageState extends State<myPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    context.read<user>().logout();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => myInfoSetting()),
+                                    );
+                                    //context.read<user>().logout();
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(right: 5),
