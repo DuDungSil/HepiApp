@@ -39,14 +39,19 @@ class myInfoSetting extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text("a"),
-                                          Text("b")],
+                                          Container(margin:EdgeInsets.fromLTRB(0, 0, 5, 0), child: Text("이름 이윤구")),
+                                          Container(margin:EdgeInsets.fromLTRB(0, 0, 5, 0) ,child: Text("휴대전화 01012345678"))
+                                        ],
                                       ),
                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text("c"),
-                                          Text("d")
+                                          Text("생년월일 1999 03 01"),
+                                          Text("이메일 admin@naver.com")
                                         ],)],
                                   ),
                                 )
