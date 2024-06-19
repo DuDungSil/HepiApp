@@ -25,6 +25,7 @@ class _loginPageState extends State<loginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
@@ -323,7 +324,6 @@ class _loginPageState extends State<loginPage> {
               child: Container(
                 height: 50,
                 alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
                   border: Border(

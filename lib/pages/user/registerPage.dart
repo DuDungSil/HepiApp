@@ -93,6 +93,7 @@ class _registerPageState extends State<registerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
@@ -946,7 +947,6 @@ class _registerPageState extends State<registerPage> {
               child: Container(
                 height: 50,
                 alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
                   border: Border(
