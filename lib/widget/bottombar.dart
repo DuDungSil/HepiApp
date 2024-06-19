@@ -21,17 +21,17 @@ class Bottombar extends StatelessWidget {
       // 바텀 앱바
       height: 50,
       padding: EdgeInsets.all(0),
+      color: Colors.white,
+      elevation: 0,
       child: Container(
         // 바텀 전체 컨테이너
         decoration: BoxDecoration(
-          color: Color(0xFFFFFFFF),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x1F000000),
-              offset: Offset(0, 0),
-              blurRadius: 3,
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey, // 테두리 색상
+              width: 0.3, // 테두리 두께
             ),
-          ],
+          ),
         ),
         child: Row(
           // 바텀 앱바 레이아웃

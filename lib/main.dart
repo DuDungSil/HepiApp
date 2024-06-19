@@ -67,11 +67,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
-      home: SafeArea(
-        child: Scaffold(
-          body: pageList[tab], //registerPage()
-          bottomNavigationBar: Bottombar(setTab: setTab),
-        ),
+      theme: ThemeData(
+        // 물결 효과 제거
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: pageList[tab]
+        ), //registerPage()
+        bottomNavigationBar: Bottombar(setTab: setTab),
       ),
     );
   }
