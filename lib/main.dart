@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
-import 'package:flutter_app/pages/main/chattingPage.dart';
+import 'package:flutter_app/pages/main/healthcarePage.dart';
 import 'package:flutter_app/pages/main/qrPage.dart';
 import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
@@ -44,12 +44,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var pageList = [homePage(), searchPage(), myPage(), chattingPage(), qrPage()];
+  var pageList = [homePage(), searchPage(), myPage(), healthcarePage(), qrPage()];
   var tab = 0;
 
-  setTab(a) {
+  setTab(index) {
     setState(() {
-      tab = a;
+      tab = index;
     });
   }
 

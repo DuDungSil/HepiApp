@@ -20,6 +20,7 @@ dependencies:
   top_snackbar_flutter: ^3.1.0
   encrypt: ^5.0.3
   kakao_flutter_sdk: ^1.9.2
+  flutter_svg : ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +34,4 @@ flutter:
   - properties.env
   - assets/images/
   - assets/vectors/
+  - assets/vectors/Bottombar/

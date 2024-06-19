@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/getProduct.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../store/user.dart';
 
 class Bottombar extends StatelessWidget {
-  Bottombar({Key? key, this.setTab }) : super(key: key);
+  Bottombar({Key? key, this.setTab}) : super(key: key);
   final setTab;
 
   @override
@@ -37,180 +38,185 @@ class Bottombar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell( // 홈 버튼
-              onTap: () {
-                setTab(0);
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '🏠',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      height: 1.4,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '홈',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                        height: 1.4,
-                        color: Color(0xFF000000),
+            Expanded(
+              child: InkWell(
+                // 홈 버튼
+                onTap: () {
+                  setTab(0);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/vectors/Bottombar/home_icon.svg',
+                        width: 20,
+                        height: 20,
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 1),
+                      child: Text(
+                        '홈',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          height: 1.4,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            InkWell( // 검색 버튼
-              onTap: () {
-                setTab(1);
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '🔍',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      height: 1.4,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '검색',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                        height: 1.4,
-                        color: Color(0xFF000000),
+            Expanded(
+              child: InkWell(
+                // 검색 버튼
+                onTap: () {
+                  setTab(1);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/vectors/Bottombar/search_icon.svg',
+                        width: 20,
+                        height: 20,
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 1),
+                      child: Text(
+                        '검색',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          height: 1.4,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            InkWell( // 마이페이지 버튼
-              onTap: () {
-                setTab(2);
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '👤',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      height: 1.4,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '마이페이지',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                        height: 1.4,
-                        color: Color(0xFF000000),
+            Expanded(
+              child: InkWell(
+                // 마이페이지 버튼
+                onTap: () {
+                  setTab(2);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/vectors/Bottombar/mypage_icon.svg',
+                        width: 20,
+                        height: 20,
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 1),
+                      child: Text(
+                        '마이페이지',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          height: 1.4,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            InkWell( //채팅 버튼
-              onTap: () {
-                if(context.read<user>().id==null) {
-                  showTopSnackBar(
-                    Overlay.of(context),
-                    CustomSnackBar.error(
-                      message: '로그인 후 이용해주세요',
-                    ),
-                    displayDuration:
-                    Duration(milliseconds: 500),
-                  );
-                } else {
-                  setTab(3);
-                }
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '💬',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      height: 1.4,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '채팅',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                        height: 1.4,
-                        color: Color(0xFF000000),
+            Expanded(
+              child: InkWell(
+                //채팅 버튼
+                onTap: () {
+                  if (context.read<user>().id == null) {
+                    // showTopSnackBar(
+                    //   Overlay.of(context),
+                    //   CustomSnackBar.error(
+                    //     message: '로그인 후 이용해주세요',
+                    //   ),
+                    //   displayDuration: Duration(milliseconds: 500),
+                    // );
+                    setTab(3);
+                  } else {
+                    setTab(3);
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/vectors/Bottombar/healthy_icon.svg',
+                        width: 20,
+                        height: 20,
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 1),
+                      child: Text(
+                        '건강 관리',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          height: 1.4,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            InkWell(// QR 코드 인식 버튼
-              onTap: () {
-                setTab(4);
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '🔍',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      height: 1.4,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      'QR코드 인식',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                        height: 1.4,
-                        color: Color(0xFF000000),
+            Expanded(
+              child: InkWell(
+                // QR 코드 인식 버튼
+                onTap: () {
+                  setTab(4);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/vectors/Bottombar/qr_icon.svg',
+                        width: 20,
+                        height: 20,
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 1),
+                      child: Text(
+                        'QR코드 인식',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          height: 1.4,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
