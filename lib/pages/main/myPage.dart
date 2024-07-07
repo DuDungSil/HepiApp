@@ -43,131 +43,21 @@ class _myPageState extends State<myPage> {
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
-          padding: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.only(top: 170),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(10, 15, 10, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 12),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x1A000000),
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        (loginUser.id != null)
-                            ? Container(
-                                child: Text(
-                                  loginUser.name,
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.5,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => loginPage()),
-                                  );
-                                },
-                                child: Container(
-                                  child: Text(
-                                    "로그인을 해주세요 >",
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ],
-                    ),
-                    (loginUser.id != null)
-                        ? Container(
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF000000)),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => myInfoSetting()),
-                                    );
-                                    //context.read<user>().logout();
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 5),
-                                    child: Text(
-                                      '내 정보 설정',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        height: 1.3,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 5,
-                                  height: 10,
-                                  child: SizedBox(
-                                    width: 5,
-                                    height: 10,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/vector_9_x2.svg',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Container()
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
                 child: Text(
                   '보유 품목 정보',
                   style: GoogleFonts.getFont(
-                    'Roboto',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    height: 1.3,
+                    'Roboto Condensed',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    height: 1.2,
+                    letterSpacing: -0.5,
                     color: Color(0xFF000000),
                   ),
                 ),
@@ -178,7 +68,7 @@ class _myPageState extends State<myPage> {
                         return Container(
                           height: 280,
                           width: double.infinity,
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
@@ -198,7 +88,7 @@ class _myPageState extends State<myPage> {
                       } else {
                         return Container(
                           height: 280,
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: products.myProductList.length,
@@ -298,7 +188,7 @@ class _myPageState extends State<myPage> {
                   : Container(
                       height: 280,
                       width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0x1A000000)),
@@ -316,14 +206,15 @@ class _myPageState extends State<myPage> {
                       ),
                     ),
               Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
                 child: Text(
                   '장바구니',
                   style: GoogleFonts.getFont(
-                    'Roboto',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    height: 1.3,
+                    'Roboto Condensed',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    height: 1.2,
+                    letterSpacing: -0.5,
                     color: Color(0xFF000000),
                   ),
                 ),
@@ -445,7 +336,7 @@ class _myPageState extends State<myPage> {
                   : Container(
                       height: 280,
                       width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0x1A000000)),
@@ -462,244 +353,8 @@ class _myPageState extends State<myPage> {
                         ),
                       ),
                     ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                              child: Text(
-                                '💳',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20,
-                                  height: 1.6,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            '결제 내역',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0x1A000000),
-                      ),
-                      height: 1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                              child: Text(
-                                '💖',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20,
-                                  height: 1.6,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            '찜한 상품',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0x1A000000),
-                      ),
-                      height: 1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                              child: Text(
-                                '🔍',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20,
-                                  height: 1.6,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            '최근 본 상품',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0x1A000000),
-                      ),
-                      height: 1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                              child: Text(
-                                '🛒',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20,
-                                  height: 1.6,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            '자주 산 제품',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0x1A000000),
-                      ),
-                      height: 1,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                child: Container(
-                  child: Text(
-                    '선물함',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      height: 1.3,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                child: Container(
-                  child: Text(
-                    '내 주변 점포 찾기',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      height: 1.3,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                child: Container(
-                  child: Text(
-                    '고객 센터',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      height: 1.3,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                ),
-              ),
+              // 코드 추가 필요
+              Container(height: 80,)
             ],
           ),
         ),
@@ -709,26 +364,140 @@ class _myPageState extends State<myPage> {
         left: 0,
         right: 0,
         child: Container(
-          height: 50,
-          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-          decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF),
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey, // 테두리 색상
-                width: 0.3, // 테두리 두께
+          decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          alignment: Alignment.center,
+          height: 155,
+          width: double.infinity,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                child: Text(
+                  '마이 페이지',
+                  style: GoogleFonts.getFont(
+                    'Roboto Condensed',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    height: 0,
+                    letterSpacing: -0.5,
+                    color: Color(0xFF111111),
+                  ),
+                ),
               ),
-            ),
-          ),
-          child: Text(
-            '마이페이지',
-            style: GoogleFonts.getFont(
-              'Roboto',
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-              height: 1.3,
-              color: Color(0xFF000000),
-            ),
+              Container(
+                margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0x1A000000),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                        ),
+                        (loginUser.id != null)
+                            ? Container(
+                                child: Text(
+                                  loginUser.name,
+                                  style: GoogleFonts.getFont(
+                                    'Roboto',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.5,
+                                    color: Color(0xFF000000),
+                                  ),
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => loginPage()),
+                                  );
+                                },
+                                child: Container(
+                                  child: Text(
+                                    "로그인을 해주세요 >",
+                                    style: GoogleFonts.getFont(
+                                      'Roboto',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.5,
+                                      color: Color(0xFF000000),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
+                    (loginUser.id != null)
+                        ? Container(
+                            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFF000000)),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              myInfoSetting()),
+                                    );
+                                    //context.read<user>().logout();
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 5),
+                                    child: Text(
+                                      '내 정보 설정',
+                                      style: GoogleFonts.getFont(
+                                        'Roboto',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        height: 1.3,
+                                        color: Color(0xFF000000),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 5,
+                                  height: 10,
+                                  child: SizedBox(
+                                    width: 5,
+                                    height: 10,
+                                    child: SvgPicture.asset(
+                                      'assets/vectors/vector_9_x2.svg',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container()
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

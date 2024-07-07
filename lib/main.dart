@@ -44,7 +44,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var pageList = [homePage(), searchPage(), myPage(), healthcarePage(), qrPage()];
+  var pageList = [
+    homePage(),
+    searchPage(),
+    myPage(),
+    healthcarePage(),
+    qrPage()
+  ];
   var tab = 0;
 
   setTab(index) {
@@ -55,6 +61,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    super.initState();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.white,
@@ -70,16 +77,25 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
-        // 물결 효과 제거
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
       ),
       home: Scaffold(
+        extendBody: true,
         backgroundColor: Colors.white,
-        body: SafeArea(
-            child: pageList[tab]
-        ), //registerPage()
-        bottomNavigationBar: Bottombar(setTab: setTab),
+        body: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: pageList[tab],
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Bottombar(setTab: setTab),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -90,6 +106,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
