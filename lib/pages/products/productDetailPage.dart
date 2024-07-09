@@ -1,683 +1,177 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'dart:ui';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/widget/productCard/detailProductCard.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../../store/products.dart';
-import 'orderPage.dart';
+class ProductDetailPage extends StatefulWidget {
+  @override
+  _ProductDetailPageState createState() => _ProductDetailPageState();
+}
 
-class productDetailPage extends StatelessWidget {
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  int selectedIndex = 0; // 선택된 메뉴 항목의 인덱스를 추적
+  ScrollController _scrollController = ScrollController();
+  List<GlobalKey> _sectionKeys = List.generate(5, (index) => GlobalKey());
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    for (int i = 0; i < _sectionKeys.length; i++) {
+      RenderBox box =
+          _sectionKeys[i].currentContext?.findRenderObject() as RenderBox;
+      Offset position = box.localToGlobal(Offset.zero);
+
+      if (_scrollController.offset >= position.dy - 100 &&
+          _scrollController.offset < position.dy + box.size.height - 100) {
+        setState(() {
+          selectedIndex = i;
+        });
+        break;
+      }
+    }
+  }
+
+  void _scrollToIndex(int index) {
+    RenderBox box =
+        _sectionKeys[index].currentContext?.findRenderObject() as RenderBox;
+    Offset position = box.localToGlobal(Offset.zero);
+
+    _scrollController.animateTo(
+      _scrollController.offset + position.dy - kToolbarHeight - 90,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Container(
-                // 배경색
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                ),
-                padding: EdgeInsets.only(top: 60),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Text(
-                        'California Gold Nutrition, Sport,\n'
-                        '분리유청단백질, 무맛, 454g(1lb)',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 18,
-                          height: 1.3,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
+            Container(
+              margin: EdgeInsets.fromLTRB(10, 40, 10, 0),
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) {
+                  if (scrollInfo is ScrollEndNotification) {
+                    _onScroll();
+                  }
+                  return true;
+                },
+                child: CustomScrollView(
+                  controller: _scrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Container(child: DetailProductCard()),
                     ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 300,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                  'assets/images/image_3.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _SliverAppBarDelegate(
+                        minHeight: 60.0,
+                        maxHeight: 60.0,
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
                             children: [
-                              Container(
-                                // 판매 가격
-                                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                child: Text(
-                                  '판매 가격: ₩40,101',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.3,
-                                    color: Color(0xFF000000),
-                                  ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    buildMenuItem('요약', 0),
+                                    buildMenuItem('정보', 1),
+                                    buildMenuItem('성분', 2),
+                                    buildMenuItem('분석', 3),
+                                    buildMenuItem('후기', 4),
+                                  ],
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      // 수량 버튼
-                                      height: 45,
-                                      margin: EdgeInsets.fromLTRB(10, 10, 5, 0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xFF000000)),
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Color(0xFFFFFFFF),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(Icons.remove)),
-                                          Text(
-                                            '1',
-                                            style: GoogleFonts.getFont(
-                                              'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              height: 1.3,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(Icons.add)),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      // 위시리스트 버튼
-                                      height: 45,
-                                      margin: EdgeInsets.fromLTRB(5, 10, 10, 0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xFF000000)),
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Color(0xFFFFFFFF),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          '위시리스트 추가',
-                                          style: GoogleFonts.getFont(
-                                            'Roboto',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            height: 1.3,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 15, 0, 0),
-                      child: Text(
-                        '상품 설명',
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          height: 1.3,
-                          color: Color(0xFF000000),
                         ),
                       ),
                     ),
-                    Container(
-                      // 상품 상세 설명
-                      margin: EdgeInsets.fromLTRB(12, 10, 0, 0),
-                      child: Container(
-                        child: Text(
-                          'California Gold Nutrition SPORT 분리유청단백질, 1lb\n'
-                          '단백질 27g, BCAA 6.1g, 글루탐산 4.6g\n'
-                          '무맛\n'
-                          '저유당\n'
-                          '전자 재조합 소 성장호르몬 무함유\n'
-                          '근육 성장 증진\n'
-                          '증량제, 글루텐, 유전자 변형 성분, 대두 무함유\n'
-                          '인공 색소, 인공 향료, 인공 감미료 무함유\n'
-                          'cGMP 인증 시설에서 생산\n'
-                          '100% 골드 개런티(Gold Guarantee)',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            height: 1.3,
-                            color: Color(0xFF000000),
-                          ),
+                    SliverToBoxAdapter(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: double.infinity,
                         ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Divider(
-                        // 구분선
-                        thickness: 0.3, // 두께
-                        color: Colors.grey, // 색상
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 15, 0, 0),
-                      child: Column(
-                        //고객 구매후기
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '고객 구매후기',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              'View more',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                height: 1.3,
-                                color: Color(0x80000000),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 120,
-                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            width: 220,
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 25,
-                                          height: 25,
-                                          decoration: BoxDecoration(
-                                            color: Color(0x1A000000),
-                                            borderRadius:
-                                                BorderRadius.circular(24),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            'User 1',
-                                            style: GoogleFonts.getFont(
-                                              'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              height: 1.3,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 60,
-                                      height: 10,
-                                      child: SvgPicture.asset(
-                                        'assets/vectors/vector_10_x2.svg',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    '최고의 상품 추천합니다.',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 220,
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 25,
-                                          height: 25,
-                                          decoration: BoxDecoration(
-                                            color: Color(0x1A000000),
-                                            borderRadius:
-                                                BorderRadius.circular(24),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            'User 2',
-                                            style: GoogleFonts.getFont(
-                                              'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              height: 1.3,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 60,
-                                      height: 10,
-                                      child: SvgPicture.asset(
-                                        'assets/vectors/vector_10_x2.svg',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    '맛있어서 자주 먹어요.',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 220,
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 25,
-                                          height: 25,
-                                          decoration: BoxDecoration(
-                                            color: Color(0x1A000000),
-                                            borderRadius:
-                                                BorderRadius.circular(24),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            'User 3',
-                                            style: GoogleFonts.getFont(
-                                              'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              height: 1.3,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 60,
-                                      height: 10,
-                                      child: SvgPicture.asset(
-                                        'assets/vectors/vector_10_x2.svg',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    '가격이 좋은거 같아용',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.3,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Divider(
-                        // 구분선
-                        thickness: 0.3, // 두께
-                        color: Colors.grey, // 색상
-                      ),
-                    ),
-                    Container(
-                      //추천상품
-                      margin: EdgeInsets.fromLTRB(10, 15, 0, 0),
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '추천 상품',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              'View more',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                height: 1.3,
-                                color: Color(0x80000000),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Consumer<products>(builder: (consumer, products, child) {
-                      if (products.eventProductList.isEmpty) {
-                        return CircularProgressIndicator();
-                      } else {
-                        return Container(
-                          margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Container(
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.only(top: 20),
                           width: double.infinity,
+                          height: 2000,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
+                            color: Color(0xFFFFFFFF),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: 150,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: NetworkImage(
-                                      products.myProductList[0].main_image,
-                                    ),
-                                  ),
-                                ),
+                                height: 40,
+                                key: _sectionKeys[0],
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                    child: Text(
-                                      'Optimum Nutrition, 더블 리치 초콜릿 Whey,  2.27kg(5lb)',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        height: 1.3,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                    child: Text(
-                                      '₩ 122,556',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.5,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              ProductSummary(),
+                              Container(
+                                height: 60,
+                                key: _sectionKeys[1],
                               ),
+                              ProductInformation(),
+                              Container(
+                                height: 60,
+                                key: _sectionKeys[2],
+                              ),
+                              ProductIngredientInfo(),
+                              Container(
+                                height: 25,
+                              ),
+                              NutritionFacts(),
+                              Container(
+                                height: 60,
+                                key: _sectionKeys[3],
+                              ),
+                              PersonalNutritionAnalysis(),
+                              Container(
+                                height: 60,
+                                key: _sectionKeys[4],
+                              ),
+                              CustomerReview()
                             ],
                           ),
-                        );
-                      }
-                    }),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 45,
-                              margin: EdgeInsets.fromLTRB(10, 15, 5, 15),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xFF000000)),
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xFFFFFFFF),
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => orderPage()),
-                                  );
-                                },
-                                child: Text(
-                                  '구매하기',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.3,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 45,
-                              margin: EdgeInsets.fromLTRB(5, 15, 10, 15),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF000000),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  '장바구니에 추가',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.3,
-                                    color: Color(0xFFFFFFFF),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-
-            //상단바
             Positioned(
               top: 0,
               left: 0,
               right: 0,
               child: Container(
-                //상단바
+                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                alignment: Alignment.center,
                 height: 60,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey, // 테두리 색상
-                      width: 0.3, // 테두리 두께
-                    ),
-                  ),
-                ),
+                width: double.infinity,
                 child: Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        //뒤로가기 버튼
-                        margin: EdgeInsets.only(left: 15),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(Icons.keyboard_arrow_left),
-                          color: Color(0xFF000000),
-                        ),
-                      ),
-                      Container(
-                        // 상품 정보 텍스트
-                        margin: EdgeInsets.only(left: 15),
-                        child: Text(
-                          '상품 정보',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            height: 1.3,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                    ],
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Text(
+                    '상품 정보',
+                    style: GoogleFonts.getFont(
+                      'Roboto Condensed',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      height: 0,
+                      letterSpacing: -0.5,
+                      color: Color(0xFF111111),
+                    ),
                   ),
                 ),
               ),
@@ -687,4 +181,514 @@ class productDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildMenuItem(String text, int index) {
+    bool isSelected = index == selectedIndex;
+    return Flexible(
+      fit: FlexFit.tight,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedIndex = index; // 항목을 클릭할 때 선택된 인덱스를 변경
+          });
+          _scrollToIndex(index);
+        },
+        child: Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              bottom: BorderSide(
+                color: isSelected ? Color(0xFFFF8A00) : Color(0xFF767676),
+                width: 1,
+              ),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                // 텍스트 크기 조정
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w600,
+                height: 1.2,
+                letterSpacing: -0.5,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
+  }
+}
+
+Widget ProductSummary() {
+  return Container(
+    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 80,
+              child: Text(
+                '제품 요약',
+                style: TextStyle(
+                  color: Color(0xFF111111),
+                  fontSize: 18,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w500,
+                  height: 0.08,
+                  letterSpacing: -0.45,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 342,
+                    height: 46,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        EllipseText('스포츠 보충제'),
+                        const SizedBox(width: 8),
+                        EllipseText('운동전 섭취'),
+                        const SizedBox(width: 8),
+                        EllipseText('에너지 공급'),
+                      ],
+                    ),
+                  ),
+                  EllipseText('운동 능력 개선')
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget ProductInformation() {
+  return Container(
+    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 80,
+          child: Text(
+            '제품 정보',
+            style: TextStyle(
+              color: Color(0xFF111111),
+              fontSize: 18,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w500,
+              height: 0.08,
+              letterSpacing: -0.45,
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 30),
+          child: Text(
+            'California Gold Nutrition SPORT 분리유청단백질, 1lb\n단백질 27g, BCAA 6.1g, 글루탐산 4.6g\n무맛\n저유당 \n유전자 재조합 소 성장호르몬 무함유\n근육 성장 증진\n증량제, 글루텐, 유전자 변형 성분, 대두 무함유\n인공 색소, 인공 향료, 인공 감미료 무함유\ncGMP 인증 시설에서 생산\n100% 골드 개런티(Gold Guarantee)',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+              height: 1.6,
+              letterSpacing: -0.35,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget ProductIngredientInfo() {
+  return Container(
+    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 130,
+          child: Text(
+            '제품 성분 정보',
+            style: TextStyle(
+              color: Color(0xFF111111),
+              fontSize: 18,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w500,
+              height: 0.08,
+              letterSpacing: -0.45,
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.fromLTRB(0, 25, 0, 0),
+          height: 60,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Color(0x19FAFAFA),
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      bottom: BorderSide(
+                        width: 1,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '1회 제공량: 1스쿱(5g) ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 0.09,
+                          letterSpacing: -0.35,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Color(0x19767676),
+                    border: Border(
+                      top: BorderSide(color: Colors.black.withOpacity(0.5)),
+                      bottom: BorderSide(
+                        width: 1,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '용기당 제공 횟수: 약 91회',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 0.09,
+                          letterSpacing: -0.35,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget NutritionFacts() {
+  return Container(
+    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 130,
+          child: Text(
+            '영양 성분 정보',
+            style: TextStyle(
+              color: Color(0xFF111111),
+              fontSize: 18,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w500,
+              height: 0.08,
+              letterSpacing: -0.45,
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          height: 260,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 50,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 120,
+                    ), // 여백
+                    Container(
+                      width: 115,
+                      child: Text(
+                        '1회 제공량 당 함량',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.35,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 110,
+                      child: Text(
+                        '1일 영양성분\n기준치에 대한 비율',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.35,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              NutritionFactsCell(Color(0x19FAFAFA), '칼로리'),
+              NutritionFactsCell(Color(0x19767676), '탄수화물'),
+              NutritionFactsCell(Color(0x19FAFAFA), '당류'),
+              NutritionFactsCell(Color(0x19767676), '단백질'),
+              NutritionFactsCell(Color(0x19FAFAFA), '지방'),
+              NutritionFactsCell(Color(0x19767676), '콜레스테롤'),
+              NutritionFactsCell(Color(0x19FAFAFA), '나트륨'),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 5),
+          width: 342,
+          child: Text(
+            '1일 영양성분 기준치에 대한 비율은 2000 kcal 기준이므로 개인의 필요 역량에 따라 다를 수 있습니다.',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+              height: 1.2,
+              letterSpacing: -0.30,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget EllipseText(var text) {
+  return Container(
+    padding: const EdgeInsets.all(15),
+    clipBehavior: Clip.antiAlias,
+    decoration: ShapeDecoration(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+        borderRadius: BorderRadius.circular(24),
+      ),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          text,
+          style: TextStyle(
+            color: Color(0xFF191919),
+            fontSize: 14,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w500,
+            height: 0.1,
+            letterSpacing: -0.35,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget PersonalNutritionAnalysis() {
+  return Container(
+    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 130,
+          child: Text(
+            '개인 영양 분석',
+            style: TextStyle(
+              color: Color(0xFF111111),
+              fontSize: 18,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w500,
+              height: 0.08,
+              letterSpacing: -0.45,
+            ),
+          ),
+        ),
+        Container(
+          height: 200,
+        )
+      ],
+    ),
+  );
+}
+
+Widget CustomerReview() {
+  return Container(
+    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 130,
+          child: Text(
+            '구매 후기',
+            style: TextStyle(
+              color: Color(0xFF111111),
+              fontSize: 18,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w500,
+              height: 0.08,
+              letterSpacing: -0.45,
+            ),
+          ),
+        ),
+        Container(
+          height: 200,
+        )
+      ],
+    ),
+  );
+}
+
+Widget NutritionFactsCell(color, name) {
+  return Expanded(
+    child: Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: color,
+        border: Border(
+          top: BorderSide(
+            width: 1,
+            color: Colors.black.withOpacity(0.5),
+          ),
+          bottom: BorderSide(
+            width: 1,
+            color: Colors.black.withOpacity(0.5),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            name,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+              height: 0.09,
+              letterSpacing: -0.35,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -163,7 +163,7 @@ class orderPage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            productDetailPage()),
+                                            ProductDetailPage()),
                                   );
                                 },
                                 child: Container(

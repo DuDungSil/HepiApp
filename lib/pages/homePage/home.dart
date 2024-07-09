@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/priceText.dart';
+import 'package:flutter_app/pages/homePage/event.dart';
+import 'package:flutter_app/pages/products/productDetailPage.dart';
+import 'package:flutter_app/widget/productCard/normalProductCard.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,16 @@ import '../../function/getProduct.dart';
 import '../../store/eventImages.dart';
 import '../../store/products.dart';
 
-class home extends StatelessWidget {
+class home extends StatefulWidget {
+  final Function(int) setTab;
+
+  home({Key? key, required this.setTab}) : super(key: key);
+
+  @override
+  State<home> createState() => _homeState();
+}
+
+class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     getProduct(context, "event", "");
@@ -50,29 +61,37 @@ class home extends StatelessWidget {
                 Consumer<eventImages>(builder: (consumer, eventImages, child) {
                   if (eventImages.eventImageList.isEmpty) {
                     return Container(
-                      alignment: Alignment.center,
+                        alignment: Alignment.center,
                         height: 164,
                         margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
                         child: CircularProgressIndicator());
                   } else {
-                    return Container(
-                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
-                      width: double.infinity,
-                      height: 164,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          widget.setTab(1);
+                        });
+                      },
                       child: Container(
+                        margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                        width: double.infinity,
+                        height: 164,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.fitHeight,
-                              image: NetworkImage(
-                                  eventImages.eventImageList[0].url)),
+                          border: Border.all(color: Color(0x1A000000)),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         child: Container(
-                          width: 336,
-                          height: 164,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.fitHeight,
+                              image: NetworkImage(
+                                  eventImages.eventImageList[0].url),
+                            ),
+                          ),
+                          child: Container(
+                            width: 336,
+                            height: 164,
+                          ),
                         ),
                       ),
                     );
@@ -98,20 +117,36 @@ class home extends StatelessWidget {
                 Consumer<products>(builder: (consumer, products, child) {
                   if (products.eventProductList.isEmpty) {
                     return Container(
-                      alignment: Alignment.center,
-                        height: 280,
+                        alignment: Alignment.center,
+                        height: 250,
                         margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
                         child: CircularProgressIndicator());
                   } else {
                     return Container(
-                      height: 280,
+                      margin: EdgeInsets.fromLTRB(25, 20, 0, 0),
+                      height: 230,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5, // 카드의 개수를 설정합니다.
+                        itemCount: (products.eventProductList.length < 5)
+                            ? products.eventProductList.length
+                            : 5, // 카드의 개수를 설정합니다.
                         itemBuilder: (context, index) {
-                          return SaleProductTile();
+                          return Column(children: [
+                            InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductDetailPage()));
+                                },
+                                child: NormalProductCard(
+                                    products.eventProductList[index]))
+                          ]);
                         },
-                        separatorBuilder: (context, index) => SizedBox(width: 10,),
+                        separatorBuilder: (context, index) => SizedBox(
+                          width: 10,
+                        ),
                       ),
                     );
                   }
@@ -138,7 +173,7 @@ class home extends StatelessWidget {
                 ),
                 Container(
                   // 전체 물품 카테고리 컨테이너
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -405,140 +440,4 @@ class home extends StatelessWidget {
       ],
     );
   }
-}
-
-
-
-Widget SaleProductTile() {
-  return Container(
-    width: 170,
-    margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      color: Color(0xFFFFFFFF),
-      boxShadow: [
-        BoxShadow(
-          color: Color(0x80000000),
-          offset: Offset(8, 8),
-          blurRadius: 10,
-        ),
-      ],
-    ),
-    child: Container(
-      padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 140,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(
-                fit: BoxFit.fitHeight,
-                image: AssetImage(
-                  'assets/images/example.png',
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Optimum Nutrition, 더블 리치 초콜릿 Whey,  2.27kg(5lb)',
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
-                  height: 1.2,
-                  letterSpacing: -0.4,
-                  color: Color(0xFF111111),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                    child: Text(
-                      '₩ 110,397',
-                      style: GoogleFonts.getFont(
-                        'Roboto Condensed',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        height: 1.2,
-                        letterSpacing: -0.3,
-                        color: Color(0xFFDC3644),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '₩ 122,664',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      decoration: TextDecoration.lineThrough,
-                      decorationThickness: 2.0, // 선의 두께를 설정
-                      height: 1.2,
-                      letterSpacing: -0.3,
-                      color: Color(0xFF767676),
-                      decorationColor: Color(0xFF767676),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: SizedBox(
-                      height : 20,
-                      child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.start,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          // 평점 들어가야햠 ( 별 )
-                          Container()
-                        ],
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '(673)',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      height: 1.2,
-                      letterSpacing: -0.3,
-                      color: Color(0xFF9EA3B2),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }

@@ -161,7 +161,7 @@ class cartPage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            productDetailPage()),
+                                            ProductDetailPage()),
                                   );
                                 },
                                 child: Container(

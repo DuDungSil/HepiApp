@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/getEventImage.dart';
 import 'package:flutter_app/function/getProduct.dart';
 
-import '../home/event.dart';
-import '../home/home.dart';
+import '../homePage/event.dart';
+import '../homePage/home.dart';
 
 class homePage extends StatefulWidget {
   @override
@@ -13,16 +13,23 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
-  var pageList = [
-    home(),
-    event(),
-  ];
   var tab = 0;
 
   setTab(index) {
     setState(() {
       tab = index;
     });
+  }
+
+  late List<Widget> pageList;
+
+  @override
+  void initState() {
+    super.initState();
+    pageList = [
+      home(setTab: setTab),
+      event(),
+    ];
   }
 
   @override
