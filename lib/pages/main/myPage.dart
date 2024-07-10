@@ -225,7 +225,7 @@ class _myPageState extends State<myPage> {
                         return Container(
                           height: 280,
                           width: double.infinity,
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
@@ -320,7 +320,8 @@ class _myPageState extends State<myPage> {
                                                         .event,
                                                     products
                                                         .cartProductList[index]
-                                                        .discount)),
+                                                        .discount),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -386,7 +387,7 @@ class _myPageState extends State<myPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -411,13 +412,14 @@ class _myPageState extends State<myPage> {
                         (loginUser.id != null)
                             ? Container(
                                 child: Text(
-                                  loginUser.name,
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
+                                  loginUser.name + "님, 안녕하세요",
+                                  style: TextStyle(
+                                    color: Colors.black,
                                     fontSize: 16,
-                                    height: 1.5,
-                                    color: Color(0xFF000000),
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.1,
+                                    letterSpacing: -0.30,
                                   ),
                                 ),
                               )

@@ -12,27 +12,44 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int selectedIndex = 0; // 선택된 메뉴 항목의 인덱스를 추적
   ScrollController _scrollController = ScrollController();
   List<GlobalKey> _sectionKeys = List.generate(5, (index) => GlobalKey());
+  List<double> _sectionOffsets =
+      List.generate(5, (index) => 0.0); // 각 섹션의 위치를 저장할 리스트
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_calculateSectionOffsets);
     _scrollController.addListener(_onScroll);
   }
 
-  void _onScroll() {
+  void _calculateSectionOffsets(_) {
     for (int i = 0; i < _sectionKeys.length; i++) {
-      RenderBox box =
-          _sectionKeys[i].currentContext?.findRenderObject() as RenderBox;
-      Offset position = box.localToGlobal(Offset.zero);
-
-      if (_scrollController.offset >= position.dy - 100 &&
-          _scrollController.offset < position.dy + box.size.height - 100) {
-        setState(() {
-          selectedIndex = i;
-        });
-        break;
+      RenderBox? box =
+          _sectionKeys[i].currentContext?.findRenderObject() as RenderBox?;
+      if (box != null) {
+        Offset position = box.localToGlobal(Offset.zero);
+        _sectionOffsets[i] = position.dy;
       }
     }
+  }
+
+  void _onScroll() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (int i = 0; i < _sectionOffsets.length; i++) {
+        double top = _sectionOffsets[i];
+        double bottom =
+            top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
+        print(top);
+        print(bottom);
+        if (_scrollController.offset + kToolbarHeight + 60 >= top &&
+            _scrollController.offset + kToolbarHeight + 60 < bottom) {
+          setState(() {
+            selectedIndex = i;
+          });
+          break;
+        }
+      }
+    });
   }
 
   void _scrollToIndex(int index) {
@@ -41,7 +58,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     Offset position = box.localToGlobal(Offset.zero);
 
     _scrollController.animateTo(
-      _scrollController.offset + position.dy - kToolbarHeight - 90,
+      _scrollController.offset + position.dy - kToolbarHeight - 60,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
@@ -113,34 +130,38 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: 40,
+                                margin: EdgeInsets.only(top: 60),
                                 key: _sectionKeys[0],
+                                child: ProductSummary(),
                               ),
-                              ProductSummary(),
                               Container(
-                                height: 60,
+                                margin: EdgeInsets.only(top: 60),
                                 key: _sectionKeys[1],
+                                child: ProductInformation(),
                               ),
-                              ProductInformation(),
                               Container(
-                                height: 60,
+                                margin: EdgeInsets.only(top: 60),
                                 key: _sectionKeys[2],
+                                child: Column(
+                                  children: [
+                                    ProductIngredientInfo(),
+                                    Container(
+                                      height: 25,
+                                    ),
+                                    NutritionFacts(),
+                                  ],
+                                ),
                               ),
-                              ProductIngredientInfo(),
                               Container(
-                                height: 25,
-                              ),
-                              NutritionFacts(),
-                              Container(
-                                height: 60,
+                                margin: EdgeInsets.only(top: 60),
                                 key: _sectionKeys[3],
+                                child: PersonalNutritionAnalysis(),
                               ),
-                              PersonalNutritionAnalysis(),
                               Container(
-                                height: 60,
+                                margin: EdgeInsets.only(top: 60),
                                 key: _sectionKeys[4],
+                                child: CustomerReview(),
                               ),
-                              CustomerReview()
                             ],
                           ),
                         ),

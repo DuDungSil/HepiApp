@@ -21,6 +21,7 @@ dependencies:
   encrypt: ^5.0.3
   kakao_flutter_sdk: ^1.9.2
   flutter_svg : ^2.0.1
+  getwidget: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -33,5 +34,6 @@ flutter:
   assets:
   - properties.env
   - assets/images/
+  - assets/images/logo/
   - assets/vectors/
   - assets/vectors/Bottombar/
