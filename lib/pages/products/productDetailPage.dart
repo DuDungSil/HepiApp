@@ -42,8 +42,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         double bottom =
             top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
 
-        if (_scrollController.offset + kToolbarHeight + 80 >= top &&
-            _scrollController.offset + kToolbarHeight + 80 < bottom) {
+        if (_scrollController.offset + kToolbarHeight + 90 >= top &&
+            _scrollController.offset + kToolbarHeight + 90 < bottom) {
           setState(() {
             selectedIndex = i;
           });
@@ -67,12 +67,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(10, 40, 10, 0),
+              padding: EdgeInsets.fromLTRB(10, 40, 10, 0),
               child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
                   if (scrollInfo is ScrollEndNotification) {
@@ -84,7 +85,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   controller: _scrollController,
                   slivers: [
                     SliverToBoxAdapter(
-                      child: Container(child: DetailProductCard()),
+                      child: Container(
+                          margin: EdgeInsets.all(10), child: DetailProductCard()),
                     ),
                     SliverPersistentHeader(
                       pinned: true,
@@ -177,27 +179,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               left: 0,
               right: 0,
               child: Container(
-                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                alignment: Alignment.center,
                 height: 60,
-                width: double.infinity,
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Text(
-                    '상품 정보',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      height: 0,
-                      letterSpacing: -0.5,
-                      color: Color(0xFF111111),
-                    ),
+                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+                alignment: Alignment.center,
+                child: Text(
+                  '상품 정보',
+                  style: GoogleFonts.getFont(
+                    'Roboto Condensed',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                    fontSize: 20,
+                    letterSpacing: -0.5,
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -304,18 +300,17 @@ Widget ProductSummary() {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
-              child: Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  EclipseText(text: '스포츠 보충제'),
-                  EclipseText(text: '에너지 공급'),
-                  EclipseText(text: '운동 능력 개선'),
-                  EclipseText(text: '운동 전 섭취'),
-                ],
-              )
-            )
+                margin: EdgeInsets.only(top: 30),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    EclipseText(text: '스포츠 보충제'),
+                    EclipseText(text: '에너지 공급'),
+                    EclipseText(text: '운동 능력 개선'),
+                    EclipseText(text: '운동 전 섭취'),
+                  ],
+                ))
           ],
         ),
       ],
@@ -436,7 +431,6 @@ Widget ProductIngredientInfo() {
                   decoration: BoxDecoration(
                     color: Color(0x19767676),
                     border: Border(
-                      top: BorderSide(color: Colors.black.withOpacity(0.5)),
                       bottom: BorderSide(
                         width: 1,
                         color: Colors.black.withOpacity(0.5),
@@ -479,7 +473,7 @@ Widget NutritionFacts() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 130,
+          padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
           child: Text(
             '영양 성분 정보',
             style: TextStyle(
@@ -492,81 +486,382 @@ Widget NutritionFacts() {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-          height: 260,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        Table(
+          defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+          children: [
+            TableRow(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.black), // 아래쪽에만 테두리 설정
+                  ),
+                ),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '1회 제공량 당 함량',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 13,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '1일 영양성분\n기준치에 대한 비율',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 13,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ),
+                ]),
+            TableRow(children: [
               Container(
-                height: 50,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 120,
-                    ), // 여백
-                    Container(
-                      width: 115,
-                      child: Text(
-                        '1회 제공량 당 함량',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w400,
-                          height: 1.2,
-                          letterSpacing: -0.35,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 110,
-                      child: Text(
-                        '1일 영양성분\n기준치에 대한 비율',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w400,
-                          height: 1.2,
-                          letterSpacing: -0.35,
-                        ),
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '칼로리',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
                 ),
               ),
-              NutritionFactsCell(Color(0x19FAFAFA), '칼로리'),
-              NutritionFactsCell(Color(0x19767676), '탄수화물'),
-              NutritionFactsCell(Color(0x19FAFAFA), '당류'),
-              NutritionFactsCell(Color(0x19767676), '단백질'),
-              NutritionFactsCell(Color(0x19FAFAFA), '지방'),
-              NutritionFactsCell(Color(0x19767676), '콜레스테롤'),
-              NutritionFactsCell(Color(0x19FAFAFA), '나트륨'),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 5),
-          width: 342,
-          child: Text(
-            '1일 영양성분 기준치에 대한 비율은 2000 kcal 기준이므로 개인의 필요 역량에 따라 다를 수 있습니다.',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w400,
-              height: 1.2,
-              letterSpacing: -0.30,
-            ),
-          ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '0kcal',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '2%',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+            ]),
+            TableRow(
+                decoration: BoxDecoration(
+                  color: Color(0x19767676),
+                  border: Border(
+                    top: BorderSide(color: Colors.black.withOpacity(0.5)),
+                    bottom: BorderSide(color: Colors.black.withOpacity(0.5)),
+                  ),
+                ),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '탄수화물',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '0kcal',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '2%',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                ]),
+            TableRow(children: [
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '당류',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '0kcal',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '2%',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+            ]),
+            TableRow(
+                decoration: BoxDecoration(
+                  color: Color(0x19767676),
+                  border: Border(
+                    top: BorderSide(color: Colors.black.withOpacity(0.5)),
+                    bottom: BorderSide(color: Colors.black.withOpacity(0.5)),
+                  ),
+                ),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '단백질',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '0kcal',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '2%',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                ]),
+            TableRow(children: [
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '지방',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '0kcal',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '2%',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.35,
+                  ),
+                ),
+              ),
+            ]),
+            TableRow(
+                decoration: BoxDecoration(
+                  color: Color(0x19767676),
+                  border: Border(
+                    top: BorderSide(color: Colors.black.withOpacity(0.5)),
+                    bottom: BorderSide(color: Colors.black.withOpacity(0.5)),
+                  ),
+                ),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '콜레스테롤',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '0kcal',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '2%',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                ]),
+            TableRow(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.black.withOpacity(0.5)),
+                  ),
+                ),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '나트륨',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '0kcal',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      '2%',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.35,
+                      ),
+                    ),
+                  ),
+                ]),
+          ],
         ),
       ],
     ),

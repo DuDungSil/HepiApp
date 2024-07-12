@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/productCard/WideOptionProductCard.dart';
 
 
-class event extends StatelessWidget {
+class eventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(

@@ -41,7 +41,6 @@ class _BottombarState extends State<Bottombar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(

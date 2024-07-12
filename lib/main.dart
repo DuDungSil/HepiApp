@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/pages/main/eventPage.dart';
 
 import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
@@ -45,15 +46,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  var pageList = [
-    homePage(),
-    searchPage(),
-    myPage(),
-    healthcarePage(),
-    qrPage()
-  ];
-  var tab = 0;
+  var pageList;
 
+  var tab = 0;
   setTab(index) {
     setState(() {
       tab = index;
@@ -71,6 +66,24 @@ class _MyAppState extends State<MyApp> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // 하단에 네이게이션바를 표시하고 싶은 페이지들
+    pageList = [
+      //Navigaton Button Pages
+      homePage(setTab: setTab),
+      searchPage(),
+      myPage(),
+      healthcarePage(),
+      qrPage(),
+
+      //Other Pages
+      eventPage()
+    ];
   }
 
   @override
