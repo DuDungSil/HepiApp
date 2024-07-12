@@ -74,7 +74,7 @@ class _homeState extends State<homePage> {
                       child: Container(
                         margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                         width: double.infinity,
-                        height: 164,
+                        height: 180,
                         decoration: BoxDecoration(
                           border: Border.all(color: Color(0x1A000000)),
                           borderRadius: BorderRadius.circular(6),
@@ -84,7 +84,7 @@ class _homeState extends State<homePage> {
                             image: DecorationImage(
                               fit: BoxFit.fitHeight,
                               image: NetworkImage(
-                                  eventImages.eventImageList[0].url),
+                                  eventImages.eventImageList[1].url),
                             ),
                           ),
                           child: Container(
