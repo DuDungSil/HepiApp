@@ -4,6 +4,7 @@ import 'package:flutter_app/widgets/productCard/normalProductCard.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../utils/constants.dart';
 
 import '../../function/getEventImage.dart';
 import '../../function/getProduct.dart';
@@ -28,6 +29,7 @@ class _homeState extends State<homePage> {
       children: [
         SingleChildScrollView(
           child: Container(
+            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
             padding: EdgeInsets.only(top: 160),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
@@ -37,9 +39,9 @@ class _homeState extends State<homePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 10),
                 Container(
                   // 할인정보 텍스트
-                  margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
@@ -62,7 +64,7 @@ class _homeState extends State<homePage> {
                     return Container(
                         alignment: Alignment.center,
                         height: 164,
-                        margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                        margin: EdgeInsets.only(top: 20),
                         child: CircularProgressIndicator());
                   } else {
                     return InkWell(
@@ -72,24 +74,20 @@ class _homeState extends State<homePage> {
                         });
                       },
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                        margin: EdgeInsets.only(top: 10),
                         width: double.infinity,
-                        height: 164,
+                        height: 180,
                         decoration: BoxDecoration(
                           border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.fitHeight,
                               image: NetworkImage(
-                                  eventImages.eventImageList[0].url),
+                                  eventImages.eventImageList[1].url),
                             ),
-                          ),
-                          child: Container(
-                            width: 336,
-                            height: 164,
                           ),
                         ),
                       ),
@@ -98,7 +96,7 @@ class _homeState extends State<homePage> {
                 }),
                 Container(
                   // 할인 중인 품목 텍스트
-                  margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
+                  margin: EdgeInsets.only(top: 30),
                   child: Container(
                     child: Text(
                       '할인 중인 품목',
@@ -118,11 +116,11 @@ class _homeState extends State<homePage> {
                     return Container(
                         alignment: Alignment.center,
                         height: 250,
-                        margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                        margin: EdgeInsets.only(top: 20),
                         child: CircularProgressIndicator());
                   } else {
                     return Container(
-                      margin: EdgeInsets.fromLTRB(25, 20, 0, 0),
+                      margin: EdgeInsets.only(top: 20),
                       height: 230,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
@@ -143,7 +141,7 @@ class _homeState extends State<homePage> {
                                     products.eventProductList[index]))
                           ]);
                         },
-                        separatorBuilder: (context, index) => SizedBox(
+                        separatorBuilder: (context, index) => const SizedBox(
                           width: 10,
                         ),
                       ),
@@ -152,7 +150,7 @@ class _homeState extends State<homePage> {
                 }),
                 Container(
                   // 카테고리 별 쇼핑 텍스트
-                  margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                  margin: EdgeInsets.only(top: 20),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
@@ -172,7 +170,7 @@ class _homeState extends State<homePage> {
                 ),
                 Container(
                   // 전체 물품 카테고리 컨테이너
-                  margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  margin: EdgeInsets.only(top: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,

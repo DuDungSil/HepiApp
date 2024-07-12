@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
     pageList = [
       //Navigaton Button Pages
       homePage(setTab: setTab),
-      searchPage(),
+      SearchPage(),
       myPage(),
       healthcarePage(),
       qrPage(),
