@@ -48,9 +48,9 @@ class searchPage extends StatelessWidget {
                           children: [
                             EclipseText(text: '삼대오백'),
                             EclipseText(text: '투퍼데이 종합비타민 120정'),
-                            EclipseText(text:  '잠백이 흑마늘'),
-                            EclipseText(text:  '프로틴'),
-                            EclipseText(text:  '크레아틴 500g'),
+                            EclipseText(text: '잠백이 흑마늘'),
+                            EclipseText(text: '프로틴'),
+                            EclipseText(text: '크레아틴 500g'),
                           ],
                         )),
                   ),
@@ -145,7 +145,7 @@ class searchPage extends StatelessWidget {
             decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             alignment: Alignment.center,
-            height: 160,
+            height: 240,
             width: double.infinity,
             child: Column(
               children: [
@@ -208,6 +208,51 @@ class searchPage extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: SearchBar(
+                    hintText: '제품을 찾아보세요',
+                    leading: Container(
+                      margin: EdgeInsets.only(top: 15, right: 15),
+                      width: 24,
+                      height: 24,
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: SvgPicture.asset(
+                          'assets/vectors/search_normal_x2.svg',
+                        ),
+                      ),
+                    ),
+                    textStyle: WidgetStateProperty.all(
+                      GoogleFonts.getFont(
+                        'Roboto Condensed',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                        height: 1,
+                        letterSpacing: -0.4,
+                        color: Color(0xFF000000),
+                      ),
+                    ),
+                    backgroundColor: WidgetStateProperty.all(Color(0xFFFFFFFF)),
+                    padding: WidgetStateProperty.all(EdgeInsets.zero),
+                    elevation: WidgetStateProperty.all(0),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
                     ),
                   ),
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../widget/productCard/WideOptionProductCard.dart';
+import '../../widgets/productCard/WideOptionProductCard.dart';
 
 
 class event extends StatelessWidget {
