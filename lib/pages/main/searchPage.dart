@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,125 +35,24 @@ class searchPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container( // 최근 검색어 항목 건테이너
+                Container(
+                  // 최근 검색어 항목 건테이너
                   margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                padding: EdgeInsets.fromLTRB(14, 14, 11.5, 14),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFF9EA3B2)),
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: Text(
-                                  '삼대오백',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto Condensed',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.2,
-                                    letterSpacing: -0.4,
-                                    color: Color(0xFF191919),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(14, 14, 9.7, 14),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFF9EA3B2)),
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: Text(
-                                  '투퍼데이 종합비타민 120정',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto Condensed',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.2,
-                                    letterSpacing: -0.4,
-                                    color: Color(0xFF191919),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            padding: EdgeInsets.fromLTRB(14, 14, 9.6, 14),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF9EA3B2)),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Text(
-                              '잠백이 흑마늘',
-                              style: GoogleFonts.getFont(
-                                'Roboto Condensed',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                height: 1.2,
-                                letterSpacing: -0.4,
-                                color: Color(0xFF191919),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            padding: EdgeInsets.fromLTRB(14, 14, 12.1, 14),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF9EA3B2)),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Text(
-                              '프로틴',
-                              style: GoogleFonts.getFont(
-                                'Roboto Condensed',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                height: 1.2,
-                                letterSpacing: -0.4,
-                                color: Color(0xFF191919),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            padding: EdgeInsets.fromLTRB(14, 14, 18.1, 14),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF9EA3B2)),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Text(
-                              '크레아틴 500g',
-                              style: GoogleFonts.getFont(
-                                'Roboto Condensed',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                height: 1.2,
-                                letterSpacing: -0.4,
-                                color: Color(0xFF191919),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            EclipseText(text: '삼대오백'),
+                            EclipseText(text: '투퍼데이 종합비타민 120정'),
+                            EclipseText(text:  '잠백이 흑마늘'),
+                            EclipseText(text:  '프로틴'),
+                            EclipseText(text:  '크레아틴 500g'),
+                          ],
+                        )),
                   ),
                 ),
                 Container(
@@ -230,7 +130,9 @@ class searchPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(height: 80,)
+                Container(
+                  height: 80,
+                )
               ],
             ),
           ),

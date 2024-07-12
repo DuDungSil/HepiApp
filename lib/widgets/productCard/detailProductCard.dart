@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/productCard/qrAvailableBox.dart';
-import 'package:flutter_app/widget/productCard/onSaleBox.dart';
+import 'package:flutter_app/widgets/productCard/qrAvailableBox.dart';
+import 'package:flutter_app/widgets/productCard/onSaleBox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailProductCard extends StatefulWidget {

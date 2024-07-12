@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/function/getEventImage.dart';
-import 'package:flutter_app/function/getProduct.dart';
 
 import '../homePage/event.dart';
 import '../homePage/home.dart';

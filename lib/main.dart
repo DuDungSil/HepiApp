@@ -11,7 +11,7 @@ import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
 import 'package:flutter_app/store/gym.dart';
 import 'package:flutter_app/store/products.dart';
-import 'package:flutter_app/widget/bottombar.dart';
+import 'package:flutter_app/widgets/bottombar.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
 import 'package:flutter_app/store/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -82,6 +82,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         extendBody: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[

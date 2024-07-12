@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/productCard/detailProductCard.dart';
+import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../widgets/productCard/detailProductCard.dart';
 
 class ProductDetailPage extends StatefulWidget {
   @override
@@ -39,10 +41,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         double top = _sectionOffsets[i];
         double bottom =
             top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
-        print(top);
-        print(bottom);
-        if (_scrollController.offset + kToolbarHeight + 60 >= top &&
-            _scrollController.offset + kToolbarHeight + 60 < bottom) {
+
+        if (_scrollController.offset + kToolbarHeight + 80 >= top &&
+            _scrollController.offset + kToolbarHeight + 80 < bottom) {
           setState(() {
             selectedIndex = i;
           });
@@ -119,7 +120,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                         child: Container(
                           padding: EdgeInsets.zero,
-                          margin: EdgeInsets.only(top: 20),
+                          margin: EdgeInsets.only(top: 0),
                           width: double.infinity,
                           height: 2000,
                           decoration: BoxDecoration(
@@ -304,28 +305,16 @@ Widget ProductSummary() {
             ),
             Container(
               margin: EdgeInsets.only(top: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: [
-                  Container(
-                    width: 342,
-                    height: 46,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        EllipseText('스포츠 보충제'),
-                        const SizedBox(width: 8),
-                        EllipseText('운동전 섭취'),
-                        const SizedBox(width: 8),
-                        EllipseText('에너지 공급'),
-                      ],
-                    ),
-                  ),
-                  EllipseText('운동 능력 개선')
+                  EclipseText(text: '스포츠 보충제'),
+                  EclipseText(text: '에너지 공급'),
+                  EclipseText(text: '운동 능력 개선'),
+                  EclipseText(text: '운동 전 섭취'),
                 ],
-              ),
+              )
             )
           ],
         ),
@@ -577,38 +566,6 @@ Widget NutritionFacts() {
               height: 1.2,
               letterSpacing: -0.30,
             ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget EllipseText(var text) {
-  return Container(
-    padding: const EdgeInsets.all(15),
-    clipBehavior: Clip.antiAlias,
-    decoration: ShapeDecoration(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
-        borderRadius: BorderRadius.circular(24),
-      ),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          text,
-          style: TextStyle(
-            color: Color(0xFF191919),
-            fontSize: 14,
-            fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w500,
-            height: 0.1,
-            letterSpacing: -0.35,
           ),
         ),
       ],

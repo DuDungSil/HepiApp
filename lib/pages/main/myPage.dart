@@ -3,13 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/function/getProduct.dart';
 import 'package:flutter_app/pages/user/myInfoSetting.dart';
 import 'dart:ui';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/products.dart';
 import '../../store/user.dart';
-import '../../widget/priceText.dart';
+import '../../widgets/priceText.dart';
 import '../products/cartPage.dart';
 import '../user/loginPage.dart';
 
@@ -74,16 +73,6 @@ class _myPageState extends State<myPage> {
                               border: Border.all(color: Color(0x1A000000)),
                               borderRadius: BorderRadius.circular(6),
                               color: Color(0x1A000000)),
-                          child: Text(
-                            "",
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
                         );
                       } else {
                         return Container(
@@ -308,19 +297,19 @@ class _myPageState extends State<myPage> {
                                               ),
                                             ),
                                             Container(
-                                                alignment: Alignment.topLeft,
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
-                                                child: priceText(
-                                                    products
-                                                        .cartProductList[index]
-                                                        .price,
-                                                    products
-                                                        .cartProductList[index]
-                                                        .event,
-                                                    products
-                                                        .cartProductList[index]
-                                                        .discount),
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 0),
+                                              child: priceText(
+                                                  products
+                                                      .cartProductList[index]
+                                                      .price,
+                                                  products
+                                                      .cartProductList[index]
+                                                      .event,
+                                                  products
+                                                      .cartProductList[index]
+                                                      .discount),
                                             ),
                                           ],
                                         ),
@@ -343,19 +332,11 @@ class _myPageState extends State<myPage> {
                           border: Border.all(color: Color(0x1A000000)),
                           borderRadius: BorderRadius.circular(6),
                           color: Color(0x1A000000)),
-                      child: Text(
-                        "",
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          height: 1.3,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
                     ),
               // 코드 추가 필요
-              Container(height: 80,)
+              Container(
+                height: 80,
+              )
             ],
           ),
         ),
@@ -412,7 +393,7 @@ class _myPageState extends State<myPage> {
                         (loginUser.id != null)
                             ? Container(
                                 child: Text(
-                                  loginUser.name + "님, 안녕하세요",
+                                  loginUser.name + ' 님',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -448,51 +429,33 @@ class _myPageState extends State<myPage> {
                     ),
                     (loginUser.id != null)
                         ? Container(
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF000000)),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              myInfoSetting()),
-                                    );
-                                    //context.read<user>().logout();
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 5),
-                                    child: Text(
-                                      '내 정보 설정',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        height: 1.3,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => myInfoSetting()),
+                                );
+                                //context.read<user>().logout();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(14, 5, 14, 5),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xFF9EA3B2)),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Text(
+                                  '내 정보 설정',
+                                  style: GoogleFonts.robotoCondensed(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.2,
+                                    letterSpacing: -0.4,
+                                    color: const Color(0xFF191919),
                                   ),
                                 ),
-                                Container(
-                                  width: 5,
-                                  height: 10,
-                                  child: SizedBox(
-                                    width: 5,
-                                    height: 10,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/vector_9_x2.svg',
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           )
                         : Container()

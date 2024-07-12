@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/products.dart';
-import '../../widget/priceText.dart';
+import '../../widgets/priceText.dart';
 
 class orderPage extends StatelessWidget {
   @override
