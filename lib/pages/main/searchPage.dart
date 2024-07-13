@@ -43,7 +43,8 @@ class _SearchPageState extends State<SearchPage> {
     return Positioned(
       left: position.dx,
       top: position.dy,
-      width: MediaQuery.of(context).size.width - Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
+      width: MediaQuery.of(context).size.width -
+          Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
       child: CompositedTransformFollower(
         link: _searchBarLink,
         showWhenUnlinked: false,
@@ -65,13 +66,15 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Offset _getOverlayEntryPosition() {
-    RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    RenderBox renderBox =
+        _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
     return Offset(renderBox.localToGlobal(Offset.zero).dx,
         renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
   }
 
   Size _getOverlayEntrySize() {
-    RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    RenderBox renderBox =
+        _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
     return renderBox.size;
   }
 
@@ -86,7 +89,8 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           SingleChildScrollView(
             child: Container(
-              margin: EdgeInsets.only(top: 160),
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+              padding: EdgeInsets.only(top: 160),
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
               ),
@@ -95,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(25, 20, 0, 0),
+                    margin: EdgeInsets.only(top: 20),
                     child: Text(
                       '최근 검색어',
                       style: GoogleFonts.getFont(
@@ -109,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                    margin: EdgeInsets.only(top: 20),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Wrap(
@@ -126,7 +130,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                    margin: EdgeInsets.only(top: 20),
                     child: Text(
                       '자주 구매한 상품',
                       style: GoogleFonts.getFont(
@@ -142,25 +146,15 @@ class _SearchPageState extends State<SearchPage> {
                   Container(
                     height: 280,
                     width: double.infinity,
-                    margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                    margin: EdgeInsets.only(top: 10),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         border: Border.all(color: Color(0x1A000000)),
                         borderRadius: BorderRadius.circular(6),
                         color: Color(0x1A000000)),
-                    child: Text(
-                      "",
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                        height: 1.3,
-                        color: Color(0xFF000000),
-                      ),
-                    ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                    margin: EdgeInsets.only(top: 20),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -179,25 +173,15 @@ class _SearchPageState extends State<SearchPage> {
                   Container(
                     height: 280,
                     width: double.infinity,
-                    margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                    margin: EdgeInsets.only(top: 10),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         border: Border.all(color: Color(0x1A000000)),
                         borderRadius: BorderRadius.circular(6),
                         color: Color(0x1A000000)),
-                    child: Text(
-                      "",
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                        height: 1.3,
-                        color: Color(0xFF000000),
-                      ),
-                    ),
                   ),
-                  Container(
-                    height: 80,
+                  const SizedBox(
+                    height: 100,
                   )
                 ],
               ),
@@ -208,17 +192,18 @@ class _SearchPageState extends State<SearchPage> {
             left: 0,
             right: 0,
             child: GestureDetector(
-              onTap: () {}, // Do nothing to prevent closing the overlay when tapping inside the search area
+              onTap: () {},
+              // Do nothing to prevent closing the overlay when tapping inside the search area
               child: Container(
+                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
                 decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 alignment: Alignment.center,
                 height: 160,
                 width: double.infinity,
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                      margin: EdgeInsets.only(top: 60,),
                       child: Text(
                         '검색',
                         style: GoogleFonts.getFont(
@@ -232,7 +217,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                      margin: EdgeInsets.only(top: 20,),
                       decoration: BoxDecoration(
                         color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
                         border: Border(
@@ -251,7 +236,7 @@ class _SearchPageState extends State<SearchPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(right: 15),
+                                margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
                                 width: 24,
                                 height: 24,
                                 child: SizedBox(
@@ -272,9 +257,9 @@ class _SearchPageState extends State<SearchPage> {
                                   style: GoogleFonts.getFont(
                                     'Roboto Condensed',
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 18,
-                                    height: 1,
-                                    letterSpacing: -0.4,
+                                    fontSize: 16,
+                                    height: 1.2,
+                                    letterSpacing: -1.2,
                                     color: Color(0xFF000000),
                                   ),
                                   onChanged: (value) {
@@ -320,18 +305,71 @@ class AutoCompleteKeywordList extends StatelessWidget {
       "삼대오백 글리펌프",
     ];
 
-    return ListView.builder(
-      padding: EdgeInsets.zero, // Remove padding
-      shrinkWrap: true,
-      itemCount: keywords.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(keywords[index]),
-          onTap: () {
-            onItemTap(keywords[index]);
-          },
-        );
-      },
+    return Container(
+      height: 250.0,
+      child: SingleChildScrollView(
+        child: Column(
+          children: keywords.map((keyword) {
+            return GestureDetector(
+              onTap: () {
+                onItemTap(keyword);
+              },
+              child: Container(
+                height: 36,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    top: BorderSide(color: Color(0xFF9EA3B2)),
+                    bottom: BorderSide(color: Color(0xFF9EA3B2)),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      width: 24,
+                      height: 24,
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: SvgPicture.asset(
+                          'assets/vectors/clock.svg',
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        keyword,
+                        style: GoogleFonts.getFont(
+                          'Roboto Condensed',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          height: 1.2,
+                          letterSpacing: -1.2,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 15),
+                      width: 24,
+                      height: 24,
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: SvgPicture.asset(
+                          'assets/vectors/export.svg',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

@@ -39,12 +39,12 @@ class _homeState extends State<homePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
                 Container(
                   // 할인정보 텍스트
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
+                      margin: EdgeInsets.only(top: 20),
                       child: Text(
                         '진행 중인 이벤트',
                         style: GoogleFonts.getFont(
@@ -346,7 +346,7 @@ class _homeState extends State<homePage> {
                           ],
                         ),
                       ),
-                      Container(
+                      const SizedBox(
                         height: 80,
                       )
                     ],
@@ -361,15 +361,15 @@ class _homeState extends State<homePage> {
           left: 0,
           right: 0,
           child: Container(
+            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
             decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             alignment: Alignment.center,
             height: 160,
             width: double.infinity,
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  margin: EdgeInsets.only(top: 60,),
                   child: Text(
                     '헤파이 스토어',
                     style: GoogleFonts.getFont(
@@ -383,7 +383,7 @@ class _homeState extends State<homePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                  margin: EdgeInsets.only(top: 20,),
                   decoration: BoxDecoration(
                     color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
                     border: Border(
@@ -396,10 +396,10 @@ class _homeState extends State<homePage> {
                   child: Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15, right: 15),
+                          margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
                           width: 24,
                           height: 24,
                           child: SizedBox(
@@ -412,6 +412,9 @@ class _homeState extends State<homePage> {
                         ),
                         Expanded(
                           child: TextField(
+                            onTap: (){setState(() {
+                              widget.setTab(1);
+                            });},
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: '제품을 찾아보세요',
@@ -419,9 +422,9 @@ class _homeState extends State<homePage> {
                             style: GoogleFonts.getFont(
                               'Roboto Condensed',
                               fontWeight: FontWeight.w400,
-                              fontSize: 18,
-                              height: 1,
-                              letterSpacing: -0.4,
+                              fontSize: 16,
+                              height: 1.2,
+                              letterSpacing: -1.2,
                               color: Color(0xFF000000),
                             ),
                           ),
