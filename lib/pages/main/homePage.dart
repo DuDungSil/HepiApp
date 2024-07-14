@@ -367,9 +367,11 @@ class _homeState extends State<homePage> {
             height: 160,
             width: double.infinity,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 60,),
+                  margin: const EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT,),
                   child: Text(
                     '헤파이 스토어',
                     style: GoogleFonts.getFont(
@@ -383,7 +385,6 @@ class _homeState extends State<homePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20,),
                   decoration: BoxDecoration(
                     color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
                     border: Border(

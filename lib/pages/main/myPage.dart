@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/function/getProduct.dart';
 import 'package:flutter_app/pages/user/myInfoSetting.dart';
+import 'package:flutter_app/utils/constants.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -42,13 +43,14 @@ class _myPageState extends State<myPage> {
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
-          padding: EdgeInsets.only(top: 170),
+          margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+          padding: EdgeInsets.only(top: 160),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                margin: EdgeInsets.only(top: 20),
                 child: Text(
                   '보유 품목 정보',
                   style: GoogleFonts.getFont(
@@ -67,7 +69,7 @@ class _myPageState extends State<myPage> {
                         return Container(
                           height: 280,
                           width: double.infinity,
-                          margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                          margin: EdgeInsets.only(top: 10),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
@@ -77,7 +79,7 @@ class _myPageState extends State<myPage> {
                       } else {
                         return Container(
                           height: 280,
-                          margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                          margin: EdgeInsets.only(top: 10),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: products.myProductList.length,
@@ -177,25 +179,15 @@ class _myPageState extends State<myPage> {
                   : Container(
                       height: 280,
                       width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                      margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0x1A000000)),
                           borderRadius: BorderRadius.circular(6),
                           color: Color(0x1A000000)),
-                      child: Text(
-                        "",
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          height: 1.3,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
                     ),
               Container(
-                margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                margin: EdgeInsets.only(top: 20),
                 child: Text(
                   '장바구니',
                   style: GoogleFonts.getFont(
@@ -214,7 +206,7 @@ class _myPageState extends State<myPage> {
                         return Container(
                           height: 280,
                           width: double.infinity,
-                          margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                          margin: EdgeInsets.only(top: 10),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
@@ -242,7 +234,7 @@ class _myPageState extends State<myPage> {
                           },
                           child: Container(
                             height: 280,
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                            margin: EdgeInsets.only(top: 10),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: products.cartProductList.length,
@@ -326,7 +318,7 @@ class _myPageState extends State<myPage> {
                   : Container(
                       height: 280,
                       width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                      margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0x1A000000)),
@@ -346,15 +338,18 @@ class _myPageState extends State<myPage> {
         left: 0,
         right: 0,
         child: Container(
+          margin: Constants.SCREEN_HORIZONTAL_MARGIN,
           decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
           alignment: Alignment.center,
-          height: 155,
+          height: 160,
           width: double.infinity,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                margin: const EdgeInsets.only(
+                  top: Constants.APPBAR_TITLE_HEIGHT,
+                ),
                 child: Text(
                   '마이 페이지',
                   style: GoogleFonts.getFont(
@@ -368,7 +363,9 @@ class _myPageState extends State<myPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -379,15 +376,11 @@ class _myPageState extends State<myPage> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(right: 12),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x1A000000),
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                            ),
+                          child: Image.asset(
+                            'assets/images/basic_user_profile.png',
+                            width: 40, // 원하는 이미지 너비
+                            height: 40, // 원하는 이미지 높이
+                            fit: BoxFit.contain,
                           ),
                         ),
                         (loginUser.id != null)
@@ -399,7 +392,7 @@ class _myPageState extends State<myPage> {
                                     fontSize: 16,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w400,
-                                    height: 0.1,
+                                    height: 1.2,
                                     letterSpacing: -0.30,
                                   ),
                                 ),
@@ -415,12 +408,13 @@ class _myPageState extends State<myPage> {
                                 child: Container(
                                   child: Text(
                                     "로그인을 해주세요 >",
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
+                                    style: TextStyle(
+                                      color: Colors.black,
                                       fontSize: 16,
-                                      height: 1.5,
-                                      color: Color(0xFF000000),
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.2,
+                                      letterSpacing: -0.30,
                                     ),
                                   ),
                                 ),

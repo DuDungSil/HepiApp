@@ -201,9 +201,11 @@ class _SearchPageState extends State<SearchPage> {
                 height: 160,
                 width: double.infinity,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 60,),
+                      margin: const EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT,),
                       child: Text(
                         '검색',
                         style: GoogleFonts.getFont(
@@ -217,7 +219,6 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20,),
                       decoration: BoxDecoration(
                         color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
                         border: Border(
