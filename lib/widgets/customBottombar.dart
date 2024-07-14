@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomBottombar extends StatefulWidget {
-  final Function(int) setTab;
+  final Function(BuildContext, int) setTab;
 
   CustomBottombar({Key? key, required this.setTab}) : super(key: key);
 
@@ -14,23 +14,10 @@ class _CustomBottombarState extends State<CustomBottombar> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    // if (index == 3 && context.read<user>().id == null) {
-    //   showTopSnackBar(
-    //     Overlay.of(context),
-    //     CustomSnackBar.error(
-    //       message: '로그인 후 이용해주세요',
-    //     ),
-    //     displayDuration: Duration(milliseconds: 500),
-    //   );
-    // } else {
-    //   setState(() {
-    //     _selectedIndex = index;
-    //   });
-      setState(() {
-        _selectedIndex = index;
-        widget.setTab(index);
-        }
-      );
+    setState(() {
+      _selectedIndex = index;
+    });
+    widget.setTab(context, index);
   }
 
   @override

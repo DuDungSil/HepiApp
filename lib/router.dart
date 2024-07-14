@@ -11,99 +11,72 @@ import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/widgets/customBottombar.dart';
 import 'package:go_router/go_router.dart';
 
-final PageList = [
-  HomePage(),                      // INDEX 0  /home
-  SearchPage(),                    // INDEX 1  /search
-  MyPage(),                        // INDEX 2  /mypage
-  HealthcarePage(),                // INDEX 3  /healthcare
-  QRPage(),                        // INDEX 4  /qr
-  EventPage(),                     // INDEX 5  /home/event
-  ProductDetailPage(),             // INDEX 6  /productdetail
-  LoginPage(),                     // INDEX 7  /login
-  RegisterPage()                   // INDEX 8  /register
+final pageList = [
+  HomePage(), // INDEX 0  /home
+  SearchPage(), // INDEX 1  /search
+  MyPage(), // INDEX 2  /mypage
+  HealthcarePage(), // INDEX 3  /healthcare
+  QRPage(), // INDEX 4  /qr
+  EventPage(), // INDEX 5  /home/event
+  ProductDetailPage(), // INDEX 6  /productdetail
+  LoginPage(), // INDEX 7  /login
+  RegisterPage() // INDEX 8  /register
 ];
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'root');
+GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
+GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
   routes: <RouteBase>[
-    StatefulShellRoute.indexedStack(
-      builder: (BuildContext context, GoRouterState state,
-          StatefulNavigationShell navigationShell) {
-        return ScaffoldWithNavBar(navigationShell: navigationShell);
-      },
-      branches: <StatefulShellBranch>[
-        StatefulShellBranch(
-          navigatorKey: _sectionANavigatorKey,
-          routes: <RouteBase>[
+    ShellRoute(
+      navigatorKey: _sectionANavigatorKey,
+      builder:
+          (BuildContext context, GoRouterState state, Widget navigationShell) =>
+          ScaffoldWithNavBar(navigationShell: navigationShell),
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/home',
+          builder: (BuildContext context, GoRouterState state) => pageList[0],
+          routes: [
             GoRoute(
-                path: '/home',
-                builder: (BuildContext context, GoRouterState state) =>
-                PageList[0],
-                routes: <RouteBase>[
-                  GoRoute(
-                    path: 'event',
-                    builder: (BuildContext context, GoRouterState state) =>
-                    PageList[5],
-                  )
-                ]),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: <RouteBase>[
-            GoRoute(
-              path: '/search',
-              builder: (BuildContext context, GoRouterState state) =>
-              PageList[1],
+              path: 'event',
+              builder: (BuildContext context, GoRouterState state) => pageList[5],
             ),
           ],
         ),
-        StatefulShellBranch(
-          routes: <RouteBase>[
-            GoRoute(
-              path: '/mypage',
-              builder: (BuildContext context, GoRouterState state) => PageList[2],
-            ),
-          ],
+        GoRoute(
+          path: '/search',
+          builder: (BuildContext context, GoRouterState state) => pageList[1],
         ),
-        StatefulShellBranch(
-          routes: <RouteBase>[
-            GoRoute(
-              path: '/healthcare',
-              builder: (BuildContext context, GoRouterState state) =>
-              PageList[3],
-            ),
-          ],
+        GoRoute(
+          path: '/mypage',
+          builder: (BuildContext context, GoRouterState state) => pageList[2],
         ),
-        StatefulShellBranch(
-          routes: <RouteBase>[
-            GoRoute(
-              path: '/qr',
-              builder: (BuildContext context, GoRouterState state) => PageList[4],
-            ),
-          ],
+        GoRoute(
+          path: '/healthcare',
+          builder: (BuildContext context, GoRouterState state) => pageList[3],
+        ),
+        GoRoute(
+          path: '/qr',
+          builder: (BuildContext context, GoRouterState state) => pageList[4],
         ),
       ],
     ),
     GoRoute(
       path: '/productdetail',
-      builder: (BuildContext context, GoRouterState state) =>
-      PageList[6],
+      builder: (BuildContext context, GoRouterState state) => pageList[6],
     ),
     GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state) =>
-      PageList[7],
+      builder: (BuildContext context, GoRouterState state) => pageList[7],
     ),
     GoRoute(
       path: '/register',
-      builder: (BuildContext context, GoRouterState state) =>
-      PageList[8],
+      builder: (BuildContext context, GoRouterState state) => pageList[8],
     ),
   ],
 );
@@ -114,7 +87,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
     Key? key,
   }) : super(key: key ?? const ValueKey<String>('ScaffoldWithNavBar'));
 
-  final StatefulNavigationShell navigationShell;
+  final Widget navigationShell;
 
   @override
   Widget build(BuildContext context) {
@@ -138,10 +111,25 @@ class ScaffoldWithNavBar extends StatelessWidget {
     );
   }
 
-  void _onTap(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
+  void _onTap(BuildContext context, int index) {
+    final String location = _getLocationForIndex(index);
+    context.go(location);
+  }
+
+  String _getLocationForIndex(int index) {
+    switch (index) {
+      case 0:
+        return '/home';
+      case 1:
+        return '/search';
+      case 2:
+        return '/mypage';
+      case 3:
+        return '/healthcare';
+      case 4:
+        return '/qr';
+      default:
+        return '';
+    }
   }
 }
