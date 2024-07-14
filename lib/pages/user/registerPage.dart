@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/smsAuth.dart';
+import 'package:flutter_app/utils/constants.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -12,7 +14,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../function/register.dart';
 
-class regist {
+class Regist {
   bool hasNullField() {
     return nameText.text == "" ||
         phoneText.text == "" ||
@@ -28,12 +30,12 @@ class regist {
   var rePwdText = TextEditingController();
 }
 
-class registerPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  State<registerPage> createState() => _registerPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _registerPageState extends State<registerPage> {
+class _RegisterPageState extends State<RegisterPage> {
   var allAgree = false;
   var adAgree = false;
   var authAgree = false;
@@ -85,7 +87,7 @@ class _registerPageState extends State<registerPage> {
     return "$minutesStr:$secondsStr";
   }
 
-  var tryRegist = new regist();
+  var tryRegist = new Regist();
 
   @override
   void initState() {}
@@ -943,27 +945,9 @@ class _registerPageState extends State<registerPage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Container(
-                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                alignment: Alignment.center,
-                height: 60,
-                width: double.infinity,
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Text(
-                    '회원가입',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      height: 0,
-                      letterSpacing: -0.5,
-                      color: Color(0xFF111111),
-                    ),
-                  ),
-                ),
-              ),
+              child: CustomAppbar(
+                title: '회원가입',
+              )
             ),
           ],
         ),

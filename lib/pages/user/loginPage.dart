@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:flutter_app/utils/constants.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -11,12 +13,12 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../function/login.dart';
 
-class loginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginPageState extends State<loginPage> {
+class _LoginPageState extends State<LoginPage> {
   final idEdit = TextEditingController();
   final pwdEdit = TextEditingController();
   bool isCheckedSaveLogin = false;
@@ -199,27 +201,29 @@ class _loginPageState extends State<loginPage> {
                                     width: 30,
                                     height: 30,
                                     child: Checkbox(
-                                      value: isCheckedSaveLogin,
-                                      onChanged: (bool? newValue) {
-                                        setState(() {
-                                          isCheckedSaveLogin = newValue!;
-                                        });
-                                      },
-                                        fillColor: WidgetStateProperty.resolveWith((states) {
-                                          if (!states.contains(WidgetState.selected)) {
+                                        value: isCheckedSaveLogin,
+                                        onChanged: (bool? newValue) {
+                                          setState(() {
+                                            isCheckedSaveLogin = newValue!;
+                                          });
+                                        },
+                                        fillColor:
+                                            WidgetStateProperty.resolveWith(
+                                                (states) {
+                                          if (!states
+                                              .contains(WidgetState.selected)) {
                                             return Color(0xFFFAFAFA);
                                           }
                                           return null;
                                         }),
-                                      activeColor: Colors.blue,
-                                      checkColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(6.5),
-                                      ),
-                                      side: BorderSide(
-                                        color: Color(0xFF90A4AE)
-                                      )
-                                    ),
+                                        activeColor: Colors.blue,
+                                        checkColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(6.5),
+                                        ),
+                                        side: BorderSide(
+                                            color: Color(0xFF90A4AE))),
                                   ),
                                   Container(
                                     child: Text(
@@ -253,92 +257,55 @@ class _loginPageState extends State<loginPage> {
                             ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            var response =
-                                await login(context, idEdit.text, pwdEdit.text);
-                            if (response == "0") {
-                              showTopSnackBar(
-                                Overlay.of(context),
-                                CustomSnackBar.success(
-                                  message: '로그인에 성공했습니다',
+                        Container(
+                          margin: EdgeInsets.only(top: 50),
+                          child: InkWell(
+                            onTap: () async {
+                              var response =
+                                  await login(context, idEdit.text, pwdEdit.text);
+                              if (response == "0") {
+                                showTopSnackBar(
+                                  Overlay.of(context),
+                                  CustomSnackBar.success(
+                                    message: '로그인에 성공했습니다',
+                                  ),
+                                  displayDuration: Duration(milliseconds: 500),
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                showTopSnackBar(
+                                  Overlay.of(context),
+                                  CustomSnackBar.error(
+                                    message: response,
+                                  ),
+                                  displayDuration: Duration(milliseconds: 500),
+                                );
+                              }
+                            },
+                            child: Container(
+                              height: 60,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFFF8A00),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                displayDuration: Duration(milliseconds: 500),
-                              );
-                              Navigator.pop(context);
-                            } else {
-                              showTopSnackBar(
-                                Overlay.of(context),
-                                CustomSnackBar.error(
-                                  message: response,
-                                ),
-                                displayDuration: Duration(milliseconds: 500),
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 60,
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 50),
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFFF8A00),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
                               ),
-                            ),
-                            child: Text(
-                              '로그인',
-                              style: GoogleFonts.getFont(
-                                'Work Sans',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 1.3,
-                                color: Color(0xFFFFFFFF),
+                              child: Text(
+                                '로그인',
+                                style: GoogleFonts.getFont(
+                                  'Work Sans',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                  height: 1,
+                                  letterSpacing: 1.3,
+                                  color: Color(0xFFFFFFFF),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        // Container(
-                        //   height: 50,
-                        //   width: double.infinity,
-                        //   alignment: Alignment.center,
-                        //   margin: EdgeInsets.only(top: 10),
-                        //   decoration: BoxDecoration(
-                        //       border: Border.all(color: Color(0xFFFFEC00)),
-                        //       borderRadius: BorderRadius.circular(10),
-                        //       color: Color(0xFFFFEC00)),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       Container(
-                        //         margin: EdgeInsets.only(right: 10),
-                        //         decoration: BoxDecoration(
-                        //           image: DecorationImage(
-                        //             fit: BoxFit.cover,
-                        //             image: AssetImage(
-                        //               'assets/vectors/kakao_icon.png',
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         width: 40,
-                        //         height: 40,
-                        //       ),
-                        //       Text(
-                        //         '카카오 로그인',
-                        //         style: GoogleFonts.getFont(
-                        //           'Work Sans',
-                        //           fontWeight: FontWeight.w700,
-                        //           fontSize: 15,
-                        //           height: 1,
-                        //           letterSpacing: 1.3,
-                        //           color: Colors.black,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Container(
                           margin: EdgeInsets.fromLTRB(20, 50, 20, 0),
                           child: Row(
@@ -350,7 +317,8 @@ class _loginPageState extends State<loginPage> {
                                 decoration: ShapeDecoration(
                                   color: Color(0xFFF5F5F5),
                                   shape: RoundedRectangleBorder(
-                                    side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                                    side: BorderSide(
+                                        width: 1, color: Color(0xFFEEEEEE)),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
@@ -369,7 +337,8 @@ class _loginPageState extends State<loginPage> {
                                 decoration: ShapeDecoration(
                                   color: Color(0xFFF5F5F5),
                                   shape: RoundedRectangleBorder(
-                                    side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                                    side: BorderSide(
+                                        width: 1, color: Color(0xFFEEEEEE)),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
@@ -388,7 +357,8 @@ class _loginPageState extends State<loginPage> {
                                 decoration: ShapeDecoration(
                                   color: Color(0xFFF5F5F5),
                                   shape: RoundedRectangleBorder(
-                                    side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                                    side: BorderSide(
+                                        width: 1, color: Color(0xFFEEEEEE)),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
@@ -425,11 +395,7 @@ class _loginPageState extends State<loginPage> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => registerPage()),
-                                  );
+                                  context.push('/register');
                                 },
                                 child: Text(
                                   '회원가입',
@@ -440,8 +406,10 @@ class _loginPageState extends State<loginPage> {
                                     height: 1.6,
                                     color: Color(0xFF2F80ED),
                                     decoration: TextDecoration.underline,
-                                    decorationThickness: 1.4, // 밑줄 두께 조절
-                                    decorationColor: Color(0xFF2F80ED), // 밑줄 색상 설정
+                                    decorationThickness: 1.4,
+                                    // 밑줄 두께 조절
+                                    decorationColor:
+                                        Color(0xFF2F80ED), // 밑줄 색상 설정
                                   ),
                                 ),
                               ),
@@ -458,27 +426,9 @@ class _loginPageState extends State<loginPage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Container(
-                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                alignment: Alignment.center,
-                height: 60,
-                width: double.infinity,
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Text(
-                    '로그인',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      height: 0,
-                      letterSpacing: -0.5,
-                      color: Color(0xFF111111),
-                    ),
-                  ),
-                ),
-              ),
+              child: CustomAppbar(
+                title: '로그인',
+              )
             ),
           ],
         ),

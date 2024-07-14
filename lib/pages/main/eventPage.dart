@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/constants.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/productCard/WideOptionProductCard.dart';
 
 
-class eventPage extends StatelessWidget {
+class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(top: 160),
+            padding: EdgeInsets.only(top: 60),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
@@ -103,27 +105,9 @@ class eventPage extends StatelessWidget {
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            alignment: Alignment.center,
-            height: 140,
-            width: double.infinity,
-            child: Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Text(
-                '진행 중인 이벤트',
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  height: 0,
-                  letterSpacing: -0.5,
-                  color: Color(0xFF111111),
-                ),
-              ),
-            ),
-          ),
+          child: CustomAppbar(
+            title: '진행 중인 이벤트',
+          )
         ),
       ],
     );

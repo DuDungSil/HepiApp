@@ -6,7 +6,7 @@ import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-register(BuildContext context, regist tryRegist) async {
+register(BuildContext context, Regist tryRegist) async {
   // 입력 값 확인
   if (checkRegister(tryRegist) != "0") {
     return checkRegister(tryRegist);
@@ -35,7 +35,7 @@ register(BuildContext context, regist tryRegist) async {
   }
 }
 
-checkRegister(regist tryRegist) {
+checkRegister(Regist tryRegist) {
 
   if (tryRegist.hasNullField()) {
     return "모든 정보를 입력해주세요";

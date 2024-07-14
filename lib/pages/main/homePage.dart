@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/products/productDetailPage.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/productCard/normalProductCard.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../utils/constants.dart';
@@ -11,16 +12,15 @@ import '../../function/getProduct.dart';
 import '../../store/eventImages.dart';
 import '../../store/products.dart';
 
-class homePage extends StatefulWidget {
-  final Function(int) setTab;
+class HomePage extends StatefulWidget {
 
-  homePage({Key? key, required this.setTab}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
-  State<homePage> createState() => _homeState();
+  State<HomePage> createState() => _HomeState();
 }
 
-class _homeState extends State<homePage> {
+class _HomeState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     getProduct(context, "event", "");
@@ -30,7 +30,7 @@ class _homeState extends State<homePage> {
         SingleChildScrollView(
           child: Container(
             margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-            padding: EdgeInsets.only(top: 160),
+            padding: EdgeInsets.only(top: 120),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
@@ -70,7 +70,7 @@ class _homeState extends State<homePage> {
                     return InkWell(
                       onTap: () {
                         setState(() {
-                          widget.setTab(5);
+                          context.go('/home/event');
                         });
                       },
                       child: Container(
@@ -131,11 +131,7 @@ class _homeState extends State<homePage> {
                           return Column(children: [
                             InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductDetailPage()));
+                                  context.push('/productdetail');
                                 },
                                 child: NormalProductCard(
                                     products.eventProductList[index]))
@@ -360,81 +356,57 @@ class _homeState extends State<homePage> {
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-            decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-            alignment: Alignment.center,
-            height: 160,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT,),
-                  child: Text(
-                    '헤파이 스토어',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      height: 0,
-                      letterSpacing: -0.5,
-                      color: Color(0xFF111111),
-                    ),
+          child: CustomAppbar(
+            title: "헤파이 스토어",
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
+                    width: 1,
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
-                        width: 1,
+              ),
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      width: 24,
+                      height: 24,
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: SvgPicture.asset(
+                          'assets/vectors/search_normal_x2.svg',
+                        ),
                       ),
                     ),
-                  ),
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          width: 24,
-                          height: 24,
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: SvgPicture.asset(
-                              'assets/vectors/search_normal_x2.svg',
-                            ),
-                          ),
+                    Expanded(
+                      child: TextField(
+                        onTap: (){setState(() {
+
+                        });},
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '제품을 찾아보세요',
                         ),
-                        Expanded(
-                          child: TextField(
-                            onTap: (){setState(() {
-                              widget.setTab(1);
-                            });},
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '제품을 찾아보세요',
-                            ),
-                            style: GoogleFonts.getFont(
-                              'Roboto Condensed',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              height: 1.2,
-                              letterSpacing: -1.2,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
+                        style: GoogleFonts.getFont(
+                          'Roboto Condensed',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          height: 1.2,
+                          letterSpacing: -1.2,
+                          color: Color(0xFF000000),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

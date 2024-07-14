@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -178,20 +179,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                alignment: Alignment.center,
-                child: Text(
-                  '상품 정보',
-                  style: GoogleFonts.getFont(
-                    'Roboto Condensed',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                    fontSize: 20,
-                    letterSpacing: -0.5,
-                  ),
-                ),
+              child: CustomAppbar(
+                title: '상품 정보',
               ),
             )
           ],

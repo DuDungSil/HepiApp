@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/function/setEncrypt.dart';
+import 'package:flutter_app/utils/constants.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -12,12 +15,12 @@ import '../../store/products.dart';
 import '../../store/user.dart';
 import '../user/loginPage.dart';
 
-class qrPage extends StatefulWidget {
+class QRPage extends StatefulWidget {
   @override
-  State<qrPage> createState() => _qrPageState();
+  State<QRPage> createState() => _QRPageState();
 }
 
-class _qrPageState extends State<qrPage> {
+class _QRPageState extends State<QRPage> {
   var loginUser = null;
 
   @override
@@ -36,7 +39,8 @@ class _qrPageState extends State<qrPage> {
       children: [
         SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(top: 60),
+            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+            padding: EdgeInsets.only(top: 120),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
@@ -46,7 +50,7 @@ class _qrPageState extends State<qrPage> {
               children: [
                 Container(
                   // 'QR코드 스캔' 텍스트
-                  margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  margin: EdgeInsets.only(top: 20),
                   child: Text(
                     'QR코드 스캔',
                     style: GoogleFonts.getFont(
@@ -363,129 +367,89 @@ class _qrPageState extends State<qrPage> {
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.grey, // 테두리 색상
-                  width: 0.3, // 테두리 두께
-                ),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0x1A000000),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                        ),
-                      ),
-                    ),
-                    (loginUser.id != null)
-                        ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          loginUser.name,
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.5,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                        Text(
-                          '추천인 코드: AAA000',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.5,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ],
-                    )
-                        : InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => loginPage()),
-                        );
-                      },
-                      child: Container(
-                        child: Text(
-                          "로그인을 해주세요 >",
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.5,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                (loginUser.id != null)
-                    ? Container(
-                  padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xFF000000)),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
+          child: CustomAppbar(
+            title: 'QR코드 스캔',
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(right: 5),
-                        child: Text(
-                          '내 정보 설정',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            height: 1.3,
-                            color: Color(0xFF000000),
-                          ),
+                        margin: EdgeInsets.only(right: 12),
+                        child: Image.asset(
+                          'assets/images/basic_user_profile.png',
+                          width: 40, // 원하는 이미지 너비
+                          height: 40, // 원하는 이미지 높이
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      Container(
-                        width: 5,
-                        height: 10,
-                        child: SizedBox(
-                          width: 5,
-                          height: 10,
-                          child: SvgPicture.asset(
-                            'assets/vectors/vector_9_x2.svg',
+                      (loginUser.id != null)
+                          ? Container(
+                        child: Text(
+                          loginUser.name + ' 님',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
+                            letterSpacing: -0.30,
+                          ),
+                        ),
+                      )
+                          : InkWell(
+                        onTap: () {
+                          context.push('/login');
+                        },
+                        child: Container(
+                          child: Text(
+                            "로그인을 해주세요 >",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.30,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                )
-                    : Container()
-              ],
+                  (loginUser.id != null)
+                      ? Container(
+                    child: InkWell(
+                      onTap: () {
+                        //context.read<user>().logout();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(14, 5, 14, 5),
+                        decoration: BoxDecoration(
+                          border:
+                          Border.all(color: const Color(0xFF9EA3B2)),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Text(
+                          '내 정보 설정',
+                          style: GoogleFonts.robotoCondensed(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 1.2,
+                            letterSpacing: -0.4,
+                            color: const Color(0xFF191919),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                      : Container()
+                ],
+              ),
             ),
           ),
         ),

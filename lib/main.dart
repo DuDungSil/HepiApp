@@ -2,18 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/main/eventPage.dart';
-
-import 'package:flutter_app/pages/main/homePage.dart';
-import 'package:flutter_app/pages/main/myPage.dart';
-import 'package:flutter_app/pages/main/healthcarePage.dart';
-import 'package:flutter_app/pages/main/qrPage.dart';
+import 'router.dart';
 import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
 import 'package:flutter_app/store/gym.dart';
 import 'package:flutter_app/store/products.dart';
-import 'package:flutter_app/widgets/bottombar.dart';
-import 'package:flutter_app/pages/main/searchPage.dart';
 import 'package:flutter_app/store/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -46,15 +39,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  var pageList;
-
-  var tab = 0;
-  setTab(index) {
-    setState(() {
-      tab = index;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -69,49 +53,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // 하단에 네이게이션바를 표시하고 싶은 페이지들
-    pageList = [
-      //Navigaton Button Pages
-      homePage(setTab: setTab),
-      SearchPage(),
-      myPage(),
-      healthcarePage(),
-      qrPage(),
-
-      //Other Pages
-      eventPage()
-    ];
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-      ),
-      home: Scaffold(
-        extendBody: true,
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: pageList[tab],
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Bottombar(setTab: setTab),
-            ),
-          ],
-        ),
-      ),
+    return MaterialApp.router(
+      routerConfig: router,
     );
   }
 }

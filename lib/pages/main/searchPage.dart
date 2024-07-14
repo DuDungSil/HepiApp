@@ -3,6 +3,7 @@ import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_app/widgets/customAppbar.dart';
 
 import '../../utils/constants.dart';
 
@@ -90,7 +91,7 @@ class _SearchPageState extends State<SearchPage> {
           SingleChildScrollView(
             child: Container(
               margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-              padding: EdgeInsets.only(top: 160),
+              padding: EdgeInsets.only(top: 120),
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
               ),
@@ -194,90 +195,66 @@ class _SearchPageState extends State<SearchPage> {
             child: GestureDetector(
               onTap: () {},
               // Do nothing to prevent closing the overlay when tapping inside the search area
-              child: Container(
-                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                alignment: Alignment.center,
-                height: 160,
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT,),
-                      child: Text(
-                        '검색',
-                        style: GoogleFonts.getFont(
-                          'Roboto Condensed',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          height: 0,
-                          letterSpacing: -0.5,
-                          color: Color(0xFF111111),
-                        ),
+              child: CustomAppbar(
+                title: '검색',
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
+                        width: 1,
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: Container(
-                        key: _searchBarKey,
-                        child: CompositedTransformTarget(
-                          link: _searchBarLink,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                                width: 24,
-                                height: 24,
-                                child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: SvgPicture.asset(
-                                    'assets/vectors/search_normal_x2.svg',
-                                  ),
-                                ),
+                  ),
+                  child: Container(
+                    key: _searchBarKey,
+                    child: CompositedTransformTarget(
+                      link: _searchBarLink,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            width: 24,
+                            height: 24,
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: SvgPicture.asset(
+                                'assets/vectors/search_normal_x2.svg',
                               ),
-                              Expanded(
-                                child: TextField(
-                                  controller: _textEditingController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: '제품을 찾아보세요',
-                                  ),
-                                  style: GoogleFonts.getFont(
-                                    'Roboto Condensed',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    height: 1.2,
-                                    letterSpacing: -1.2,
-                                    color: Color(0xFF000000),
-                                  ),
-                                  onChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      insertOverlay();
-                                    } else {
-                                      removeOverlay();
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Expanded(
+                            child: TextField(
+                              controller: _textEditingController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: '제품을 찾아보세요',
+                              ),
+                              style: GoogleFonts.getFont(
+                                'Roboto Condensed',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                height: 1.2,
+                                letterSpacing: -1.2,
+                                color: Color(0xFF000000),
+                              ),
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  insertOverlay();
+                                } else {
+                                  removeOverlay();
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import '../store/user.dart';
 
-class Bottombar extends StatefulWidget {
+class CustomBottombar extends StatefulWidget {
   final Function(int) setTab;
 
-  Bottombar({Key? key, required this.setTab}) : super(key: key);
+  CustomBottombar({Key? key, required this.setTab}) : super(key: key);
 
   @override
-  _BottombarState createState() => _BottombarState();
+  _CustomBottombarState createState() => _CustomBottombarState();
 }
 
-class _BottombarState extends State<Bottombar> {
+class _CustomBottombarState extends State<CustomBottombar> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
