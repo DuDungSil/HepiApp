@@ -18,7 +18,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
     return Container(
       alignment: Alignment.center,
       margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.fromLTRB(5,5,5,10),
       decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
       height: (widget.child == null) ? Constants.APPBAR_TITLE_HEIGHT : Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT,
       width: double.infinity,
@@ -27,7 +27,6 @@ class _CustomAppbarState extends State<CustomAppbar> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 20),
             child: Text(
               widget.title,
               style: GoogleFonts.getFont(
