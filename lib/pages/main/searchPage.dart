@@ -233,6 +233,14 @@ class _SearchPageState extends State<SearchPage> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: '제품을 찾아보세요',
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.40,
+                                ),
                               ),
                               style: GoogleFonts.getFont(
                                 'Roboto Condensed',

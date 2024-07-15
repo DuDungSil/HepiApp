@@ -12,15 +12,15 @@ import 'package:flutter_app/widgets/customBottombar.dart';
 import 'package:go_router/go_router.dart';
 
 final pageList = [
-  HomePage(), // INDEX 0  /home
-  SearchPage(), // INDEX 1  /search
-  MyPage(), // INDEX 2  /mypage
-  HealthcarePage(), // INDEX 3  /healthcare
-  QRPage(), // INDEX 4  /qr
-  EventPage(), // INDEX 5  /home/event
-  ProductDetailPage(), // INDEX 6  /productdetail
-  LoginPage(), // INDEX 7  /login
-  RegisterPage() // INDEX 8  /register
+  HomePage(),                 // INDEX 0  /home
+  SearchPage(),               // INDEX 1  /search
+  MyPage(),                   // INDEX 2  /mypage
+  HealthcarePage(),           // INDEX 3  /healthcare
+  QRPage(),                   // INDEX 4  /qr
+  EventPage(),                // INDEX 5  /home/event
+  ProductDetailPage(),        // INDEX 6  /productdetail
+  LoginPage(),                // INDEX 7  /login
+  RegisterPage()              // INDEX 8  /register
 ];
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -113,7 +113,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   void _onTap(BuildContext context, int index) {
     final String location = _getLocationForIndex(index);
-    context.go(location);
+    context.replace(location);
   }
 
   String _getLocationForIndex(int index) {
