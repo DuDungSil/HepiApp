@@ -50,7 +50,10 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: '/search',
-          builder: (BuildContext context, GoRouterState state) => pageList[1],
+          builder: (BuildContext context, GoRouterState state){
+            final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
+            return SearchPage(autoFocus: autoFocus);
+          },
         ),
         GoRoute(
           path: '/mypage',

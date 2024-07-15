@@ -18,7 +18,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
     return Container(
       alignment: Alignment.center,
       margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-      padding: EdgeInsets.fromLTRB(5,5,5,10),
+      padding: EdgeInsets.fromLTRB(0,5,0,10),
       decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
       height: (widget.child == null) ? Constants.APPBAR_TITLE_HEIGHT : Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT,
       width: double.infinity,

@@ -386,25 +386,31 @@ class _HomeState extends State<HomePage> {
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
+                      child: TextField(
                         onTap: (){
-
+                          context.replace('/search?focus=true');
                         },
-                        child: Container(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            '제품을 찾아보세요',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                              height: 1.2,
-                              letterSpacing: -0.40,
-                            ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '제품을 찾아보세요',
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
+                            letterSpacing: -0.40,
                           ),
                         ),
-                      )
+                        style: GoogleFonts.getFont(
+                          'Roboto Condensed',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          height: 1.2,
+                          letterSpacing: -1.2,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
                     ),
                   ],
                 ),

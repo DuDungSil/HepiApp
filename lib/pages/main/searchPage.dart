@@ -8,6 +8,10 @@ import 'package:flutter_app/widgets/customAppbar.dart';
 import '../../utils/constants.dart';
 
 class SearchPage extends StatefulWidget {
+  final bool autoFocus;
+
+  SearchPage({this.autoFocus = false});
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -230,6 +234,7 @@ class _SearchPageState extends State<SearchPage> {
                           Expanded(
                             child: TextField(
                               controller: _textEditingController,
+                              autofocus: widget.autoFocus,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: '제품을 찾아보세요',
