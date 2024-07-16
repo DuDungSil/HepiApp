@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomBottombar extends StatefulWidget {
-  final Function(BuildContext, int) setTab;
+class CustomBottombar extends StatelessWidget {
+  final Function(int) setTab;
+  final int currentIndex;
 
-  CustomBottombar({Key? key, required this.setTab}) : super(key: key);
-
-  @override
-  _CustomBottombarState createState() => _CustomBottombarState();
-}
-
-class _CustomBottombarState extends State<CustomBottombar> {
-  int _selectedIndex = 0;
+  CustomBottombar({Key? key, required this.setTab, required this.currentIndex}) : super(key: key);
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    widget.setTab(context, index);
+    setTab(index);
   }
 
   @override
@@ -52,7 +43,7 @@ class _CustomBottombarState extends State<CustomBottombar> {
           unselectedItemColor: Colors.black,
           selectedFontSize: 16.0,
           unselectedFontSize: 12.0,
-          currentIndex: _selectedIndex,
+          currentIndex: currentIndex,
           onTap: _onItemTapped,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -60,7 +51,7 @@ class _CustomBottombarState extends State<CustomBottombar> {
                 'assets/vectors/Bottombar/home_icon.svg',
                 width: 20,
                 height: 20,
-                color: _selectedIndex == 0 ? Colors.orange : Colors.black,
+                color: currentIndex == 0 ? Colors.orange : Colors.black,
               ),
               label: "홈",
             ),
@@ -69,7 +60,7 @@ class _CustomBottombarState extends State<CustomBottombar> {
                 'assets/vectors/Bottombar/search_icon.svg',
                 width: 20,
                 height: 20,
-                color: _selectedIndex == 1 ? Colors.orange : Colors.black,
+                color: currentIndex == 1 ? Colors.orange : Colors.black,
               ),
               label: "검색",
             ),
@@ -78,7 +69,7 @@ class _CustomBottombarState extends State<CustomBottombar> {
                 'assets/vectors/Bottombar/mypage_icon.svg',
                 width: 20,
                 height: 20,
-                color: _selectedIndex == 2 ? Colors.orange : Colors.black,
+                color: currentIndex == 2 ? Colors.orange : Colors.black,
               ),
               label: "마이페이지",
             ),
@@ -87,7 +78,7 @@ class _CustomBottombarState extends State<CustomBottombar> {
                 'assets/vectors/Bottombar/healthy_icon.svg',
                 width: 20,
                 height: 20,
-                color: _selectedIndex == 3 ? Colors.orange : Colors.black,
+                color: currentIndex == 3 ? Colors.orange : Colors.black,
               ),
               label: "건강 관리",
             ),
@@ -96,7 +87,7 @@ class _CustomBottombarState extends State<CustomBottombar> {
                 'assets/vectors/Bottombar/qr_icon.svg',
                 width: 20,
                 height: 20,
-                color: _selectedIndex == 4 ? Colors.orange : Colors.black,
+                color: currentIndex == 4 ? Colors.orange : Colors.black,
               ),
               label: "QR코드",
             ),

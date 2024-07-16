@@ -45,293 +45,295 @@ class _MyPageState extends State<MyPage> {
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
-          margin: Constants.SCREEN_HORIZONTAL_MARGIN,
           padding: EdgeInsets.only(top: 120),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Text(
-                  '보유 품목 정보',
-                  style: GoogleFonts.getFont(
-                    'Roboto Condensed',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    height: 1.2,
-                    letterSpacing: -0.5,
-                    color: Color(0xFF000000),
-                  ),
-                ),
-              ),
-              (loginUser.id != null)
-                  ? Consumer<products>(builder: (consumer, products, child) {
-                      if (products.myProductList.isEmpty) {
-                        return Container(
-                          height: 280,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                              color: Color(0x1A000000)),
-                        );
-                      } else {
-                        return Container(
-                          height: 280,
-                          margin: EdgeInsets.only(top: 10),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: products.myProductList.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  print(products.myProductList[index].name);
-                                },
-                                child: Container(
-                                  width: 160,
-                                  margin: EdgeInsets.only(right: 10),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0x1A000000)),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 160,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fitHeight,
-                                            image: NetworkImage(
-                                              products.myProductList[index]
-                                                  .main_image,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
-                                              child: Text(
-                                                products
-                                                    .myProductList[index].name,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 3,
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  height: 1.3,
-                                                  color: Color(0xFF000000),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              alignment: Alignment.topLeft,
-                                              margin: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
-                                              child: Text(
-                                                products.myProductList[index]
-                                                        .my_amount
-                                                        .toString() +
-                                                    '/' +
-                                                    products
-                                                        .myProductList[index]
-                                                        .amount
-                                                        .toString() +
-                                                    products
-                                                        .myProductList[index]
-                                                        .unit +
-                                                    ' ' +
-                                                    '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16,
-                                                  height: 1.5,
-                                                  color: Color(0xFF000000),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    })
-                  : Container(
-                      height: 280,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                          color: Color(0x1A000000)),
+          child: Container(
+            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Text(
+                    '보유 품목 정보',
+                    style: GoogleFonts.getFont(
+                      'Roboto Condensed',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      height: 1.2,
+                      letterSpacing: -0.5,
+                      color: Color(0xFF000000),
                     ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Text(
-                  '장바구니',
-                  style: GoogleFonts.getFont(
-                    'Roboto Condensed',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    height: 1.2,
-                    letterSpacing: -0.5,
-                    color: Color(0xFF000000),
                   ),
                 ),
-              ),
-              (loginUser.id != null)
-                  ? Consumer<products>(builder: (consumer, products, child) {
-                      if (products.cartProductList.isEmpty) {
-                        return Container(
-                          height: 280,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                              color: Color(0x1A000000)),
-                          child: Text(
-                            "",
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => cartPage()),
-                            );
-                          },
-                          child: Container(
+                (loginUser.id != null)
+                    ? Consumer<products>(builder: (consumer, products, child) {
+                        if (products.myProductList.isEmpty) {
+                          return Container(
+                            height: 280,
+                            width: double.infinity,
+                            margin: EdgeInsets.only(top: 10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0x1A000000)),
+                                borderRadius: BorderRadius.circular(6),
+                                color: Color(0x1A000000)),
+                          );
+                        } else {
+                          return Container(
                             height: 280,
                             margin: EdgeInsets.only(top: 10),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: products.cartProductList.length,
+                              itemCount: products.myProductList.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  width: 160,
-                                  margin: EdgeInsets.only(right: 10),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0x1A000000)),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 160,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fitHeight,
-                                            image: NetworkImage(
-                                              products.cartProductList[index]
-                                                  .main_image,
+                                return InkWell(
+                                  onTap: () {
+                                    print(products.myProductList[index].name);
+                                  },
+                                  child: Container(
+                                    width: 160,
+                                    margin: EdgeInsets.only(right: 10),
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0x1A000000)),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 160,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.fitHeight,
+                                              image: NetworkImage(
+                                                products.myProductList[index]
+                                                    .main_image,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
-                                              child: Text(
-                                                products.cartProductList[index]
-                                                    .name,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 3,
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  height: 1.3,
-                                                  color: Color(0xFF000000),
+                                        Container(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.fromLTRB(
+                                                    10, 10, 10, 0),
+                                                child: Text(
+                                                  products
+                                                      .myProductList[index].name,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 3,
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 12,
+                                                    height: 1.3,
+                                                    color: Color(0xFF000000),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              alignment: Alignment.topLeft,
-                                              margin: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
-                                              child: priceText(
-                                                  products
-                                                      .cartProductList[index]
-                                                      .price,
-                                                  products
-                                                      .cartProductList[index]
-                                                      .event,
-                                                  products
-                                                      .cartProductList[index]
-                                                      .discount),
-                                            ),
-                                          ],
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                margin: EdgeInsets.fromLTRB(
+                                                    10, 10, 10, 0),
+                                                child: Text(
+                                                  products.myProductList[index]
+                                                          .my_amount
+                                                          .toString() +
+                                                      '/' +
+                                                      products
+                                                          .myProductList[index]
+                                                          .amount
+                                                          .toString() +
+                                                      products
+                                                          .myProductList[index]
+                                                          .unit +
+                                                      ' ' +
+                                                      '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    height: 1.5,
+                                                    color: Color(0xFF000000),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
                             ),
-                          ),
-                        );
-                      }
-                    })
-                  : Container(
-                      height: 280,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                          color: Color(0x1A000000)),
+                          );
+                        }
+                      })
+                    : Container(
+                        height: 280,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 10),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                            color: Color(0x1A000000)),
+                      ),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Text(
+                    '장바구니',
+                    style: GoogleFonts.getFont(
+                      'Roboto Condensed',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      height: 1.2,
+                      letterSpacing: -0.5,
+                      color: Color(0xFF000000),
                     ),
-              // 코드 추가 필요
-              Container(
-                height: 80,
-              )
-            ],
+                  ),
+                ),
+                (loginUser.id != null)
+                    ? Consumer<products>(builder: (consumer, products, child) {
+                        if (products.cartProductList.isEmpty) {
+                          return Container(
+                            height: 280,
+                            width: double.infinity,
+                            margin: EdgeInsets.only(top: 10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0x1A000000)),
+                                borderRadius: BorderRadius.circular(6),
+                                color: Color(0x1A000000)),
+                            child: Text(
+                              "",
+                              style: GoogleFonts.getFont(
+                                'Roboto',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                                height: 1.3,
+                                color: Color(0xFF000000),
+                              ),
+                            ),
+                          );
+                        } else {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => cartPage()),
+                              );
+                            },
+                            child: Container(
+                              height: 280,
+                              margin: EdgeInsets.only(top: 10),
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: products.cartProductList.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    width: 160,
+                                    margin: EdgeInsets.only(right: 10),
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0x1A000000)),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 160,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.fitHeight,
+                                              image: NetworkImage(
+                                                products.cartProductList[index]
+                                                    .main_image,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.fromLTRB(
+                                                    10, 10, 10, 0),
+                                                child: Text(
+                                                  products.cartProductList[index]
+                                                      .name,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 3,
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 12,
+                                                    height: 1.3,
+                                                    color: Color(0xFF000000),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                margin: EdgeInsets.fromLTRB(
+                                                    10, 10, 10, 0),
+                                                child: priceText(
+                                                    products
+                                                        .cartProductList[index]
+                                                        .price,
+                                                    products
+                                                        .cartProductList[index]
+                                                        .event,
+                                                    products
+                                                        .cartProductList[index]
+                                                        .discount),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        }
+                      })
+                    : Container(
+                        height: 280,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 10),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                            color: Color(0x1A000000)),
+                      ),
+                // 코드 추가 필요
+                Container(
+                  height: 80,
+                )
+              ],
+            ),
           ),
         ),
       ),

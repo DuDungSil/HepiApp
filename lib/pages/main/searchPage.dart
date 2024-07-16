@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
@@ -48,7 +50,10 @@ class _SearchPageState extends State<SearchPage> {
     return Positioned(
       left: position.dx,
       top: position.dy,
-      width: MediaQuery.of(context).size.width -
+      width: MediaQuery
+          .of(context)
+          .size
+          .width -
           Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
       child: CompositedTransformFollower(
         link: _searchBarLink,
@@ -72,14 +77,18 @@ class _SearchPageState extends State<SearchPage> {
 
   Offset _getOverlayEntryPosition() {
     RenderBox renderBox =
-        _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
-    return Offset(renderBox.localToGlobal(Offset.zero).dx,
-        renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
+    _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    return Offset(renderBox
+        .localToGlobal(Offset.zero)
+        .dx,
+        renderBox
+            .localToGlobal(Offset.zero)
+            .dy + renderBox.size.height);
   }
 
   Size _getOverlayEntrySize() {
     RenderBox renderBox =
-        _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
     return renderBox.size;
   }
 
@@ -94,76 +103,20 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           SingleChildScrollView(
             child: Container(
-              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
               padding: EdgeInsets.only(top: 120),
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      '최근 검색어',
-                      style: GoogleFonts.getFont(
-                        'Roboto Condensed',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        height: 1.2,
-                        letterSpacing: -0.5,
-                        color: Color(0xFF000000),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          EclipseText(text: '삼대오백'),
-                          EclipseText(text: '투퍼데이 종합비타민 120정'),
-                          EclipseText(text: '잠백이 흑마늘'),
-                          EclipseText(text: '프로틴'),
-                          EclipseText(text: '크레아틴 500g'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      '자주 구매한 상품',
-                      style: GoogleFonts.getFont(
-                        'Roboto Condensed',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        height: 1.2,
-                        letterSpacing: -0.5,
-                        color: Color(0xFF000000),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 280,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                        color: Color(0x1A000000)),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Align(
-                      alignment: Alignment.topLeft,
+              child: Container(
+                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
                       child: Text(
-                        '할인 중인 상품',
+                        '최근 검색어',
                         style: GoogleFonts.getFont(
                           'Roboto Condensed',
                           fontWeight: FontWeight.w600,
@@ -174,21 +127,79 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: 280,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Color(0x1A000000)),
-                        borderRadius: BorderRadius.circular(6),
-                        color: Color(0x1A000000)),
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  )
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            EclipseText(text: '삼대오백'),
+                            EclipseText(text: '투퍼데이 종합비타민 120정'),
+                            EclipseText(text: '잠백이 흑마늘'),
+                            EclipseText(text: '프로틴'),
+                            EclipseText(text: '크레아틴 500g'),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Text(
+                        '자주 구매한 상품',
+                        style: GoogleFonts.getFont(
+                          'Roboto Condensed',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          height: 1.2,
+                          letterSpacing: -0.5,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 280,
+                      width: double.infinity,
+                      margin: EdgeInsets.only(top: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Color(0x1A000000)),
+                          borderRadius: BorderRadius.circular(6),
+                          color: Color(0x1A000000)),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '할인 중인 상품',
+                          style: GoogleFonts.getFont(
+                            'Roboto Condensed',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            height: 1.2,
+                            letterSpacing: -0.5,
+                            color: Color(0xFF000000),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 280,
+                      width: double.infinity,
+                      margin: EdgeInsets.only(top: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Color(0x1A000000)),
+                          borderRadius: BorderRadius.circular(6),
+                          color: Color(0x1A000000)),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -201,6 +212,11 @@ class _SearchPageState extends State<SearchPage> {
               // Do nothing to prevent closing the overlay when tapping inside the search area
               child: CustomAppbar(
                 title: '검색',
+                leading: CustomBackButton(
+                  onTap: (){
+                    context.go('/home');
+                  },
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
@@ -236,6 +252,7 @@ class _SearchPageState extends State<SearchPage> {
                               controller: _textEditingController,
                               autofocus: widget.autoFocus,
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(8),
                                 border: InputBorder.none,
                                 hintText: '제품을 찾아보세요',
                                 hintStyle: TextStyle(

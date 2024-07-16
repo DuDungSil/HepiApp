@@ -39,56 +39,21 @@ class _QRPageState extends State<QRPage> {
       children: [
         SingleChildScrollView(
           child: Container(
-            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
             padding: EdgeInsets.only(top: 120),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  // 'QR코드 스캔' 텍스트
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'QR코드 스캔',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      height: 1.3,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                ),
-                Consumer<user>(
-                  builder: (consumer, user, child) {
-                    return Container(
-                        // QR코드 컨테이너
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: (loginUser.id != null)
-                            ? Container(
-                                alignment: Alignment.center,
-                                child: QrImageView(
-                                  data: user.getQr()!,
-                                  version: QrVersions.auto,
-                                  size: 250,
-                                ),
-                              )
-                            : Container(alignment: Alignment.center, height: 250));
-                  },
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                  child: Container(
+            child: Container(
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    // 'QR코드 스캔' 텍스트
+                    margin: EdgeInsets.only(top: 20),
                     child: Text(
-                      '보유 포인트',
+                      'QR코드 스캔',
                       style: GoogleFonts.getFont(
                         'Roboto',
                         fontWeight: FontWeight.w500,
@@ -98,268 +63,305 @@ class _QRPageState extends State<QRPage> {
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(right: 5),
+                  Consumer<user>(
+                    builder: (consumer, user, child) {
+                      return Container(
+                          // QR코드 컨테이너
                           padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                           decoration: BoxDecoration(
                             border: Border.all(color: Color(0x1A000000)),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: Text(
-                            '사용 가능한 쿠폰',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0x80000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 5),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            '포인트 적립',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0x80000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                          child: (loginUser.id != null)
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  child: QrImageView(
+                                    data: user.getQr()!,
+                                    version: QrVersions.auto,
+                                    size: 250,
+                                  ),
+                                )
+                              : Container(alignment: Alignment.center, height: 250));
+                    },
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(right: 5),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            '내 리워드',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0x80000000),
-                            ),
-                          ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    child: Container(
+                      child: Text(
+                        '보유 포인트',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          height: 1.3,
+                          color: Color(0xFF000000),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 5),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            '할인 정보',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: Color(0x80000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                  child: Container(
-                    child: Text(
-                      '보유 품목 목록',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                        height: 1.3,
-                        color: Color(0xFF000000),
                       ),
                     ),
                   ),
-                ),
-                (loginUser.id != null)
-                    ? Consumer<products>(builder: (consumer, products, child) {
-                        if (products.myProductList.isEmpty) {
-                          return Container(
-                            height: 280,
-                            width: double.infinity,
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
-                            alignment: Alignment.center,
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 5),
+                            padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                                border: Border.all(color: Color(0x1A000000)),
-                                borderRadius: BorderRadius.circular(6),
-                                color: Color(0x1A000000)),
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
                             child: Text(
-                              "",
+                              '사용 가능한 쿠폰',
                               style: GoogleFonts.getFont(
                                 'Roboto',
                                 fontWeight: FontWeight.w400,
-                                fontSize: 20,
-                                height: 1.3,
-                                color: Color(0xFF000000),
+                                fontSize: 14,
+                                height: 1.4,
+                                color: Color(0x80000000),
                               ),
                             ),
-                          );
-                        } else {
-                          return Container(
-                            height: 280,
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: products.myProductList.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                                content: Container(
-                                              height: 250,
-                                              width: 250,
-                                              child: QrImageView(
-                                                data: setEncrypt('aa'),
-                                                version: QrVersions.auto,
-                                              ),
-                                            )));
-                                  },
-                                  child: Container(
-                                    width: 160,
-                                    margin: EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Color(0x1A000000)),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 160,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.fitHeight,
-                                              image: NetworkImage(
-                                                products.myProductList[index]
-                                                    .main_image,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 5),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              '포인트 적립',
+                              style: GoogleFonts.getFont(
+                                'Roboto',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: Color(0x80000000),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 5),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              '내 리워드',
+                              style: GoogleFonts.getFont(
+                                'Roboto',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: Color(0x80000000),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 5),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              '할인 정보',
+                              style: GoogleFonts.getFont(
+                                'Roboto',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: Color(0x80000000),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    child: Container(
+                      child: Text(
+                        '보유 품목 목록',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          height: 1.3,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                    ),
+                  ),
+                  (loginUser.id != null)
+                      ? Consumer<products>(builder: (consumer, products, child) {
+                          if (products.myProductList.isEmpty) {
+                            return Container(
+                              height: 280,
+                              width: double.infinity,
+                              margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Color(0x1A000000)),
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Color(0x1A000000)),
+                              child: Text(
+                                "",
+                                style: GoogleFonts.getFont(
+                                  'Roboto',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
+                                  height: 1.3,
+                                  color: Color(0xFF000000),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              height: 280,
+                              margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: products.myProductList.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                                  content: Container(
+                                                height: 250,
+                                                width: 250,
+                                                child: QrImageView(
+                                                  data: setEncrypt('aa'),
+                                                  version: QrVersions.auto,
+                                                ),
+                                              )));
+                                    },
+                                    child: Container(
+                                      width: 160,
+                                      margin: EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Color(0x1A000000)),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: 160,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.fitHeight,
+                                                image: NetworkImage(
+                                                  products.myProductList[index]
+                                                      .main_image,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
-                                                child: Text(
-                                                  products
-                                                      .myProductList[index].name,
-                                                  style: GoogleFonts.getFont(
-                                                    'Roboto',
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 12,
-                                                    height: 1.3,
-                                                    color: Color(0xFF000000),
+                                          Container(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      10, 10, 10, 0),
+                                                  child: Text(
+                                                    products
+                                                        .myProductList[index].name,
+                                                    style: GoogleFonts.getFont(
+                                                      'Roboto',
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 12,
+                                                      height: 1.3,
+                                                      color: Color(0xFF000000),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.topLeft,
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
-                                                child: Text(
-                                                  products.myProductList[index]
-                                                          .my_amount
-                                                          .toString() +
-                                                      '/' +
-                                                      products.myProductList[index]
-                                                          .amount
-                                                          .toString() +
-                                                      products.myProductList[index]
-                                                          .unit +
-                                                      ' ' +
-                                                      '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
-                                                  style: GoogleFonts.getFont(
-                                                    'Roboto',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16,
-                                                    height: 1.5,
-                                                    color: Color(0xFF000000),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      10, 10, 10, 0),
+                                                  child: Text(
+                                                    products.myProductList[index]
+                                                            .my_amount
+                                                            .toString() +
+                                                        '/' +
+                                                        products.myProductList[index]
+                                                            .amount
+                                                            .toString() +
+                                                        products.myProductList[index]
+                                                            .unit +
+                                                        ' ' +
+                                                        '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
+                                                    style: GoogleFonts.getFont(
+                                                      'Roboto',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 16,
+                                                      height: 1.5,
+                                                      color: Color(0xFF000000),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                        })
+                      : Container(
+                          height: 280,
+                          width: double.infinity,
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(6),
+                              color: Color(0x1A000000)),
+                          child: Text(
+                            "",
+                            style: GoogleFonts.getFont(
+                              'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              height: 1.3,
+                              color: Color(0xFF000000),
                             ),
-                          );
-                        }
-                      })
-                    : Container(
-                        height: 280,
-                        width: double.infinity,
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                            color: Color(0x1A000000)),
-                        child: Text(
-                          "",
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                            height: 1.3,
-                            color: Color(0xFF000000),
                           ),
                         ),
-                      ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

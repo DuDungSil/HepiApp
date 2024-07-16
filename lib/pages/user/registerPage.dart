@@ -7,12 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/function/smsAuth.dart';
 import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../function/register.dart';
+import '../../widgets/customBackButton.dart';
 
 class Regist {
   bool hasNullField() {
@@ -101,7 +103,8 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             SingleChildScrollView(
               child: Container(
-                margin: EdgeInsets.fromLTRB(30, 100, 30, 0),
+                padding: EdgeInsets.only(top: 100),
+                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
                 ),
@@ -947,6 +950,11 @@ class _RegisterPageState extends State<RegisterPage> {
               right: 0,
               child: CustomAppbar(
                 title: '회원가입',
+                leading: CustomBackButton(
+                  onTap: (){
+                    context.pop();
+                  },
+                ),
               )
             ),
           ],

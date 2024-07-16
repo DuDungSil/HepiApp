@@ -34,17 +34,19 @@ class _HealthcarePageState extends State<HealthcarePage> {
       children: [
         SingleChildScrollView(
           child: Container(
-            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
             padding: EdgeInsets.only(top: 120),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container()
-              ],
+            child: Container(
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(height: 2000,)
+                ],
+              ),
             ),
           ),
         ),
