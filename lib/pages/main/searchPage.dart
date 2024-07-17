@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
@@ -11,8 +13,10 @@ import '../../utils/constants.dart';
 
 class SearchPage extends StatefulWidget {
   final bool autoFocus;
+  final String? query;
+  final String? category;
 
-  SearchPage({this.autoFocus = false});
+  SearchPage({this.autoFocus = false, this.query, this.category});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -28,6 +32,9 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
+    if (widget.query != null) {
+      _textEditingController.text = widget.query!;
+    }
   }
 
   void insertOverlay() {
@@ -50,11 +57,7 @@ class _SearchPageState extends State<SearchPage> {
     return Positioned(
       left: position.dx,
       top: position.dy,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width -
-          Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
+      width: MediaQuery.of(context).size.width - Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
       child: CompositedTransformFollower(
         link: _searchBarLink,
         showWhenUnlinked: false,
@@ -76,19 +79,12 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Offset _getOverlayEntryPosition() {
-    RenderBox renderBox =
-    _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
-    return Offset(renderBox
-        .localToGlobal(Offset.zero)
-        .dx,
-        renderBox
-            .localToGlobal(Offset.zero)
-            .dy + renderBox.size.height);
+    RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    return Offset(renderBox.localToGlobal(Offset.zero).dx, renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
   }
 
   Size _getOverlayEntrySize() {
-    RenderBox renderBox =
-    _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
     return renderBox.size;
   }
 
@@ -101,79 +97,151 @@ class _SearchPageState extends State<SearchPage> {
       },
       child: Stack(
         children: [
-          SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.only(top: 120),
+          // 검색 결과 있음
+          if (widget.category != null || widget.query != null) ...[
+            Container(
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
               ),
               child: Container(
                 margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        '최근 검색어',
-                        style: GoogleFonts.getFont(
-                          'Roboto Condensed',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          height: 1.2,
-                          letterSpacing: -0.5,
-                          color: Color(0xFF000000),
+                padding: EdgeInsets.only(top: 120),
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFFFFFF),
                         ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            EclipseText(text: '삼대오백'),
-                            EclipseText(text: '투퍼데이 종합비타민 120정'),
-                            EclipseText(text: '잠백이 흑마늘'),
-                            EclipseText(text: '프로틴'),
-                            EclipseText(text: '크레아틴 500g'),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            if (widget.category != null) ...[
+                              Container(
+                                child: Text(
+                                  widget.category.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.2,
+                                    letterSpacing: -0.50,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: [
+                                      EclipseText(text: 'WPI'),
+                                      EclipseText(text: 'WPC'),
+                                      EclipseText(text: '비건'),
+                                      EclipseText(text: '신상품'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              // 검색 결과를 표시하는 위젯
+                            ],
                           ],
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        '자주 구매한 상품',
-                        style: GoogleFonts.getFont(
-                          'Roboto Condensed',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          height: 1.2,
-                          letterSpacing: -0.5,
-                          color: Color(0xFF000000),
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _SliverAppBarDelegate(
+                        minHeight: 200.0,
+                        maxHeight: 500.0,
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 40,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.fromLTRB(8, 0, 14, 0),
+                                        width: 24,
+                                        height: 24,
+                                        child: SvgPicture.asset(
+                                          'assets/vectors/category.svg',
+                                        )),
+                                    Expanded(
+                                      child: Text('30개의 결과',
+                                          style: TextStyle(
+                                            color: Color(0xFF111111),
+                                            fontSize: 18,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w500,
+                                            height: 1.2,
+                                            letterSpacing: -0.45,
+                                          )),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.fromLTRB(14, 0, 8, 0),
+                                      width: 24,
+                                      height: 24,
+                                      child: SvgPicture.asset(
+                                        'assets/vectors/candle.svg',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      height: 280,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                          color: Color(0x1A000000)),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Align(
-                        alignment: Alignment.topLeft,
+                    SliverToBoxAdapter(
+                      child: Container(
+                        height: 2000,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ] else ...[
+            SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(top: 120),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                ),
+                child: Container(
+                  margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
                         child: Text(
-                          '할인 중인 상품',
+                          '최근 검색어',
                           style: GoogleFonts.getFont(
                             'Roboto Condensed',
                             fontWeight: FontWeight.w600,
@@ -184,25 +252,79 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height: 280,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0x1A000000)),
-                          borderRadius: BorderRadius.circular(6),
-                          color: Color(0x1A000000)),
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    )
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              EclipseText(text: '삼대오백'),
+                              EclipseText(text: '투퍼데이 종합비타민 120정'),
+                              EclipseText(text: '잠백이 흑마늘'),
+                              EclipseText(text: '프로틴'),
+                              EclipseText(text: '크레아틴 500g'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          '자주 구매한 상품',
+                          style: GoogleFonts.getFont(
+                            'Roboto Condensed',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            height: 1.2,
+                            letterSpacing: -0.5,
+                            color: Color(0xFF000000),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 280,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 10),
+                        alignment: Alignment.center,
+                        decoration:
+                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            '할인 중인 상품',
+                            style: GoogleFonts.getFont(
+                              'Roboto Condensed',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              height: 1.2,
+                              letterSpacing: -0.5,
+                              color: Color(0xFF000000),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 280,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 10),
+                        alignment: Alignment.center,
+                        decoration:
+                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
           Positioned(
             top: 0,
             left: 0,
@@ -213,7 +335,7 @@ class _SearchPageState extends State<SearchPage> {
               child: CustomAppbar(
                 title: '검색',
                 leading: CustomBackButton(
-                  onTap: (){
+                  onTap: () {
                     context.go('/home');
                   },
                 ),
@@ -251,6 +373,21 @@ class _SearchPageState extends State<SearchPage> {
                             child: TextField(
                               controller: _textEditingController,
                               autofocus: widget.autoFocus,
+                              onSubmitted: (value) {
+                                if (value == '') return;
+                                if (widget.category != null) {
+                                  context.go(Uri(
+                                    path: '/search/c/${widget.category.toString()}',
+                                    queryParameters: {'query': value},
+                                  ).toString());
+                                } else {
+                                  context.go(Uri(
+                                    path: '/search',
+                                    queryParameters: {'query': value},
+                                  ).toString());
+                                }
+                                ;
+                              },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8),
                                 border: InputBorder.none,
@@ -292,6 +429,34 @@ class _SearchPageState extends State<SearchPage> {
         ],
       ),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
   }
 }
 

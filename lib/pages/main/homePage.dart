@@ -173,11 +173,11 @@
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                    child: CategoryBox('건강기능식품')
+                                    child: CategoryBox(context, '건강기능식품', '/search/c/건강기능식품')
                                 ),
                                 const SizedBox(width: 8,),
                                 Expanded(
-                                    child: CategoryBox('단백질 보충제')
+                                    child: CategoryBox(context, '단백질 보충제', '/search/c/단백질 보충제')
                                 ),
                               ],
                             ),
@@ -189,11 +189,11 @@
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                    child: CategoryBox('프로틴 식품')
+                                    child: CategoryBox(context, '프로틴 식품', '/search/c/단백질 보충제')
                                 ),
                                 const SizedBox(width: 8,),
                                 Expanded(
-                                    child: CategoryBox('비타민 / 미네랄')
+                                    child: CategoryBox(context, '비타민 & 미네랄', '/search/c/비타민 & 미네랄')
                                 ),
                               ],
                             ),
@@ -205,11 +205,11 @@
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                    child: CategoryBox('다이어트 보조제')
+                                    child: CategoryBox(context, '다이어트 보조제', '/search/c/다이어트 보조제')
                                 ),
                                 const SizedBox(width: 8,),
                                 Expanded(
-                                    child: CategoryBox('간편한 식단')
+                                    child: CategoryBox(context, '간편한 식단', '/search/c/간편한 식단')
                                 ),
                               ],
                             ),
@@ -298,26 +298,31 @@
     }
   }
 
-  Widget CategoryBox(String text)
+  Widget CategoryBox(BuildContext context, String text, String path)
   {
     return Container(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFFDDDDDD),
-          borderRadius: BorderRadius.circular(24),
-        ),
+      child: InkWell(
+        onTap: (){
+          context.go(path);
+        },
         child: Container(
-          padding:
-          EdgeInsets.fromLTRB(16, 134, 16, 12),
-          child: Text(
-            text,
-            style: GoogleFonts.getFont(
-              'Roboto Condensed',
-              fontWeight: FontWeight.w300,
-              fontSize: 18,
-              height: 1.2,
-              letterSpacing: -0.5,
-              color: Color(0xFF191919),
+          decoration: BoxDecoration(
+            color: Color(0xFFDDDDDD),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Container(
+            padding:
+            EdgeInsets.fromLTRB(16, 134, 16, 12),
+            child: Text(
+              text,
+              style: GoogleFonts.getFont(
+                'Roboto Condensed',
+                fontWeight: FontWeight.w300,
+                fontSize: 18,
+                height: 1.2,
+                letterSpacing: -0.5,
+                color: Color(0xFF191919),
+              ),
             ),
           ),
         ),
