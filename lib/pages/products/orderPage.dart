@@ -2,148 +2,317 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/products.dart';
+import '../../utils/constants.dart';
+import '../../widgets/customAppbar.dart';
+import '../../widgets/customBackButton.dart';
 import '../../widgets/priceText.dart';
 
-class orderPage extends StatelessWidget {
+class OrderPage extends StatefulWidget {
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  int buyTypeButton = 1;
+  int cashTypeButton = 0;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
           children: [
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(top: 60),
-                // 배경색
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                ),
+                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      // 주문 상품 정보 텍스트
-                      margin: EdgeInsets.fromLTRB(12, 10, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          child: Text(
-                            '주문 상품 정보',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        '수령 방식 선택',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.45,
                         ),
                       ),
                     ),
-                    Container(
-                      // QR 코드 발급 버튼 & 매장 픽업 버튼
-                      margin: EdgeInsets.fromLTRB(12, 10, 12, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              // QR 코드 발급 버튼
-                              child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                            height: 40,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: TextButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    alignment: Alignment.centerLeft),
-                                child: Text(
-                                  'QR 코드 발급',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: Color(0x80000000),
-                                  ),
-                                )),
-                          )),
-                          Expanded(
-                            // 매장 픽업 버튼
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              height: 40,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color(0x1A000000)),
-                                borderRadius: BorderRadius.circular(6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              buyTypeButton = 1;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: buyTypeButton == 1 ? Color(0x26FF8A00) : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: buyTypeButton == 1 ? Color(0xFFFF8A00) : Color(0xFF9EA3B2)),
+                                borderRadius: BorderRadius.circular(24),
                               ),
-                              child: TextButton(
-                                  onPressed: () {},
-                                  style: ButtonStyle(
-                                      alignment: Alignment.centerLeft),
-                                  child: Text(
-                                    '매장 픽업',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: Color(0x80000000),
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      //결제할 상품 텍스트
-                      margin: EdgeInsets.fromLTRB(12, 28, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          child: RichText(
-                            text: TextSpan(
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                height: 1.3,
-                                color: Color(0xFFC7C7C7),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '결제할 상품',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    height: 1.3,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '  총 3개',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    height: 1.3,
-                                    color: Color(0xFFC7C7C7),
-                                  ),
-                                ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
                               ],
                             ),
+                            child: Text(
+                              '택배 배송',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.2,
+                                letterSpacing: -0.35,
+                              ),
+                            ),
                           ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              buyTypeButton = 2;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: buyTypeButton == 2 ? Color(0x26FF8A00) : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: buyTypeButton == 2 ? Color(0xFFFF8A00) : Color(0xFF9EA3B2)),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              '정기 배송',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.2,
+                                letterSpacing: -0.35,
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              buyTypeButton = 3;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: buyTypeButton == 3 ? Color(0x26FF8A00) : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: buyTypeButton == 3 ? Color(0xFFFF8A00) : Color(0xFF9EA3B2)),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              '오프라인 QR 발급',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.2,
+                                letterSpacing: -0.35,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    buyTypeButton != 3
+                        ? Container(
+                            padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                            child: Text(
+                              '배송지 정보',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 18,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w400,
+                                height: 1.2,
+                                letterSpacing: -0.45,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    buyTypeButton != 3
+                        ? Stack(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(15),
+                                width: double.infinity,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  shadows: [
+                                    BoxShadow(
+                                      color: Color(0x0A000000),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '이윤구',
+                                      style: TextStyle(
+                                        color: Color(0xFF111111),
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.5,
+                                        letterSpacing: -0.35,
+                                      ),
+                                    ),
+                                    Text(
+                                      '010-5882-9967',
+                                      style: TextStyle(
+                                        color: Color(0xFF111111),
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.5,
+                                        letterSpacing: -0.35,
+                                      ),
+                                    ),
+                                    Text(
+                                      '전북특별자치도 전주시 완산구 당산로 34',
+                                      style: TextStyle(
+                                        color: Color(0xFF111111),
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.5,
+                                        letterSpacing: -0.35,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      margin: EdgeInsets.only(top: 10),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                                          borderRadius: BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '배송 시 요청사항을 선택해주세요.',
+                                        style: TextStyle(
+                                          color: Color(0xFF111111),
+                                          fontSize: 14,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.2,
+                                          letterSpacing: -0.35,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 25,
+                                  width: 100,
+                                  margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
+                                  alignment: Alignment.center,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '배송지 변경',
+                                    style: TextStyle(
+                                      color: Color(0xFF111111),
+                                      fontSize: 14,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.2,
+                                      letterSpacing: -0.35,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        : Container(),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: Text(
+                        '구매 상품 정보',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.45,
                         ),
                       ),
                     ),
@@ -151,829 +320,711 @@ class orderPage extends StatelessWidget {
                       if (products.cartProductList.isEmpty) {
                         return CircularProgressIndicator();
                       } else {
-                        return Container(
-                          // 결제할 상품 컨테이너
-                          margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
-                          child: Column(
-                            children: List.generate(
-                                products.cartProductList.length, (index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductDetailPage()),
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0x1A000000)),
-                                    borderRadius: BorderRadius.circular(6),
+                        return Column(
+                          children: List.generate(products.cartProductList.length, (index) {
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 120,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(width: 1, color: Color(0x7F9EA3B2)),
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 200,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fitHeight,
-                                            image: NetworkImage(
-                                              products.cartProductList[index]
-                                                  .main_image,
-                                            ),
-                                          ),
+                                  shadows: [
+                                    BoxShadow(
+                                      color: Color(0x0A000000),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      //상품 사진
+                                      width: 75,
+                                      height: 75,
+                                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      alignment: Alignment.center,
+                                      decoration: ShapeDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(products.cartProductList[index].main_image),
+                                          fit: BoxFit.contain,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12),
                                         ),
                                       ),
-                                      Column(
+                                    ),
+                                    Flexible(
+                                      child: Column(
                                         // 상품 이름, 가격
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            // 상품이름 텍스트
-                                            alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 8, 0, 0),
-                                            child: Text(
-                                              products
-                                                  .cartProductList[index].name,
-                                              style: GoogleFonts.getFont(
-                                                'Roboto',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                                height: 1.3,
-                                                color: Color(0xFF000000),
-                                              ),
+                                          Text(
+                                            products.cartProductList[index].name,
+                                            style: TextStyle(
+                                              color: Color(0xFF111111),
+                                              fontSize: 12,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.2,
+                                              letterSpacing: -0.30,
                                             ),
                                           ),
-                                          Container(
-                                            // 가격
-                                            alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 4, 0, 8),
-                                            child: priceText(
-                                              products
-                                                  .cartProductList[index].price,
-                                              products
-                                                  .cartProductList[index].event,
-                                              products.cartProductList[index]
-                                                  .discount,
+                                          Text(
+                                            '수량 1개',
+                                            style: TextStyle(
+                                              color: Color(0xFF777C89),
+                                              fontSize: 12,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.2,
+                                              letterSpacing: -0.30,
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                          ),
-                        );
-                      }
-                    }),
-                    Container(
-                      // 주문자 정보
-                      margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '주문자 정보',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  height: 1.3,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              // 개인정보
-                              '이름 / 연락처: 이윤구 / 010-5882-9967',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                height: 1.3,
-                                color: Color(0x80000000),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                // 이용중인 센터
-                                '이용 중인 센터: 전주 원웨이 피트니스',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      // 할인 코드 및 적립금
-                      margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          child: Text(
-                            '할인 코드 및 적립금',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      // 할인 코드
-                      margin: EdgeInsets.fromLTRB(12, 8, 12, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            // 할인 코드 텍스트
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '할인 코드',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            // 코드 입력 텍스트 필드
-                            padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: '코드를 입력하세요',
-                                    ),
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: Color(0x80000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 코드 확인 버튼
-                                  margin: EdgeInsets.only(left: 10),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xFF000000)),
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Color(0xFFFFFFFF),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      '코드 확인',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // 쿠폰사용 텍스트
-                      margin: EdgeInsets.fromLTRB(12, 8, 12, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '쿠폰 사용',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            // 코드 입력 텍스트 필드
-                            padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '보유 쿠폰 3장 ( 구현 x )',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: Color(0x80000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 코드 확인 버튼
-                                  margin: EdgeInsets.only(left: 10),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xFF000000)),
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Color(0xFFFFFFFF),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      '쿠폰 적용',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(12, 8, 12, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '적립금 사용',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                ' 보유 적립금 3,000원',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            // 적립금 입력 텍스트 필드
-                            padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: '금액을 입력하세요',
-                                    ),
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: Color(0x80000000),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // 전액 사용 버튼
-                                  margin: EdgeInsets.only(left: 10),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xFF000000)),
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Color(0xFFFFFFFF),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      '전액 사용',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '최종 결제 금액',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  height: 1.3,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '최종 결제 예정 금액: ₩89,854',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                height: 1.3,
-                                color: Color(0x80000000),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      //결제 수단
-                      margin: EdgeInsets.fromLTRB(12, 8, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  '결제 수단',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    height: 1.1,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              // 결제 수단 레이아웃
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x0D000000),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                    child: Text(
-                                      '신용카드',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x0D000000),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                    child: Text(
-                                      '네이버 페이',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x0D000000),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                    child: Text(
-                                      '카카오페이',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x0D000000),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    height: 36,
-                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                    child: Text(
-                                      '무통장 입금',
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        height: 1.4,
-                                        color: Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      // 주문자 동의 텍스트
-                      margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              '주문자 동의',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                height: 1.3,
-                                color: Color(0xFF000000),
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '주문 내용을 확인했으며 서비스 약관 및 결제에 동의합니다.',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13,
-                              height: 1.2,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                text: '[필수] 개인정보 수집 및 이용 동의 ',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: '자세히',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      decoration: TextDecoration.underline,
-                                      height: 1.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                text: '[필수] 개인정보 제 3자 제공 동의 ',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: '자세히',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      decoration: TextDecoration.underline,
-                                      height: 1.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                text: '[필수] 전자결제 대행 이용 동의 ',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: '자세히',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      decoration: TextDecoration.underline,
-                                      height: 1.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(12, 16, 12, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              '🌟',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20,
-                                height: 1.6,
-                                color: Color(0xFF000000),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text(
-                                  '유사한 상품',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                '이 상품은 어때요?',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // 구분선
-                      margin: EdgeInsets.fromLTRB(10, 4, 10, 0),
-                      child: Divider(
-                        thickness: 0.3, // 두께
-                        color: Colors.grey, // 색상
-                      ),
-                    ),
-                    Container(
-                      //추천상품 텍스트
-                      margin: EdgeInsets.fromLTRB(10, 4, 0, 0),
-                      child: Text(
-                        '추천 상품',
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          height: 1.3,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
-                    ),
-                    Consumer<products>(builder: (consumer, products, child) {
-                      if (products.eventProductList.isEmpty) {
-                        return CircularProgressIndicator();
-                      } else {
-                        return Container(
-                          margin: EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 400,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: NetworkImage(
-                                        products.eventProductList[0].main_image,
-                                      )),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(12, 0, 12, 8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                      child: Text(
-                                        products.eventProductList[0].name,
-                                        style: GoogleFonts.getFont(
-                                          'Roboto',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                          height: 1.3,
-                                          color: Color(0xFF000000),
-                                        ),
-                                      ),
                                     ),
                                     Container(
-                                        margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                                        child: priceText(
-                                            products.eventProductList[0].price,
-                                            products.eventProductList[0].event,
-                                            products
-                                                .eventProductList[0].discount)),
+                                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      child: Column(
+                                        // 상품 이름, 가격
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            '₩ 122,664원',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color: Color(0xFF767676),
+                                              fontSize: 12,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.lineThrough,
+                                              height: 1.2,
+                                              letterSpacing: -0.30,
+                                            ),
+                                          ),
+                                          Text(
+                                            '₩ 110,397원',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color: Color(0xFF111111),
+                                              fontSize: 12,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.2,
+                                              letterSpacing: -0.30,
+                                            ),
+                                          ),
+                                          Text(
+                                            '5,519원 적립',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color: Color(0xFFFF8A00),
+                                              fontSize: 12,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.2,
+                                              letterSpacing: -0.30,
+                                            ),
+                                          ),
+                                          Text(
+                                            '₩ 110,397원',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color: Color(0xFF111111),
+                                              fontSize: 14,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w600,
+                                              height: 1.2,
+                                              letterSpacing: -0.35,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
+                            );
+                          }),
                         );
                       }
                     }),
                     Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(12, 0, 12, 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF000000)),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Color(0xFFFFFFFF),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: Text(
+                        '할인 혜택',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.45,
+                        ),
                       ),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          '결제하기',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.4,
-                            color: Color(0xFF000000),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0x0A000000),
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '상품 할인',
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Text(
+                                '-12,267원',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: Color(0xFFDC3644),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                            ],
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '등급 할인',
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Text(
+                                '-1,755원',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: Color(0xFFDC3644),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '상품 쿠폰 할인',
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Text(
+                                '-0원',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '보유 적립금 사용',
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(30, 3, 10, 3),
+                                    alignment: Alignment.centerRight,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      '5,000원',
+                                      style: TextStyle(
+                                        color: Color(0xFF767676),
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2,
+                                        letterSpacing: -0.35,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(width: 1, color: Color(0xFF111111)),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      '사용',
+                                      style: TextStyle(
+                                        color: Color(0xFF111111),
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2,
+                                        letterSpacing: -0.35,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '보유 적립금: 5,000원',
+                                style: TextStyle(
+                                  color: Color(0xFF767676),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Text(
+                                '사용 가능 적립금: 5,000원',
+                                style: TextStyle(
+                                  color: Color(0xFF767676),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Text(
+                                '적립금 사용: -5,000원',
+                                style: TextStyle(
+                                  color: Color(0xFFDC3644),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '할인 합계',
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              Text(
+                                '-19,022원',
+                                style: TextStyle(
+                                  color: Color(0xFFDC3644),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: Text(
+                        '결제 수단',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.45,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              cashTypeButton = 1;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: cashTypeButton == 1 ? Color(0x26FF8A00) : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: cashTypeButton == 1 ? Color(0xFFFF8A00) : Color(0xFF9EA3B2)),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              '네이버페이',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.2,
+                                letterSpacing: -0.35,
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              cashTypeButton = 2;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: cashTypeButton == 2 ? Color(0x26FF8A00) : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: cashTypeButton == 2 ? Color(0xFFFF8A00) : Color(0xFF9EA3B2)),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              '토스페이',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.2,
+                                letterSpacing: -0.35,
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              cashTypeButton = 3;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: cashTypeButton == 3 ? Color(0x26FF8A00) : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: cashTypeButton == 3 ? Color(0xFFFF8A00) : Color(0xFF9EA3B2)),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              '휴대폰',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.2,
+                                letterSpacing: -0.35,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: Text(
+                        '최종 결제 금액',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.45,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.only(top: 5),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Color(0xFF9EA3B2)))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '상품 금액',
+                            style: TextStyle(
+                              color: Color(0xFF191919),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                          Text(
+                            '220,794원',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Color(0xFF191919),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.only(top: 5),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Color(0xFF9EA3B2)))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '배송비',
+                            style: TextStyle(
+                              color: Color(0xFF191919),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                          Text(
+                            '0원',
+                            style: TextStyle(
+                              color: Color(0xFF191919),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.only(top: 5),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Color(0xFF9EA3B2)))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '할인 금액',
+                            style: TextStyle(
+                              color: Color(0xFF191919),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                          Text(
+                            '-19,022원',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Color(0xFFDC3644),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.only(top: 5),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Color(0xFF9EA3B2)))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '최종 결제 금액',
+                            style: TextStyle(
+                              color: Color(0xFF191919),
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                          Text(
+                            '201,772원',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 15),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '주문 내용을 확인했으며 서비스 약관 및 결제에 동의합니다.',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 12,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.2,
+                          letterSpacing: -0.30,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10),
+                      alignment: Alignment.center,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFFF8A00),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: Text(
+                        '201,772원 결제하기',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 1.2,
+                          letterSpacing: -0.35,
                         ),
                       ),
                     ),
@@ -983,54 +1034,17 @@ class orderPage extends StatelessWidget {
             ),
             // 상단바
             Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey, // 테두리 색상
-                      width: 0.3, // 테두리 두께
-                    ),
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CustomAppbar(
+                  title: '주문서 작성',
+                  leading: CustomBackButton(
+                    onTap: () {
+                      context.pop();
+                    },
                   ),
-                ),
-                child: Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        //뒤로가기 버튼
-                        margin: EdgeInsets.only(left: 15),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(Icons.keyboard_arrow_left),
-                          color: Color(0xFF000000),
-                        ),
-                      ),
-                      Container(
-                        // 주문서 작성 텍스트
-                        margin: EdgeInsets.only(left: 15),
-                        child: Text(
-                          '주문서 작성',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            height: 1.2,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                )),
           ],
         ),
       ),

@@ -1,500 +1,389 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/products/orderPage.dart';
-import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'package:flutter_app/widgets/priceText.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../function/moneyFormat.dart';
 import '../../store/products.dart';
+import '../../utils/constants.dart';
+import '../../widgets/customAppbar.dart';
+import '../../widgets/customBackButton.dart';
 
-class cartPage extends StatelessWidget {
+class cartPage extends StatefulWidget {
+  @override
+  State<cartPage> createState() => _cartPageState();
+}
+
+class _cartPageState extends State<cartPage> {
+  List<bool> checkedProducts = [];
+  List<int> productCount = []; // 구매할 특정 제품의 개수
+  List<product> selectedProductList = []; // 선택된 제품들을 저장할 리스트
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
           children: [
             SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(top: 60),
-                // 배경색
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // 수령 방식 선택
-                      margin: EdgeInsets.fromLTRB(12, 10, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          child: Text(
-                            '수령 방식 선택',
-                            style: GoogleFonts.getFont(
-                              'Roboto',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              height: 1.3,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(12, 10, 12, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              // QR 코드 발급 버튼
-                              child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                            height: 40,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0x1A000000)),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: TextButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    alignment: Alignment.centerLeft),
-                                child: Text(
-                                  'QR 코드 발급',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: Color(0x80000000),
-                                  ),
-                                )),
-                          )),
-                          Expanded(
-                            // 매장 픽업 버튼
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              height: 40,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color(0x1A000000)),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: TextButton(
-                                  onPressed: () {},
-                                  style: ButtonStyle(
-                                      alignment: Alignment.centerLeft),
-                                  child: Text(
-                                    '매장에서 한번에 픽업',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: Color(0x80000000),
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      //결제할 상품 텍스트
-                      margin: EdgeInsets.fromLTRB(12, 28, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          child: RichText(
-                            text: TextSpan(
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                height: 1.3,
-                                color: Color(0xFFC7C7C7),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '결제할 상품',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    height: 1.3,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '  총 3개',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    height: 1.3,
-                                    color: Color(0xFFC7C7C7),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Consumer<products>(builder: (consumer, products, child) {
+              child: Column(
+                children: [
+                  Container(
+                    margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                    padding: EdgeInsets.only(top: 60),
+                    child: Consumer<products>(builder: (consumer, products, child) {
                       if (products.cartProductList.isEmpty) {
                         return CircularProgressIndicator();
                       } else {
-                        return Container(
-                          // 결제할 상품 컨테이너
-                          margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
-                          child: Column(
-                            children: List.generate(
-                                products.cartProductList.length, (index) {
-                              return InkWell(
+                        if (checkedProducts.length != products.cartProductList.length) {
+                          checkedProducts = List<bool>.filled(products.cartProductList.length, false);
+                          productCount = List<int>.filled(products.cartProductList.length, 1);
+                        }
+                        return Column(
+                          children: List.generate(products.cartProductList.length, (index) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductDetailPage()),
-                                  );
+                                  context.push('/productDetail');
                                 },
                                 child: Container(
-                                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0x1A000000)),
-                                    borderRadius: BorderRadius.circular(6),
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(width: 1, color: Color(0x7F9EA3B2)),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Color(0x0A000000),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: 200,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fitHeight,
-                                            image: NetworkImage(
-                                              products.cartProductList[index]
-                                                  .main_image,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Column(
-                                        // 상품 이름, 가격
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            // 상품이름 텍스트
-                                            alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 8, 0, 0),
-                                            child: Text(
-                                              products
-                                                  .cartProductList[index].name,
-                                              style: GoogleFonts.getFont(
-                                                'Roboto',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                                height: 1.3,
-                                                color: Color(0xFF000000),
+                                            width: 30,
+                                            height: 30,
+                                            child: Checkbox(
+                                              value: checkedProducts[index],
+                                              onChanged: (bool? newValue) {
+                                                setState(() {
+                                                  checkedProducts[index] = newValue!;
+                                                  if (newValue) {
+                                                    selectedProductList.add(products.cartProductList[index]);
+                                                  } else {
+                                                    selectedProductList.remove(products.cartProductList[index]);
+                                                  }
+                                                });
+                                              },
+                                              fillColor: MaterialStateProperty.resolveWith((states) {
+                                                if (!states.contains(MaterialState.selected)) {
+                                                  return Color(0xFFFAFAFA);
+                                                }
+                                                return null;
+                                              }),
+                                              activeColor: Colors.blue,
+                                              checkColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(6.5),
                                               ),
+                                              side: BorderSide(color: Color(0xFF90A4AE)),
                                             ),
                                           ),
                                           Container(
-                                            // 가격
-                                            alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 4, 0, 8),
-                                            child: priceText(
-                                              products
-                                                  .cartProductList[index].price,
-                                              products
-                                                  .cartProductList[index].event,
-                                              products.cartProductList[index]
-                                                  .discount,
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: SvgPicture.asset(
+                                              'assets/vectors/close.svg',
+                                              width: 10,
+                                              height: 10,
                                             ),
-                                          ),
+                                          )
                                         ],
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(15,5,15,15),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      fit: BoxFit.fitHeight,
+                                                      image: NetworkImage(
+                                                        products.cartProductList[index].main_image,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '마이 프로틴',
+                                                        style: TextStyle(
+                                                          color: Color(0xFF767676),
+                                                          fontSize: 12,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w400,
+                                                          height: 1.2,
+                                                          letterSpacing: -0.30,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        products.cartProductList[index].name,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 2,
+                                                        style: TextStyle(
+                                                          color: Color(0xFF111111),
+                                                          fontSize: 12,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w400,
+                                                          height: 1.2,
+                                                          letterSpacing: -0.30,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              Icons.remove,
+                                                              size: 20,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                if (productCount[index] > 1) {
+                                                                  productCount[index]--;
+                                                                }
+                                                              });
+                                                            },
+                                                          ),
+                                                          Text(
+                                                            productCount[index].toString(),
+                                                            style: TextStyle(
+                                                              color: Color(0xFF111111),
+                                                              fontSize: 14,
+                                                              fontFamily: 'Pretendard',
+                                                              fontWeight: FontWeight.w600,
+                                                              height: 1.2,
+                                                              letterSpacing: -0.35,
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              Icons.add,
+                                                              size: 20,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                productCount[index]++;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: 15,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '상품 가격',
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  money.format(products.cartProductList[index].price),
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF767676),
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    decoration: TextDecoration.lineThrough,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '할인 가격',
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  money.format(products.cartProductList[index].price),
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF111111),
+                                                    fontSize: 14,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.35,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '적립금',
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '5,519원 적립',
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Color(0xFFFF8A00),
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '쿠폰 사용',
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "",
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF767676),
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                    decoration: TextDecoration.lineThrough,
+                                                    height: 1.2,
+                                                    letterSpacing: -0.30,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              );
-                            }),
-                          ),
+                              ),
+                            );
+                          }),
                         );
                       }
                     }),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '결제 금액',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  height: 1.3,
-                                  color: Color(0xFF000000),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '최종 결제 예정 금액: ₩89,854',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                height: 1.3,
-                                color: Color(0x80000000),
-                              ),
-                            ),
-                          ],
+                  ),
+                  Container(
+                    margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                    child: InkWell(
+                      onTap: () {
+                        context.push('/order');
+                      },
+                      child: Container(
+                        height: 60,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFF8A00),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                            decoration: BoxDecoration(
-                              color: Color(0x0D000000),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              '🌟',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20,
-                                height: 1.6,
-                                color: Color(0xFF000000),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text(
-                                  'Recommended Product',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                '이 상품은 어때요?',
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.3,
-                                  color: Color(0x80000000),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // 구분선
-                      margin: EdgeInsets.fromLTRB(10, 4, 10, 0),
-                      child: Divider(
-                        thickness: 0.3, // 두께
-                        color: Colors.grey, // 색상
-                      ),
-                    ),
-                    Container(
-                      //추천상품 텍스트
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Text(
-                        '추천 상품',
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          height: 1.3,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
-                    ),
-                    Consumer<products>(builder: (consumer, products, child) {
-                      if (products.eventProductList.isEmpty) {
-                        return CircularProgressIndicator();
-                      } else {
-                        return Container(
-                          margin: EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 400,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: NetworkImage(
-                                      products.eventProductList[0].main_image,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(12, 0, 12, 8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                      child: Text(
-                                        products.eventProductList[0].name,
-                                        style: GoogleFonts.getFont(
-                                          'Roboto',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                          height: 1.3,
-                                          color: Color(0xFF000000),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                                      child: priceText(
-                                          products.eventProductList[0].price,
-                                          products.eventProductList[0].event,
-                                          products
-                                              .eventProductList[0].discount),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    }),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(12, 0, 12, 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF000000)),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Color(0xFFFFFFFF),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => orderPage()),
-                          );
-                        },
                         child: Text(
-                          '주문하기',
+                          '주문서 작성',
                           style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.4,
-                            color: Color(0xFF000000),
+                            'Work Sans',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 1.3,
+                            color: Color(0xFFFFFFFF),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-
-            // 상단바
             Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey, // 테두리 색상
-                      width: 0.3, // 테두리 두께
-                    ),
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CustomAppbar(
+                  title: '장바구니',
+                  leading: CustomBackButton(
+                    onTap: () {
+                      context.pop();
+                    },
                   ),
-                ),
-                child: Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        //뒤로가기 버튼
-                        margin: EdgeInsets.only(left: 15),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(Icons.keyboard_arrow_left),
-                          color: Color(0xFF000000),
-                        ),
-                      ),
-                      Container(
-                        // 주문서 작성 텍스트
-                        margin: EdgeInsets.only(left: 15),
-                        child: Text(
-                          '장바구니',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            height: 1.2,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                )),
           ],
         ),
       ),
