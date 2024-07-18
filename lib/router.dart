@@ -30,8 +30,16 @@ GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
 final routerNotifier = ValueNotifier<int>(0);
 
+String getFirstPathSegment(Uri uri) {
+  if (uri.pathSegments.isNotEmpty) {
+    return '/' + uri.pathSegments.first;
+  }
+  return '/';
+}
+
 int _getIndexForLocation(Uri uri) {
-  switch (uri.path) {
+  final firstPath = getFirstPathSegment(uri);
+  switch (firstPath) {
     case '/home':
       return 0;
     case '/search':

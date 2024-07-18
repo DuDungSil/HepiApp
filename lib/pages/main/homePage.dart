@@ -189,7 +189,7 @@
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                    child: CategoryBox(context, '프로틴 식품', '/search/c/단백질 보충제')
+                                    child: CategoryBox(context, '프로틴 식품', '/search/c/프로틴 식품')
                                 ),
                                 const SizedBox(width: 8,),
                                 Expanded(

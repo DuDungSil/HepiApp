@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
@@ -8,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
-
 import '../../utils/constants.dart';
 
 class SearchPage extends StatefulWidget {
@@ -37,6 +35,21 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  @override
+  void didUpdateWidget(covariant SearchPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 여기서 상태를 업데이트
+    if (widget.query != oldWidget.query) {
+      _textEditingController.text = widget.query ?? '';
+    }
+  }
+
+  @override
+  void dispose() {
+    removeOverlay();
+    super.dispose();
+  }
+
   void insertOverlay() {
     if (!overlayEntry.mounted) {
       OverlayState overlayState = Overlay.of(context)!;
@@ -50,7 +63,38 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  void _autoComplete(TextEditingController _textEditingController, String keyword){
+    _textEditingController.text = keyword;
+  }
+
+  void _searchKeyword(BuildContext context ,String keyword){
+    if (keyword == '') return;
+    if (widget.category != null) {
+      context.go(Uri(
+        path: '/search/c/${widget.category.toString()}',
+        queryParameters: {'query': keyword},
+      ).toString());
+    } else {
+      context.go(Uri(
+        path: '/search',
+        queryParameters: {'query': keyword},
+      ).toString());
+    }
+    removeOverlay();
+    FocusScope.of(context).unfocus();
+  }
+
+  void _searchCategory(BuildContext context ,String category){
+    context.go(Uri(
+      path: '/search/c/${category}',
+    ).toString());
+  }
+
   Widget _overlayEntryBuilder(BuildContext context) {
+    if (!mounted) {
+      return Container(); // Return an empty container if the widget is not mounted
+    }
+
     Offset position = _getOverlayEntryPosition();
     Size size = _getOverlayEntrySize();
 
@@ -67,10 +111,8 @@ class _SearchPageState extends State<SearchPage> {
           child: Container(
             color: Colors.white,
             child: AutoCompleteKeywordList(
-              onItemTap: (keyword) {
-                _textEditingController.text = keyword;
-                removeOverlay();
-              },
+              autoComplete: (keyword){_autoComplete(_textEditingController, keyword);},
+              searchKeyword: _searchKeyword,
             ),
           ),
         ),
@@ -79,13 +121,28 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Offset _getOverlayEntryPosition() {
-    RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
-    return Offset(renderBox.localToGlobal(Offset.zero).dx, renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
+    try
+    {
+      RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+      return Offset(renderBox.localToGlobal(Offset.zero).dx, renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
+    }
+    catch (e)
+    {
+      return Offset.zero;
+    }
   }
 
   Size _getOverlayEntrySize() {
-    RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
-    return renderBox.size;
+    try
+    {
+      RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+      return renderBox.size;
+    }
+    catch (e)
+    {
+      return Size.zero;
+    }
+
   }
 
   @override
@@ -144,10 +201,10 @@ class _SearchPageState extends State<SearchPage> {
                                     spacing: 8,
                                     runSpacing: 8,
                                     children: [
-                                      EclipseText(text: 'WPI'),
-                                      EclipseText(text: 'WPC'),
-                                      EclipseText(text: '비건'),
-                                      EclipseText(text: '신상품'),
+                                      GestureDetector(onTap: (){_searchCategory(context, 'WPI');}, child: EclipseText(text: 'WPI')),
+                                      GestureDetector(onTap: (){_searchCategory(context, 'WPC');}, child: EclipseText(text: 'WPC')),
+                                      GestureDetector(onTap: (){_searchCategory(context, '비건');}, child: EclipseText(text: '비건')),
+                                      GestureDetector(onTap: (){_searchCategory(context, '신상품');}, child: EclipseText(text: '신상품')),
                                     ],
                                   ),
                                 ),
@@ -260,11 +317,36 @@ class _SearchPageState extends State<SearchPage> {
                             spacing: 8,
                             runSpacing: 8,
                             children: [
-                              EclipseText(text: '삼대오백'),
-                              EclipseText(text: '투퍼데이 종합비타민 120정'),
-                              EclipseText(text: '잠백이 흑마늘'),
-                              EclipseText(text: '프로틴'),
-                              EclipseText(text: '크레아틴 500g'),
+                              GestureDetector(onTap: (){
+                                _autoComplete(_textEditingController, '삼대오백');
+                                _searchKeyword(context, '삼대오백');
+                                },
+                                  child: EclipseText(text: '삼대오백'),
+                              ),
+                              GestureDetector(onTap: (){
+                                _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
+                                _searchKeyword(context, '투퍼데이 종합비타민 120정');
+                              },
+                                child: EclipseText(text: '투퍼데이 종합비타민 120정'),
+                              ),
+                              GestureDetector(onTap: (){
+                                _autoComplete(_textEditingController, '잠백이 흑마늘');
+                                _searchKeyword(context, '잠백이 흑마늘');
+                              },
+                                child: EclipseText(text: '잠백이 흑마늘'),
+                              ),
+                              GestureDetector(onTap: (){
+                                _autoComplete(_textEditingController, '프로틴');
+                                _searchKeyword(context, '프로틴');
+                              },
+                                child: EclipseText(text: '프로틴'),
+                              ),
+                              GestureDetector(onTap: (){
+                                _autoComplete(_textEditingController, '크레아틴 500g');
+                                _searchKeyword(context, '크레아틴 500g');
+                              },
+                                child: EclipseText(text: '크레아틴 500g'),
+                              ),
                             ],
                           ),
                         ),
@@ -289,7 +371,7 @@ class _SearchPageState extends State<SearchPage> {
                         margin: EdgeInsets.only(top: 10),
                         alignment: Alignment.center,
                         decoration:
-                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                        BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 20),
@@ -314,7 +396,7 @@ class _SearchPageState extends State<SearchPage> {
                         margin: EdgeInsets.only(top: 10),
                         alignment: Alignment.center,
                         decoration:
-                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                        BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                       ),
                       const SizedBox(
                         height: 100,
@@ -374,19 +456,7 @@ class _SearchPageState extends State<SearchPage> {
                               controller: _textEditingController,
                               autofocus: widget.autoFocus,
                               onSubmitted: (value) {
-                                if (value == '') return;
-                                if (widget.category != null) {
-                                  context.go(Uri(
-                                    path: '/search/c/${widget.category.toString()}',
-                                    queryParameters: {'query': value},
-                                  ).toString());
-                                } else {
-                                  context.go(Uri(
-                                    path: '/search',
-                                    queryParameters: {'query': value},
-                                  ).toString());
-                                }
-                                ;
+                                _searchKeyword(context, value);
                               },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8),
@@ -461,9 +531,10 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class AutoCompleteKeywordList extends StatelessWidget {
-  final Function(String) onItemTap;
+  final Function(String) autoComplete;
+  final Function(BuildContext, String) searchKeyword;
 
-  AutoCompleteKeywordList({required this.onItemTap});
+  AutoCompleteKeywordList({required this.searchKeyword, required this.autoComplete});
 
   @override
   Widget build(BuildContext context) {
@@ -483,35 +554,36 @@ class AutoCompleteKeywordList extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: keywords.map((keyword) {
-            return GestureDetector(
-              onTap: () {
-                onItemTap(keyword);
-              },
-              child: Container(
-                height: 36,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                    top: BorderSide(color: Color(0xFF9EA3B2)),
-                    bottom: BorderSide(color: Color(0xFF9EA3B2)),
-                  ),
+            return Container(
+              height: 36,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  top: BorderSide(color: Color(0xFF9EA3B2)),
+                  bottom: BorderSide(color: Color(0xFF9EA3B2)),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                      width: 24,
-                      height: 24,
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: SvgPicture.asset(
-                          'assets/vectors/clock.svg',
-                        ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    width: 24,
+                    height: 24,
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: SvgPicture.asset(
+                        'assets/vectors/clock.svg',
                       ),
                     ),
-                    Expanded(
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        autoComplete(keyword);
+                        searchKeyword(context, keyword);
+                      },
                       child: Text(
                         keyword,
                         style: GoogleFonts.getFont(
@@ -524,7 +596,12 @@ class AutoCompleteKeywordList extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      autoComplete(keyword);
+                    },
+                    child: Container(
                       margin: EdgeInsets.only(right: 15),
                       width: 24,
                       height: 24,
@@ -536,8 +613,8 @@ class AutoCompleteKeywordList extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }).toList(),
