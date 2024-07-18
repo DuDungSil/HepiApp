@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../../store/products.dart';
 import '../../widgets/priceText.dart';
 
-class orderPage extends StatelessWidget {
+class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

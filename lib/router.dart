@@ -5,6 +5,7 @@ import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
 import 'package:flutter_app/pages/main/qrPage.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
+import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
@@ -20,7 +21,8 @@ final pageList = [
   EventPage(), // INDEX 5  /home/event
   ProductDetailPage(), // INDEX 6  /productdetail
   LoginPage(), // INDEX 7  /login
-  RegisterPage() // INDEX 8  /register
+  RegisterPage(), // INDEX 8  /register
+  OrderPage() // INDEX 9  /register
 ];
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -100,7 +102,7 @@ final GoRouter router = GoRouter(
       ],
     ),
     GoRoute(
-      path: '/productdetail',
+      path: '/productDetail',
       builder: (BuildContext context, GoRouterState state) => pageList[6],
     ),
     GoRoute(
@@ -110,6 +112,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/register',
       builder: (BuildContext context, GoRouterState state) => pageList[8],
+    ),
+    GoRoute(
+      path: '/order',
+      builder: (BuildContext context, GoRouterState state) => pageList[9],
     ),
   ],
 );
