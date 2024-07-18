@@ -170,7 +170,7 @@ class _OrderPageState extends State<OrderPage> {
                         ),
                       ],
                     ),
-                    buyTypeButton == 1
+                    buyTypeButton != 3
                         ? Container(
                             padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
                             child: Text(
@@ -186,7 +186,7 @@ class _OrderPageState extends State<OrderPage> {
                             ),
                           )
                         : Container(),
-                    buyTypeButton == 1
+                    buyTypeButton != 3
                         ? Stack(
                             children: [
                               Container(
