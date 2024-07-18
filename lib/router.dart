@@ -5,6 +5,7 @@ import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
 import 'package:flutter_app/pages/main/qrPage.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
+import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
@@ -16,7 +17,8 @@ final pageList = [
   SearchPage(), // INDEX 1  /search
   MyPage(), // INDEX 2  /mypage
   HealthcarePage(), // INDEX 3  /healthcare
-  QRPage(), // INDEX 4  /qr
+  // QRPage(), // INDEX 4  /qr
+  OrderPage(),
   EventPage(), // INDEX 5  /home/event
   ProductDetailPage(), // INDEX 6  /productdetail
   LoginPage(), // INDEX 7  /login

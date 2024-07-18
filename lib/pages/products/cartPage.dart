@@ -425,7 +425,7 @@ class cartPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => orderPage()),
+                                builder: (context) => OrderPage()),
                           );
                         },
                         child: Text(
