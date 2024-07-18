@@ -82,10 +82,23 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/search',
           builder: (BuildContext context, GoRouterState state) {
-            final autoFocus =
-                state.uri.queryParameters['focus'] == 'true' ?? false;
-            return SearchPage(autoFocus: autoFocus);
+            final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
+            final query = state.uri.queryParameters['query'];
+
+            return SearchPage(autoFocus: autoFocus, query: query);
           },
+          routes: [
+            GoRoute(
+              path: 'c/:category',
+              builder: (BuildContext context, GoRouterState state) {
+                final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
+                final category = state.pathParameters['category']!;
+                final query = state.uri.queryParameters['query'];
+
+                return SearchPage(autoFocus: autoFocus, category: category, query: query);
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: '/mypage',
