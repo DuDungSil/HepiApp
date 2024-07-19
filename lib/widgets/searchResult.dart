@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class SearchResult extends StatefulWidget {
+  // 결과 리스트
   const SearchResult({super.key});
 
   @override

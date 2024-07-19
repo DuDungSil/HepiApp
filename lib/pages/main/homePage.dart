@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/productCard/normalProductCard.dart';
@@ -20,10 +22,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
+  late CarouselController innerCarouselController;
+  int innerCurrentPage = 0;
+
   @override
-  Widget build(BuildContext context) {
+  void initState(){
+    innerCarouselController = CarouselController();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     getProduct(context, "event", "");
     getEventImage(context);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         SingleChildScrollView(
@@ -59,35 +76,27 @@ class _HomeState extends State<HomePage> {
                     height: 20,
                   ),
                   Consumer<eventImages>(builder: (consumer, eventImages, child) {
-                    int currentIndex = 0;
                     if (eventImages.eventImageList.isEmpty) {
-                      return Container(alignment: Alignment.center, height: 164, child: CircularProgressIndicator());
+                      return Container(alignment: Alignment.center, height: 250, child: CircularProgressIndicator());
                     } else {
                       return Container(
                         width: double.infinity,
-                        height: 230,
+                        height: 250,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               child: Row(
                                 children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 50,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/arrow_left.svg',
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                  ),
                                   Expanded(
                                     child: Container(
                                       alignment: Alignment.center,
                                       width: 100,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Color(0x1A000000)),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
+                                      // decoration: BoxDecoration(
+                                      //   border: Border.all(color: Color(0x1A000000)),
+                                      //   borderRadius: BorderRadius.circular(8),
+                                      // ),
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -96,49 +105,57 @@ class _HomeState extends State<HomePage> {
                                         },
                                         child: Container(
                                           height: 200,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.fitHeight,
-                                              image: NetworkImage(eventImages.eventImageList[1].url),
+                                          child: CarouselSlider(
+                                            carouselController: innerCarouselController,
+                                            items: eventImages.eventImageList.map((eventImage) {
+                                              return Container(
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: eventImage.url,
+                                                      placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                              );
+                                            }).toList(),
+                                            options: CarouselOptions(
+                                              onPageChanged: (index, reason) {
+                                                setState(() {
+                                                  innerCurrentPage = index;
+                                                });
+                                              },
+                                              viewportFraction: 1.0,
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 50,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/arrow_right.svg',
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 25,
+                            ),
                             Container(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: List.generate(eventImages.eventImageList.length, (index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(5.0), // 이미지 간의 간격 조절
-                                    child: Container(
-                                      width: 6,
-                                      height: 6,
-                                      decoration: ShapeDecoration(
-                                        color: currentIndex == index
-                                            ? Color(0xFF111111)
-                                            : Color(0xFF9EA3B2),
-                                        shape: OvalBorder(),
+                                  bool isSelected = innerCurrentPage == index;
+                                  return AnimatedContainer(
+                                      width: isSelected ? 8 : 8,
+                                      height: 8,
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: isSelected ? 3 : 3
                                       ),
-                                    ),
+                                      duration: const Duration(milliseconds: 300,),
+                                  decoration: ShapeDecoration(
+                                      color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
+                                      shape: OvalBorder()
+                                  )
                                   );
                                 }),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       );
