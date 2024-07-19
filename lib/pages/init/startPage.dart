@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../utils/constants.dart';
 
@@ -170,26 +172,32 @@ class _startPageState extends State<startPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(3, (index) => _buildTab(index)),
               ),
-              Container(
-                height: 60,
-                margin: EdgeInsets.only(bottom: 30),
-                alignment: Alignment.center,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFFF8A00),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+              GestureDetector(
+                onTap: () {
+                  sharedPreferences.setBool('onboardingComplete', true);
+                  context.go('/home');
+                },
+                child: Container(
+                  height: 60,
+                  margin: EdgeInsets.only(bottom: 30),
+                  alignment: Alignment.center,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFFF8A00),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
-                ),
-                child: Text(
-                  '시작하기',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w600,
-                    height: 1.2,
-                    letterSpacing: -0.45,
+                  child: Text(
+                    '시작하기',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                      height: 1.2,
+                      letterSpacing: -0.45,
+                    ),
                   ),
                 ),
               ),
