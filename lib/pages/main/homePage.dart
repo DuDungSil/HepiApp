@@ -75,29 +75,22 @@ class _HomeState extends State<HomePage> {
                     } else {
                       return Container(
                         width: double.infinity,
-                        height: 230,
+                        height: 250,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               child: Row(
                                 children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 35,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/arrow_left.svg',
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                  ),
                                   Expanded(
                                     child: Container(
                                       alignment: Alignment.center,
                                       width: 100,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Color(0x1A000000)),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
+                                      // decoration: BoxDecoration(
+                                      //   border: Border.all(color: Color(0x1A000000)),
+                                      //   borderRadius: BorderRadius.circular(8),
+                                      // ),
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -131,52 +124,33 @@ class _HomeState extends State<HomePage> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 35,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/arrow_right.svg',
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 25,
                             ),
-                            Row(
-                              children: List.generate(eventImages.eventImageList.length, (index) {
-                                bool isSelected = innerCurrentPage == index;
-                                return AnimatedContainer(
-                                    width: ,
-                                    height: 10,
-                                    color: isSelected,
-                                    duration: const Duration(milliseconds: 300,)
-                                );
-                              }),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: List.generate(eventImages.eventImageList.length, (index) {
+                                  bool isSelected = innerCurrentPage == index;
+                                  return AnimatedContainer(
+                                      width: isSelected ? 8 : 8,
+                                      height: 8,
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: isSelected ? 3 : 3
+                                      ),
+                                      duration: const Duration(milliseconds: 300,),
+                                  decoration: ShapeDecoration(
+                                      color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
+                                      shape: OvalBorder()
+                                  )
+                                  );
+                                }),
+                              ),
                             )
-                            // Container(
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.center,
-                            //     children: List.generate(eventImages.eventImageList.length, (index) {
-                            //       return Padding(
-                            //         padding: const EdgeInsets.all(5.0), // 이미지 간의 간격 조절
-                            //         child: Container(
-                            //           width: 6,
-                            //           height: 6,
-                            //           decoration: ShapeDecoration(
-                            //             color: currentIndex == index
-                            //                 ? Color(0xFF111111)
-                            //                 : Color(0xFF9EA3B2),
-                            //             shape: OvalBorder(),
-                            //           ),
-                            //         ),
-                            //       );
-                            //     }),
-                            //   ),
-                            // ),
                           ],
                         ),
                       );
