@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/productCard/normalProductCard.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../utils/constants.dart';
 
 import '../../function/getEventImage.dart';
@@ -20,6 +22,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
+  late CarouselController innerCarouselController;
+  int innerCurrentPage = 0;
+
+  @override
+  void initState(){
+    innerCarouselController = CarouselController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     getProduct(context, "event", "");
@@ -59,9 +70,8 @@ class _HomeState extends State<HomePage> {
                     height: 20,
                   ),
                   Consumer<eventImages>(builder: (consumer, eventImages, child) {
-                    int currentIndex = 0;
                     if (eventImages.eventImageList.isEmpty) {
-                      return Container(alignment: Alignment.center, height: 164, child: CircularProgressIndicator());
+                      return Container(alignment: Alignment.center, height: 230, child: CircularProgressIndicator());
                     } else {
                       return Container(
                         width: double.infinity,
@@ -73,7 +83,7 @@ class _HomeState extends State<HomePage> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    width: 50,
+                                    width: 35,
                                     child: SvgPicture.asset(
                                       'assets/vectors/arrow_left.svg',
                                       width: 24,
@@ -96,10 +106,25 @@ class _HomeState extends State<HomePage> {
                                         },
                                         child: Container(
                                           height: 200,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.fitHeight,
-                                              image: NetworkImage(eventImages.eventImageList[1].url),
+                                          child: CarouselSlider(
+                                            carouselController: innerCarouselController,
+                                            items: eventImages.eventImageList.map((eventImage) {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.contain,
+                                                    image: NetworkImage(eventImage.url),
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            options: CarouselOptions(
+                                              onPageChanged: (index, reason) {
+                                                setState(() {
+                                                  innerCurrentPage = index;
+                                                });
+                                              },
+                                              viewportFraction: 1.0,
                                             ),
                                           ),
                                         ),
@@ -108,7 +133,7 @@ class _HomeState extends State<HomePage> {
                                   ),
                                   Container(
                                     alignment: Alignment.center,
-                                    width: 50,
+                                    width: 35,
                                     child: SvgPicture.asset(
                                       'assets/vectors/arrow_right.svg',
                                       width: 24,
@@ -118,27 +143,40 @@ class _HomeState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 10,),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: List.generate(eventImages.eventImageList.length, (index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(5.0), // 이미지 간의 간격 조절
-                                    child: Container(
-                                      width: 6,
-                                      height: 6,
-                                      decoration: ShapeDecoration(
-                                        color: currentIndex == index
-                                            ? Color(0xFF111111)
-                                            : Color(0xFF9EA3B2),
-                                        shape: OvalBorder(),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ),
+                            const SizedBox(
+                              height: 10,
                             ),
+                            Row(
+                              children: List.generate(eventImages.eventImageList.length, (index) {
+                                bool isSelected = innerCurrentPage == index;
+                                return AnimatedContainer(
+                                    width: ,
+                                    height: 10,
+                                    color: isSelected,
+                                    duration: const Duration(milliseconds: 300,)
+                                );
+                              }),
+                            )
+                            // Container(
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: List.generate(eventImages.eventImageList.length, (index) {
+                            //       return Padding(
+                            //         padding: const EdgeInsets.all(5.0), // 이미지 간의 간격 조절
+                            //         child: Container(
+                            //           width: 6,
+                            //           height: 6,
+                            //           decoration: ShapeDecoration(
+                            //             color: currentIndex == index
+                            //                 ? Color(0xFF111111)
+                            //                 : Color(0xFF9EA3B2),
+                            //             shape: OvalBorder(),
+                            //           ),
+                            //         ),
+                            //       );
+                            //     }),
+                            //   ),
+                            // ),
                           ],
                         ),
                       );
