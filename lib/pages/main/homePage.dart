@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../utils/constants.dart';
 
 import '../../function/getEventImage.dart';
@@ -32,9 +32,15 @@ class _HomeState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     getProduct(context, "event", "");
     getEventImage(context);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         SingleChildScrollView(
@@ -71,7 +77,7 @@ class _HomeState extends State<HomePage> {
                   ),
                   Consumer<eventImages>(builder: (consumer, eventImages, child) {
                     if (eventImages.eventImageList.isEmpty) {
-                      return Container(alignment: Alignment.center, height: 230, child: CircularProgressIndicator());
+                      return Container(alignment: Alignment.center, height: 250, child: CircularProgressIndicator());
                     } else {
                       return Container(
                         width: double.infinity,
@@ -103,12 +109,11 @@ class _HomeState extends State<HomePage> {
                                             carouselController: innerCarouselController,
                                             items: eventImages.eventImageList.map((eventImage) {
                                               return Container(
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    fit: BoxFit.contain,
-                                                    image: NetworkImage(eventImage.url),
-                                                  ),
-                                                ),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: eventImage.url,
+                                                      placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
+                                                      fit: BoxFit.contain,
+                                                    ),
                                               );
                                             }).toList(),
                                             options: CarouselOptions(
