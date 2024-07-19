@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
+import 'package:flutter_app/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
@@ -59,11 +60,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp.router(
-    //   routerConfig: router,
-    // );
-    return MaterialApp(
-      home: startPage(),
+    return MaterialApp.router(
+      routerConfig: router,
     );
   }
 }
