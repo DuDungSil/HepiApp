@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main.dart';
+import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/pages/main/eventPage.dart';
 import 'package:flutter_app/pages/main/healthcarePage.dart';
 import 'package:flutter_app/pages/main/homePage.dart';
@@ -22,7 +24,8 @@ final pageList = [
   ProductDetailPage(), // INDEX 6  /productdetail
   LoginPage(), // INDEX 7  /login
   RegisterPage(), // INDEX 8  /register
-  OrderPage() // INDEX 9  /register
+  OrderPage(), // INDEX 9  /register
+  startPage(), // INDEX 10 /onboarding
 ];
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -61,7 +64,24 @@ final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
   refreshListenable: routerNotifier,
+  redirect: (context, state) {
+    final bool isOnboardingComplete = sharedPreferences.getBool('onboardingComplete') ?? false;
+
+    if (!isOnboardingComplete && state.uri.path != '/onboarding') {
+      return '/onboarding';
+    }
+
+    if (isOnboardingComplete && state.uri.path == '/onboarding') {
+      return '/home';
+    }
+
+    return null;
+  },
   routes: <RouteBase>[
+    GoRoute(
+      path: '/onboarding',
+      builder: (BuildContext context, GoRouterState state) => startPage(),
+    ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,
       builder:

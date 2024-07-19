@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
-import 'router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
 import 'package:flutter_app/store/gym.dart';
@@ -12,10 +12,15 @@ import 'package:flutter_app/store/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+late SharedPreferences sharedPreferences;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await dotenv.load(fileName: "properties.env");
+
+  // Initialize SharedPreferences
+  sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(
     MultiProvider(
