@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/pages/init/startLoginPage.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/pages/main/eventPage.dart';
 import 'package:flutter_app/pages/main/healthcarePage.dart';
@@ -26,6 +27,7 @@ final pageList = [
   RegisterPage(), // INDEX 8  /register
   OrderPage(), // INDEX 9  /register
   startPage(), // INDEX 10 /onboarding
+  startLoginPage() // INDEX 11 /startLogin
 ];
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -81,6 +83,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/onboarding',
       builder: (BuildContext context, GoRouterState state) => startPage(),
+    ),
+    GoRoute(
+      path: '/startLogin',
+      builder: (BuildContext context, GoRouterState state) => pageList[11],
     ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,

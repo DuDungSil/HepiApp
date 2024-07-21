@@ -175,7 +175,7 @@ class _startPageState extends State<startPage> {
               GestureDetector(
                 onTap: () {
                   sharedPreferences.setBool('onboardingComplete', true);
-                  context.go('/home');
+                  context.go('/startLogin');
                 },
                 child: Container(
                   height: 60,
