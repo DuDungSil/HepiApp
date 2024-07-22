@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +21,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
   final idEdit = TextEditingController();
   final pwdEdit = TextEditingController();
   bool hoverPwd = true;
@@ -278,6 +280,10 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               displayDuration: Duration(milliseconds: 500),
                             );
+                            if(isCheckedSaveLogin == true) {
+                              await secureStorage.write(key: 'loginID', value: idEdit.text);
+                              await secureStorage.write(key: 'loginPWD', value: pwdEdit.text);
+                            }
                             Navigator.pop(context);
                           } else {
                             showTopSnackBar(

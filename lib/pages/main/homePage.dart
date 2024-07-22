@@ -3,10 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/productCard/normalProductCard.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../function/login.dart';
 import '../../utils/constants.dart';
 
 import '../../function/getEventImage.dart';

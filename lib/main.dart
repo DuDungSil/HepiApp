@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/router.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/store/chattings.dart';
 import 'package:flutter_app/store/eventImages.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_app/store/products.dart';
 import 'package:flutter_app/store/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+
+import 'function/login.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -45,10 +48,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();
     // sharedPreferences.setBool('onboardingComplete', false);
+    // secureStorage.write(key: 'loginID', value: null);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.white,
@@ -57,6 +63,15 @@ class _MyAppState extends State<MyApp> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    String? loginID = await secureStorage.read(key: 'loginID');
+    if (loginID != null) {
+      String? loginPWD = await secureStorage.read(key: 'loginPWD');
+      await login(context, loginID, loginPWD!);
+    }
   }
 
   @override
