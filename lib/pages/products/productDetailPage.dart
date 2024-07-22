@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/productCard/detailProductCard.dart';
@@ -15,7 +17,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int selectedIndex = 0; // 선택된 메뉴 항목의 인덱스를 추적
   ScrollController _scrollController = ScrollController();
   List<GlobalKey> _sectionKeys = List.generate(5, (index) => GlobalKey());
-  List<double> _sectionOffsets = List.generate(5, (index) => 0.0); // 각 섹션의 위치를 저장할 리스트
+  List<double> _sectionOffsets =
+      List.generate(5, (index) => 0.0); // 각 섹션의 위치를 저장할 리스트
 
   @override
   void initState() {
@@ -26,7 +29,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   void _calculateSectionOffsets(_) {
     for (int i = 0; i < _sectionKeys.length; i++) {
-      RenderBox? box = _sectionKeys[i].currentContext?.findRenderObject() as RenderBox?;
+      RenderBox? box =
+          _sectionKeys[i].currentContext?.findRenderObject() as RenderBox?;
       if (box != null) {
         Offset position = box.localToGlobal(Offset.zero);
         _sectionOffsets[i] = position.dy;
@@ -38,9 +42,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       for (int i = 0; i < _sectionOffsets.length; i++) {
         double top = _sectionOffsets[i];
-        double bottom = top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
+        double bottom =
+            top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
 
-        if (_scrollController.offset + kToolbarHeight + 90 >= top && _scrollController.offset + kToolbarHeight + 90 < bottom) {
+        if (_scrollController.offset + kToolbarHeight + 90 >= top &&
+            _scrollController.offset + kToolbarHeight + 90 < bottom) {
           setState(() {
             selectedIndex = i;
           });
@@ -51,7 +57,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   void _scrollToIndex(int index) {
-    RenderBox box = _sectionKeys[index].currentContext?.findRenderObject() as RenderBox;
+    RenderBox box =
+        _sectionKeys[index].currentContext?.findRenderObject() as RenderBox;
     Offset position = box.localToGlobal(Offset.zero);
 
     _scrollController.animateTo(
@@ -81,7 +88,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   controller: _scrollController,
                   slivers: [
                     SliverToBoxAdapter(
-                      child: Container(margin: EdgeInsets.all(10), child: DetailProductCard()),
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: DetailProductCard()),
                     ),
                     SliverPersistentHeader(
                       pinned: true,
@@ -94,7 +103,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             children: [
                               Expanded(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     buildMenuItem('요약', 0),
                                     buildMenuItem('정보', 1),
@@ -174,6 +184,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               right: 0,
               child: CustomAppbar(
                 title: '상품 정보',
+                leading: CustomBackButton(
+                  onTap: () {
+                    context.pop();
+                  },
+                ),
               ),
             )
           ],
@@ -243,13 +258,16 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => max(maxHeight, minHeight);
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SizedBox.expand(child: child);
   }
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
 

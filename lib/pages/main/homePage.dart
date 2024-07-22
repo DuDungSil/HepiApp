@@ -94,11 +94,6 @@ class _HomeState extends State<HomePage> {
                                   Expanded(
                                     child: Container(
                                       alignment: Alignment.center,
-                                      width: 100,
-                                      // decoration: BoxDecoration(
-                                      //   border: Border.all(color: Color(0x1A000000)),
-                                      //   borderRadius: BorderRadius.circular(8),
-                                      // ),
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(() {

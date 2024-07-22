@@ -156,33 +156,66 @@ class startLoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  context.go('/login');
-                },
-                child: Container(
-                  height: 60,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFF8A00),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.go('/home');
+                    },
+                    child: Container(
+                      height: 60,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFF000000),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: Text(
+                        '로그인 없이 계속',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w600,
+                          height: 1.2,
+                          letterSpacing: -0.45,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    '로그인',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w600,
-                      height: 1.2,
-                      letterSpacing: -0.45,
+                  const SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: () {
+                      context.push('/login');
+                    },
+                    child: Container(
+                      height: 60,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFFF8A00),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: Text(
+                        '로그인',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w600,
+                          height: 1.2,
+                          letterSpacing: -0.45,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

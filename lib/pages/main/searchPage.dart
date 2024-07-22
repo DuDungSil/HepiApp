@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
+import 'package:flutter_app/widgets/productCard/WideOptionProductCard.dart';
+import 'package:flutter_app/widgets/resultFilter.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:ui';
@@ -63,11 +65,12 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _autoComplete(TextEditingController _textEditingController, String keyword){
+  void _autoComplete(
+      TextEditingController _textEditingController, String keyword) {
     _textEditingController.text = keyword;
   }
 
-  void _searchKeyword(BuildContext context ,String keyword){
+  void _searchKeyword(BuildContext context, String keyword) {
     if (keyword == '') return;
     if (widget.category != null) {
       context.go(Uri(
@@ -84,7 +87,7 @@ class _SearchPageState extends State<SearchPage> {
     FocusScope.of(context).unfocus();
   }
 
-  void _searchCategory(BuildContext context ,String category){
+  void _searchCategory(BuildContext context, String category) {
     context.go(Uri(
       path: '/search/c/${category}',
     ).toString());
@@ -101,7 +104,8 @@ class _SearchPageState extends State<SearchPage> {
     return Positioned(
       left: position.dx,
       top: position.dy,
-      width: MediaQuery.of(context).size.width - Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
+      width: MediaQuery.of(context).size.width -
+          Constants.SCREEN_HORIZONTAL_MARGIN.horizontal,
       child: CompositedTransformFollower(
         link: _searchBarLink,
         showWhenUnlinked: false,
@@ -111,7 +115,9 @@ class _SearchPageState extends State<SearchPage> {
           child: Container(
             color: Colors.white,
             child: AutoCompleteKeywordList(
-              autoComplete: (keyword){_autoComplete(_textEditingController, keyword);},
+              autoComplete: (keyword) {
+                _autoComplete(_textEditingController, keyword);
+              },
               searchKeyword: _searchKeyword,
             ),
           ),
@@ -121,28 +127,24 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Offset _getOverlayEntryPosition() {
-    try
-    {
-      RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
-      return Offset(renderBox.localToGlobal(Offset.zero).dx, renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
-    }
-    catch (e)
-    {
+    try {
+      RenderBox renderBox =
+          _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+      return Offset(renderBox.localToGlobal(Offset.zero).dx,
+          renderBox.localToGlobal(Offset.zero).dy + renderBox.size.height);
+    } catch (e) {
       return Offset.zero;
     }
   }
 
   Size _getOverlayEntrySize() {
-    try
-    {
-      RenderBox renderBox = _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
+    try {
+      RenderBox renderBox =
+          _searchBarKey.currentContext!.findRenderObject()! as RenderBox;
       return renderBox.size;
-    }
-    catch (e)
-    {
+    } catch (e) {
       return Size.zero;
     }
-
   }
 
   @override
@@ -164,6 +166,7 @@ class _SearchPageState extends State<SearchPage> {
                 margin: Constants.SCREEN_HORIZONTAL_MARGIN,
                 padding: EdgeInsets.only(top: 120),
                 child: CustomScrollView(
+                  controller: ScrollController(),
                   slivers: [
                     SliverToBoxAdapter(
                       child: Container(
@@ -201,10 +204,26 @@ class _SearchPageState extends State<SearchPage> {
                                     spacing: 8,
                                     runSpacing: 8,
                                     children: [
-                                      GestureDetector(onTap: (){_searchCategory(context, 'WPI');}, child: EclipseText(text: 'WPI')),
-                                      GestureDetector(onTap: (){_searchCategory(context, 'WPC');}, child: EclipseText(text: 'WPC')),
-                                      GestureDetector(onTap: (){_searchCategory(context, '비건');}, child: EclipseText(text: '비건')),
-                                      GestureDetector(onTap: (){_searchCategory(context, '신상품');}, child: EclipseText(text: '신상품')),
+                                      GestureDetector(
+                                          onTap: () {
+                                            _searchCategory(context, 'WPI');
+                                          },
+                                          child: EclipseText(text: 'WPI')),
+                                      GestureDetector(
+                                          onTap: () {
+                                            _searchCategory(context, 'WPC');
+                                          },
+                                          child: EclipseText(text: 'WPC')),
+                                      GestureDetector(
+                                          onTap: () {
+                                            _searchCategory(context, '비건');
+                                          },
+                                          child: EclipseText(text: '비건')),
+                                      GestureDetector(
+                                          onTap: () {
+                                            _searchCategory(context, '신상품');
+                                          },
+                                          child: EclipseText(text: '신상품')),
                                     ],
                                   ),
                                 ),
@@ -221,61 +240,33 @@ class _SearchPageState extends State<SearchPage> {
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: _SliverAppBarDelegate(
-                        minHeight: 200.0,
-                        maxHeight: 500.0,
+                        minHeight: 60.0,
+                        maxHeight: 60.0,
                         child: Container(
                           color: Colors.white,
                           child: Column(
                             children: [
-                              Container(
-                                height: 40,
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                        margin: EdgeInsets.fromLTRB(8, 0, 14, 0),
-                                        width: 24,
-                                        height: 24,
-                                        child: SvgPicture.asset(
-                                          'assets/vectors/category.svg',
-                                        )),
-                                    Expanded(
-                                      child: Text('30개의 결과',
-                                          style: TextStyle(
-                                            color: Color(0xFF111111),
-                                            fontSize: 18,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w500,
-                                            height: 1.2,
-                                            letterSpacing: -0.45,
-                                          )),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(14, 0, 8, 0),
-                                      width: 24,
-                                      height: 24,
-                                      child: SvgPicture.asset(
-                                        'assets/vectors/candle.svg',
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              ResultFilter(
+                                setView: () {},
+                                filtering: () {},
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
+                          child: WideOptionProductCard(),
+                        );
+                      }, childCount: 10),
+                    ),
                     SliverToBoxAdapter(
-                      child: Container(
-                        height: 2000,
+                      child: const SizedBox(
+                        height: 100,
                       ),
                     )
                   ],
@@ -317,34 +308,42 @@ class _SearchPageState extends State<SearchPage> {
                             spacing: 8,
                             runSpacing: 8,
                             children: [
-                              GestureDetector(onTap: (){
-                                _autoComplete(_textEditingController, '삼대오백');
-                                _searchKeyword(context, '삼대오백');
+                              GestureDetector(
+                                onTap: () {
+                                  _autoComplete(_textEditingController, '삼대오백');
+                                  _searchKeyword(context, '삼대오백');
                                 },
-                                  child: EclipseText(text: '삼대오백'),
+                                child: EclipseText(text: '삼대오백'),
                               ),
-                              GestureDetector(onTap: (){
-                                _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
-                                _searchKeyword(context, '투퍼데이 종합비타민 120정');
-                              },
+                              GestureDetector(
+                                onTap: () {
+                                  _autoComplete(_textEditingController,
+                                      '투퍼데이 종합비타민 120정');
+                                  _searchKeyword(context, '투퍼데이 종합비타민 120정');
+                                },
                                 child: EclipseText(text: '투퍼데이 종합비타민 120정'),
                               ),
-                              GestureDetector(onTap: (){
-                                _autoComplete(_textEditingController, '잠백이 흑마늘');
-                                _searchKeyword(context, '잠백이 흑마늘');
-                              },
+                              GestureDetector(
+                                onTap: () {
+                                  _autoComplete(
+                                      _textEditingController, '잠백이 흑마늘');
+                                  _searchKeyword(context, '잠백이 흑마늘');
+                                },
                                 child: EclipseText(text: '잠백이 흑마늘'),
                               ),
-                              GestureDetector(onTap: (){
-                                _autoComplete(_textEditingController, '프로틴');
-                                _searchKeyword(context, '프로틴');
-                              },
+                              GestureDetector(
+                                onTap: () {
+                                  _autoComplete(_textEditingController, '프로틴');
+                                  _searchKeyword(context, '프로틴');
+                                },
                                 child: EclipseText(text: '프로틴'),
                               ),
-                              GestureDetector(onTap: (){
-                                _autoComplete(_textEditingController, '크레아틴 500g');
-                                _searchKeyword(context, '크레아틴 500g');
-                              },
+                              GestureDetector(
+                                onTap: () {
+                                  _autoComplete(
+                                      _textEditingController, '크레아틴 500g');
+                                  _searchKeyword(context, '크레아틴 500g');
+                                },
                                 child: EclipseText(text: '크레아틴 500g'),
                               ),
                             ],
@@ -370,8 +369,10 @@ class _SearchPageState extends State<SearchPage> {
                         width: double.infinity,
                         margin: EdgeInsets.only(top: 10),
                         alignment: Alignment.center,
-                        decoration:
-                        BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                            color: Color(0x1A000000)),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 20),
@@ -395,8 +396,10 @@ class _SearchPageState extends State<SearchPage> {
                         width: double.infinity,
                         margin: EdgeInsets.only(top: 10),
                         alignment: Alignment.center,
-                        decoration:
-                        BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0x1A000000)),
+                            borderRadius: BorderRadius.circular(6),
+                            color: Color(0x1A000000)),
                       ),
                       const SizedBox(
                         height: 100,
@@ -520,13 +523,16 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => max(maxHeight, minHeight);
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SizedBox.expand(child: child);
   }
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
 
@@ -534,7 +540,8 @@ class AutoCompleteKeywordList extends StatelessWidget {
   final Function(String) autoComplete;
   final Function(BuildContext, String) searchKeyword;
 
-  AutoCompleteKeywordList({required this.searchKeyword, required this.autoComplete});
+  AutoCompleteKeywordList(
+      {required this.searchKeyword, required this.autoComplete});
 
   @override
   Widget build(BuildContext context) {
