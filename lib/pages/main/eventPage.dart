@@ -1,105 +1,108 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/store/eventImages.dart';
 import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:flutter_app/widgets/resultFilter.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/productCard/WideOptionProductCard.dart';
 
+class EventPage extends StatefulWidget {
+  @override
+  State<EventPage> createState() => _EventPageState();
+}
 
-class EventPage extends StatelessWidget {
+class _EventPageState extends State<EventPage> {
+  late CarouselController innerCarouselController;
+  int innerCurrentPage = 0;
+
+  @override
+  void initState() {
+    innerCarouselController = CarouselController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(top: 60),
-            decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
-            ),
-            child: Column(
-              // 전체 레이아웃
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(height: 140, child: Container() // 미완성 ( 이벤트 그림 )
-                    ),
-                Container(
-                  // 필터
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                  margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
-                  child: Container(
-                    width: 340,
-                    height: 45,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+        CustomScrollView(
+          controller: ScrollController(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: eventImages.eventImageList.isEmpty
+                  ? Container(
+                alignment: Alignment.center,
+                height: 250,
+                child: CircularProgressIndicator(),
+              )
+                  : Container(
+                width: double.infinity,
+                height: 250,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
                       children: [
-                        Container(
-                            margin: EdgeInsets.fromLTRB(8, 0, 14, 0),
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/vectors/category.svg',
-                            )),
                         Expanded(
-                          child: Text('30개의 결과',
-                              style: TextStyle(
-                                color: Color(0xFF111111),
-                                fontSize: 18,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w500,
-                                height: 0.1,
-                                letterSpacing: -0.45,
-                              )),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 200,
+                            child: CarouselSlider(
+                              carouselController: innerCarouselController,
+                              items: eventImages.eventImageList.map((eventImage) {
+                                return Container(
+                                  child: CachedNetworkImage(
+                                    imageUrl: eventImage.url,
+                                    placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              }).toList(),
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    innerCurrentPage = index;
+                                  });
+                                },
+                                viewportFraction: 1.0,
+                              ),
+                            ),
+                          ),
                         ),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(14, 0, 8, 0),
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/vectors/candle.svg',
-                            )),
                       ],
                     ),
-                  ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: List.generate(eventImages.eventImageList.length, (index) {
+                        bool isSelected = innerCurrentPage == index;
+                        return AnimatedContainer(
+                          width: isSelected ? 8 : 8,
+                          height: 8,
+                          margin: EdgeInsets.symmetric(horizontal: isSelected ? 3 : 3),
+                          duration: const Duration(milliseconds: 300),
+                          decoration: ShapeDecoration(
+                            color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
+                            shape: OvalBorder(),
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
                 ),
-                // Consumer<products>(builder: (consumer, products, child) {
-                //   if (products.eventProductList.isEmpty) {
-                //     return Container(
-                //         alignment: Alignment.center,
-                //         height: 250,
-                //         margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
-                //         child: CircularProgressIndicator());
-                //   } else {
-                //     return
-                      Container(
-                      alignment: Alignment.center,
-                      height: 400,
-                      width: 350,
-                      child: ListView.separated(
-                        padding: EdgeInsets.only(top: 10),
-                        scrollDirection: Axis.vertical,
-                        itemCount: 5 , // 카드의 개수를 설정합니다.
-                        itemBuilder: (context, index) {
-                          return Row(children : [WideOptionProductCard()]);
-                        },
-                        separatorBuilder: (context, index) => SizedBox(height: 10,),
-                      ),
-                    )
-                  //}
-                //}
-                //),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
         Positioned(
           top: 0,
@@ -107,10 +110,9 @@ class EventPage extends StatelessWidget {
           right: 0,
           child: CustomAppbar(
             title: '진행 중인 이벤트',
-          )
+          ),
         ),
       ],
     );
-    ;
   }
 }

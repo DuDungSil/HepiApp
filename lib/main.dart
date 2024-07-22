@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // sharedPreferences.setBool('onboardingComplete', false);
+    sharedPreferences.setBool('onboardingComplete', false);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.white,
