@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -7,28 +6,33 @@ import 'package:flutter_app/store/eventImages.dart';
 import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/resultFilter.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../function/getEventImage.dart';
 import '../../widgets/customBackButton.dart';
 import '../../widgets/productCard/WideOptionProductCard.dart';
 
 class EventPage extends StatefulWidget {
+  final int viewID;
+
+  EventPage({Key? key, this.viewID = 0}) : super(key: key);
+
   @override
   State<EventPage> createState() => _EventPageState();
 }
 
 class _EventPageState extends State<EventPage> {
   late CarouselController innerCarouselController;
-  int innerCurrentPage = 0;
+  late int innerCurrentPage;
 
   @override
   void initState() {
     innerCarouselController = CarouselController();
+    innerCurrentPage = widget.viewID;
     super.initState();
-    getEventImage(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getEventImage(context);
+    });
   }
 
   @override
@@ -43,80 +47,73 @@ class _EventPageState extends State<EventPage> {
           child: Container(
             margin: Constants.SCREEN_HORIZONTAL_MARGIN,
             child: CustomScrollView(
-              controller: ScrollController(),
               slivers: [
-                Consumer<eventImages>(builder: (consumer, eventImages, child) {
-                  return SliverToBoxAdapter(
-                    child: eventImages.eventImageList.isEmpty
-                        ? Container(
-                            alignment: Alignment.center,
-                            height: 250,
-                            child: CircularProgressIndicator(),
-                          )
-                        : Container(
+                SliverToBoxAdapter(
+                  child: Consumer<eventImages>(
+                    builder: (context, eventImages, child) {
+                      if (eventImages.eventImageList.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: 250,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return Column(
+                        children: [
+                          Container(
                             width: double.infinity,
                             height: 250,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 200,
-                                        child: CarouselSlider(
-                                          carouselController: innerCarouselController,
-                                          items: eventImages.eventImageList.map((eventImage) {
-                                            return Container(
-                                              child: CachedNetworkImage(
-                                                imageUrl: eventImage.url,
-                                                placeholder: (context, url) => Center(
-                                                  child: CircularProgressIndicator(),
-                                                ),
-                                                fit: BoxFit.contain,
-                                              ),
-                                            );
-                                          }).toList(),
-                                          options: CarouselOptions(
-                                            onPageChanged: (index, reason) {
-                                              setState(() {
-                                                innerCurrentPage = index;
-                                              });
-                                            },
-                                            viewportFraction: 1.0,
-                                          ),
-                                        ),
-                                      ),
+                            child: CarouselSlider(
+                              carouselController: innerCarouselController,
+                              items: eventImages.eventImageList.map((eventImage) {
+                                return Container(
+                                  child: CachedNetworkImage(
+                                    imageUrl: eventImage.url,
+                                    placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator(),
                                     ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: List.generate(eventImages.eventImageList.length, (index) {
-                                    bool isSelected = innerCurrentPage == index;
-                                    return AnimatedContainer(
-                                      width: isSelected ? 8 : 8,
-                                      height: 8,
-                                      margin: EdgeInsets.symmetric(horizontal: isSelected ? 3 : 3),
-                                      duration: const Duration(milliseconds: 300),
-                                      decoration: ShapeDecoration(
-                                        color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
-                                        shape: OvalBorder(),
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              ],
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              }).toList(),
+                              options: CarouselOptions(
+                                initialPage: innerCurrentPage,
+                                onPageChanged: (index, reason) {
+                                  if (innerCurrentPage != index) {
+                                    setState(() {
+                                      innerCurrentPage = index;
+                                    });
+                                  }
+                                },
+                                viewportFraction: 1.0,
+                              ),
                             ),
                           ),
-                  );
-                }),
+                          const SizedBox(height: 25),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(eventImages.eventImageList.length, (index) {
+                              bool isSelected = innerCurrentPage == index;
+                              return AnimatedContainer(
+                                width: 8,
+                                height: 8,
+                                margin: EdgeInsets.symmetric(horizontal: 3),
+                                duration: const Duration(milliseconds: 300),
+                                decoration: ShapeDecoration(
+                                  color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
+                                  shape: OvalBorder(),
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: const SizedBox(height: 20,),
+                ),
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: _SliverAppBarDelegate(
@@ -124,31 +121,30 @@ class _EventPageState extends State<EventPage> {
                     maxHeight: 60.0,
                     child: Container(
                       color: Colors.white,
-                      child: Column(
-                        children: [
-                          ResultFilter(
-                            setView: () {},
-                            filtering: () {},
-                          ),
-                        ],
+                      child: ResultFilter(
+                        setView: () {},
+                        filtering: () {},
                       ),
                     ),
                   ),
                 ),
                 SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
-                      child: WideOptionProductCard(),
-                    );
-                  }, childCount: 10),
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
+                        child: WideOptionProductCard(),
+                      );
+                    },
+                    childCount: 10,
+                  ),
                 ),
                 SliverToBoxAdapter(
                   child: const SizedBox(
                     height: 100,
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -160,7 +156,7 @@ class _EventPageState extends State<EventPage> {
           child: CustomAppbar(
             title: '진행 중인 이벤트',
             leading: CustomBackButton(
-              onTap: (){
+              onTap: () {
                 context.pop();
               },
             ),
@@ -170,7 +166,6 @@ class _EventPageState extends State<EventPage> {
     );
   }
 }
-
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
@@ -190,8 +185,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => max(maxHeight, minHeight);
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SizedBox.expand(child: child);
   }
 

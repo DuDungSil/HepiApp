@@ -12,55 +12,15 @@ import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
+import 'package:flutter_app/store/user.dart';
 import 'package:flutter_app/widgets/customBottombar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-final pageList = [
-  HomePage(), // INDEX 0  /home
-  SearchPage(), // INDEX 1  /search
-  MyPage(), // INDEX 2  /mypage
-  HealthcarePage(), // INDEX 3  /healthcare
-  QRPage(), // INDEX 4  /qr
-  EventPage(), // INDEX 5  /home/event
-  ProductDetailPage(), // INDEX 6  /productdetail
-  LoginPage(), // INDEX 7  /login
-  RegisterPage(), // INDEX 8  /register
-  OrderPage(), // INDEX 9  /register
-  startPage(), // INDEX 10 /onboarding
-  startLoginPage() // INDEX 11 /startLogin
-];
-
-final GlobalKey<NavigatorState> _rootNavigatorKey =
-GlobalKey<NavigatorState>(debugLabel: 'root');
-final GlobalKey<NavigatorState> _sectionANavigatorKey =
-GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _sectionANavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
 final routerNotifier = ValueNotifier<int>(0);
-
-String getFirstPathSegment(Uri uri) {
-  if (uri.pathSegments.isNotEmpty) {
-    return '/' + uri.pathSegments.first;
-  }
-  return '/';
-}
-
-int _getIndexForLocation(Uri uri) {
-  final firstPath = getFirstPathSegment(uri);
-  switch (firstPath) {
-    case '/home':
-      return 0;
-    case '/search':
-      return 1;
-    case '/mypage':
-      return 2;
-    case '/healthcare':
-      return 3;
-    case '/qr':
-      return 4;
-    default:
-      return 0;
-  }
-}
 
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -86,12 +46,11 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/startLogin',
-      builder: (BuildContext context, GoRouterState state) => pageList[11],
+      builder: (BuildContext context, GoRouterState state) => startLoginPage(),
     ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,
-      builder:
-          (BuildContext context, GoRouterState state, Widget navigationShell) {
+      builder: (BuildContext context, GoRouterState state, Widget navigationShell) {
         // 라우터 상태 변화 감지하여 routerNotifier 업데이트
         WidgetsBinding.instance.addPostFrameCallback((_) {
           int newIndex = _getIndexForLocation(state.uri);
@@ -104,12 +63,14 @@ final GoRouter router = GoRouter(
       routes: <RouteBase>[
         GoRoute(
           path: '/home',
-          builder: (BuildContext context, GoRouterState state) => pageList[0],
+          builder: (BuildContext context, GoRouterState state) => HomePage(),
           routes: [
             GoRoute(
-              path: 'event',
-              builder: (BuildContext context, GoRouterState state) =>
-              pageList[5],
+              path: 'event/:id',
+              builder: (BuildContext context, GoRouterState state) {
+                final id = int.parse(state.pathParameters['id']!);
+                return EventPage(viewID: id);
+              },
             ),
           ],
         ),
@@ -136,33 +97,47 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: '/mypage',
-          builder: (BuildContext context, GoRouterState state) => pageList[2],
+          builder: (BuildContext context, GoRouterState state) => MyPage(),
         ),
         GoRoute(
-          path: '/healthcare',
-          builder: (BuildContext context, GoRouterState state) => pageList[3],
-        ),
+            path: '/healthcare',
+            builder: (BuildContext context, GoRouterState state) => HealthcarePage(),
+            redirect: (context, state) {
+              if (context
+                  .read<user>()
+                  .id != null)
+                return '/healthcare';
+              else
+                return '/login';
+            }),
         GoRoute(
-          path: '/qr',
-          builder: (BuildContext context, GoRouterState state) => pageList[4],
-        ),
+            path: '/qr',
+            builder: (BuildContext context, GoRouterState state) => QRPage(),
+            redirect: (context, state) {
+              if (context
+                  .read<user>()
+                  .id != null)
+                return '/qr';
+              else
+                return '/login';
+            }),
       ],
     ),
     GoRoute(
       path: '/productDetail',
-      builder: (BuildContext context, GoRouterState state) => pageList[6],
+      builder: (BuildContext context, GoRouterState state) => ProductDetailPage(),
     ),
     GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state) => pageList[7],
+      builder: (BuildContext context, GoRouterState state) => LoginPage(),
     ),
     GoRoute(
       path: '/register',
-      builder: (BuildContext context, GoRouterState state) => pageList[8],
+      builder: (BuildContext context, GoRouterState state) => RegisterPage(),
     ),
     GoRoute(
       path: '/order',
-      builder: (BuildContext context, GoRouterState state) => pageList[9],
+      builder: (BuildContext context, GoRouterState state) => OrderPage(),
     ),
   ],
 );
@@ -215,6 +190,31 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         ),
       ),
     );
+  }
+}
+
+String getFirstPathSegment(Uri uri) {
+  if (uri.pathSegments.isNotEmpty) {
+    return '/' + uri.pathSegments.first;
+  }
+  return '/';
+}
+
+int _getIndexForLocation(Uri uri) {
+  final firstPath = getFirstPathSegment(uri);
+  switch (firstPath) {
+    case '/home':
+      return 0;
+    case '/search':
+      return 1;
+    case '/mypage':
+      return 2;
+    case '/healthcare':
+      return 3;
+    case '/qr':
+      return 4;
+    default:
+      return 0;
   }
 }
 

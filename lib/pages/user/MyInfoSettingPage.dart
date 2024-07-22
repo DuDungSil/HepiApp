@@ -1,327 +1,214 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_app/store/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../../utils/constants.dart';
 
-class MyInfoSetting extends StatelessWidget {
+import '../../widgets/customAppbar.dart';
+import '../../widgets/customBackButton.dart';
+
+class MyInfoSetting extends StatefulWidget {
+  @override
+  State<MyInfoSetting> createState() => _MyInfoSettingState();
+}
+
+class _MyInfoSettingState extends State<MyInfoSetting> {
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
-            Center(
-              child: SingleChildScrollView(
+            SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(top: 60),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                ),
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                  margin: Constants.SCREEN_HORIZONTAL_MARGIN,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF000000)),
-                          color: Color(0xFFD9D9D9),
-                        ),
-                        child: Container(
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                                    child : Text("나의 회원정보")
+                        height: 125,
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.fromLTRB(30, 0, 20, 0),
+                              child: Image.asset(
+                                'assets/images/basic_user_profile.png',
+                                width: 60, // 원하는 이미지 너비
+                                height: 60, // 원하는 이미지 높이
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                context.read<user>().name,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 24,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.60,
                                 ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(15, 10, 0, 10),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(margin:EdgeInsets.fromLTRB(0, 0, 5, 0), child: Text("이름 이윤구")),
-                                          Container(margin:EdgeInsets.fromLTRB(0, 0, 5, 0) ,child: Text("휴대전화 01012345678"))
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text("생년월일 1999 03 01"),
-                                          Text("이메일 admin@naver.com")
-                                        ],)],
-                                  ),
-                                )
-                              ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '회원 정보',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF111111),
+                              fontSize: 18,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.45,
                             ),
                           ),
-                        ),
+                          Text(
+                            '회원정보 수정',
+                            style: TextStyle(
+                              color: Color(0xFF0075FF),
+                              fontSize: 14,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                              letterSpacing: -0.35,
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 371),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF000000)),
-                          color: Color(0xFFD9D9D9),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(13, 15, 29, 31),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    '간편 로그인 설정',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20,
-                                      height: 1,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(6, 0, 0, 19),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFF000000)),
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(22, 10, 15, 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 3, 12, 3),
-                                        child: SizedBox(
-                                          width: 278,
-                                          child: Text(
-                                            '카카오 로그인 연동',
-                                            style: GoogleFonts.getFont(
-                                              'Work Sans',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 20,
-                                              height: 1.2,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xFFE8E8E8)),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Color(0xFFFFFFFF),
-                                        ),
-                                        child: Container(
-                                          width: 55,
-                                          height: 30,
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(18.5),
-                                              color: Color(0xFF0C0507),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Color(0x33000000),
-                                                  offset: Offset(0, 2),
-                                                  blurRadius: 2.5,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(6, 0, 0, 23),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFF000000)),
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(23, 11, 14, 9),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 3, 12, 3),
-                                        child: SizedBox(
-                                          width: 278,
-                                          child: Text(
-                                            '네이버 로그인 연동',
-                                            style: GoogleFonts.getFont(
-                                              'Work Sans',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 20,
-                                              height: 1.2,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xFFE8E8E8)),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Color(0xFFFFFFFF),
-                                        ),
-                                        child: Container(
-                                          width: 55,
-                                          height: 30,
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFE8E8E8),
-                                              borderRadius:
-                                                  BorderRadius.circular(18.5),
-                                            ),
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(6, 0, 0, 0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFF000000)),
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(22, 11, 15, 9),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 2, 12, 4),
-                                        child: SizedBox(
-                                          width: 278,
-                                          child: Text(
-                                            'Google 로그인 연동',
-                                            style: GoogleFonts.getFont(
-                                              'Work Sans',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 20,
-                                              height: 1.2,
-                                              color: Color(0xFF000000),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xFFE8E8E8)),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Color(0xFFFFFFFF),
-                                        ),
-                                        child: Container(
-                                          width: 55,
-                                          height: 30,
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFE8E8E8),
-                                              borderRadius:
-                                                  BorderRadius.circular(18.5),
-                                            ),
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        // 전체 회원 정보 컨테이너
+                        margin: EdgeInsets.only(top: 15),
+                        child: Column(
+                          children: [
+                            UnderlineText('고객명', '이윤구'),
+                            UnderlineText('닉네임', '헬창아님'),
+                            UnderlineText('이메일', 'madorlight@naver.com'),
+                            UnderlineText('연락처', '010-5882-9967'),
+                            UnderlineText('주소지', '[54947] 전북특별자치도 전주시 완산구 서신동 당산로 34'),
+                          ],
                         ),
                       ),
+                      const SizedBox(height: 70,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+                              ),
+                            ),
+                            child: GestureDetector(
+                              onTap: (){
+                                secureStorage.write(key: 'loginID', value: null);
+                                secureStorage.write(key: 'loginPWD', value: null);
+                                context.read<user>().logout();
+                                context.pop();
+                              },
+                              child: Text(
+                                '로그아웃',
+                                style: TextStyle(
+                                  color: Color(0xFF111111),
+                                  fontSize: 18,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2,
+                                  letterSpacing: -0.45,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 300,)
                     ],
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 50,
-                alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey, // 테두리 색상
-                      width: 0.3, // 테두리 두께
-                    ),
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CustomAppbar(
+                  title: '내 정보 설정',
+                  leading: CustomBackButton(
+                    onTap: () {
+                      context.pop();
+                    },
                   ),
-                ),
-                child: Text(
-                  '내 정보 설정',
-                  style: GoogleFonts.getFont(
-                    'Roboto',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    height: 1.3,
-                    color: Color(0xFF000000),
-                  ),
-                ),
-              ),
-            ),
+                )),
           ],
         ),
       ),
     );
   }
+}
+
+Widget UnderlineText(String title, String content) {
+  return Container(
+    width: double.infinity,
+    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+    decoration: BoxDecoration(
+      border: Border(
+        bottom: BorderSide(width: 1, color: Color(0xFF9EA3B2)),
+      ),
+    ),
+    child: Row(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: Color(0xFF777C89),
+            fontSize: 16,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 1.2,
+            letterSpacing: -0.40,
+          ),
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        Flexible(
+          child: Text(
+            content,
+            textAlign: TextAlign.left,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Color(0xFF191919),
+              fontSize: 16,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+              height: 1.2,
+              letterSpacing: -0.40,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

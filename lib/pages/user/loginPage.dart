@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -284,7 +283,7 @@ class _LoginPageState extends State<LoginPage> {
                               await secureStorage.write(key: 'loginID', value: idEdit.text);
                               await secureStorage.write(key: 'loginPWD', value: pwdEdit.text);
                             }
-                            Navigator.pop(context);
+                            context.pop();
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
@@ -441,7 +440,8 @@ class _LoginPageState extends State<LoginPage> {
                 title: '로그인',
                 leading: CustomBackButton(
                   onTap: (){
-                    context.pop();
+                    if(!GoRouter.of(context).canPop()) context.go('/home');
+                    else context.pop();
                   },
                 ),
               )

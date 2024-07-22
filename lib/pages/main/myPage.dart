@@ -74,10 +74,8 @@ class _MyPageState extends State<MyPage> {
                             width: double.infinity,
                             margin: EdgeInsets.only(top: 10),
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0x1A000000)),
-                                borderRadius: BorderRadius.circular(6),
-                                color: Color(0x1A000000)),
+                            decoration:
+                                BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                           );
                         } else {
                           return Container(
@@ -95,14 +93,12 @@ class _MyPageState extends State<MyPage> {
                                     width: 160,
                                     margin: EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Color(0x1A000000)),
+                                      border: Border.all(color: Color(0x1A000000)),
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           height: 160,
@@ -110,25 +106,20 @@ class _MyPageState extends State<MyPage> {
                                             image: DecorationImage(
                                               fit: BoxFit.fitHeight,
                                               image: NetworkImage(
-                                                products.myProductList[index]
-                                                    .main_image,
+                                                products.myProductList[index].main_image,
                                               ),
                                             ),
                                           ),
                                         ),
                                         Container(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
+                                                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                                 child: Text(
-                                                  products
-                                                      .myProductList[index].name,
+                                                  products.myProductList[index].name,
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 3,
                                                   style: GoogleFonts.getFont(
@@ -142,20 +133,12 @@ class _MyPageState extends State<MyPage> {
                                               ),
                                               Container(
                                                 alignment: Alignment.topLeft,
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
+                                                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                                 child: Text(
-                                                  products.myProductList[index]
-                                                          .my_amount
-                                                          .toString() +
+                                                  products.myProductList[index].my_amount.toString() +
                                                       '/' +
-                                                      products
-                                                          .myProductList[index]
-                                                          .amount
-                                                          .toString() +
-                                                      products
-                                                          .myProductList[index]
-                                                          .unit +
+                                                      products.myProductList[index].amount.toString() +
+                                                      products.myProductList[index].unit +
                                                       ' ' +
                                                       '(${((products.myProductList[index].my_amount / products.myProductList[index].amount) * 100).toStringAsFixed(0)}%)',
                                                   style: GoogleFonts.getFont(
@@ -184,10 +167,8 @@ class _MyPageState extends State<MyPage> {
                         width: double.infinity,
                         margin: EdgeInsets.only(top: 10),
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                            color: Color(0x1A000000)),
+                        decoration:
+                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                       ),
                 Container(
                   margin: EdgeInsets.only(top: 20),
@@ -211,28 +192,15 @@ class _MyPageState extends State<MyPage> {
                             width: double.infinity,
                             margin: EdgeInsets.only(top: 10),
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0x1A000000)),
-                                borderRadius: BorderRadius.circular(6),
-                                color: Color(0x1A000000)),
-                            child: Text(
-                              "",
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20,
-                                height: 1.3,
-                                color: Color(0xFF000000),
-                              ),
-                            ),
+                            decoration:
+                                BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                           );
                         } else {
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => cartPage()),
+                                MaterialPageRoute(builder: (context) => cartPage()),
                               );
                             },
                             child: Container(
@@ -246,14 +214,12 @@ class _MyPageState extends State<MyPage> {
                                     width: 160,
                                     margin: EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Color(0x1A000000)),
+                                      border: Border.all(color: Color(0x1A000000)),
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           height: 160,
@@ -261,25 +227,20 @@ class _MyPageState extends State<MyPage> {
                                             image: DecorationImage(
                                               fit: BoxFit.fitHeight,
                                               image: NetworkImage(
-                                                products.cartProductList[index]
-                                                    .main_image,
+                                                products.cartProductList[index].main_image,
                                               ),
                                             ),
                                           ),
                                         ),
                                         Container(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
+                                                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                                 child: Text(
-                                                  products.cartProductList[index]
-                                                      .name,
+                                                  products.cartProductList[index].name,
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 3,
                                                   style: GoogleFonts.getFont(
@@ -293,18 +254,9 @@ class _MyPageState extends State<MyPage> {
                                               ),
                                               Container(
                                                 alignment: Alignment.topLeft,
-                                                margin: EdgeInsets.fromLTRB(
-                                                    10, 10, 10, 0),
-                                                child: priceText(
-                                                    products
-                                                        .cartProductList[index]
-                                                        .price,
-                                                    products
-                                                        .cartProductList[index]
-                                                        .event,
-                                                    products
-                                                        .cartProductList[index]
-                                                        .discount),
+                                                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                                child: priceText(products.cartProductList[index].price, products.cartProductList[index].event,
+                                                    products.cartProductList[index].discount),
                                               ),
                                             ],
                                           ),
@@ -323,10 +275,8 @@ class _MyPageState extends State<MyPage> {
                         width: double.infinity,
                         margin: EdgeInsets.only(top: 10),
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Color(0x1A000000)),
-                            borderRadius: BorderRadius.circular(6),
-                            color: Color(0x1A000000)),
+                        decoration:
+                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                       ),
                 // 코드 추가 필요
                 Container(
@@ -404,16 +354,13 @@ class _MyPageState extends State<MyPage> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyInfoSetting()),
+                              MaterialPageRoute(builder: (context) => MyInfoSetting()),
                             );
-                            //context.read<user>().logout();
                           },
                           child: Container(
                             padding: EdgeInsets.fromLTRB(14, 5, 14, 5),
                             decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: const Color(0xFF9EA3B2)),
+                              border: Border.all(color: const Color(0xFF9EA3B2)),
                               borderRadius: BorderRadius.circular(24),
                             ),
                             child: Text(
