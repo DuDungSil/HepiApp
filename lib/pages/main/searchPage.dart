@@ -248,7 +248,7 @@ class _SearchPageState extends State<SearchPage> {
                             children: [
                               ResultFilter(
                                 setView: () {},
-                                filtering: () {},
+                                filtering: () {_showFilter();},
                               ),
                             ],
                           ),
@@ -503,6 +503,28 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  void _showFilter(){
+    showModalBottomSheet(
+      context : context,
+      builder : (BuildContext context){
+        return Container(
+          width: 390,
+          height: 405,
+          decoration: ShapeDecoration(
+            color: Color(0xFFFAFAFA),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  }
+
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -630,3 +652,4 @@ class AutoCompleteKeywordList extends StatelessWidget {
     );
   }
 }
+
