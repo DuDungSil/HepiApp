@@ -17,8 +17,11 @@ import 'package:flutter_app/widgets/customBottombar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+
+
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
+final GlobalKey<_ScaffoldWithNavBarState> _scaffoldKey = GlobalKey<_ScaffoldWithNavBarState>();
 
 final routerNotifier = ValueNotifier<int>(0);
 
@@ -58,7 +61,13 @@ final GoRouter router = GoRouter(
             routerNotifier.value = newIndex;
           }
         });
-        return ScaffoldWithNavBar(navigationShell: navigationShell);
+        return ScaffoldWithNavBar(
+          key: _scaffoldKey,
+          navigationShell: navigationShell,
+          showBottomSheet: (widget) {
+            _scaffoldKey.currentState?.showBottomSheet(widget);
+          },
+        );
       },
       routes: <RouteBase>[
         GoRoute(
@@ -103,9 +112,7 @@ final GoRouter router = GoRouter(
             path: '/healthcare',
             builder: (BuildContext context, GoRouterState state) => HealthcarePage(),
             redirect: (context, state) {
-              if (context
-                  .read<user>()
-                  .id != null)
+              if (context.read<user>().id != null)
                 return '/healthcare';
               else
                 return '/login';
@@ -114,9 +121,7 @@ final GoRouter router = GoRouter(
             path: '/qr',
             builder: (BuildContext context, GoRouterState state) => QRPage(),
             redirect: (context, state) {
-              if (context
-                  .read<user>()
-                  .id != null)
+              if (context.read<user>().id != null)
                 return '/qr';
               else
                 return '/login';
@@ -145,16 +150,25 @@ final GoRouter router = GoRouter(
 class ScaffoldWithNavBar extends StatefulWidget {
   const ScaffoldWithNavBar({
     required this.navigationShell,
+    required this.showBottomSheet,
     Key? key,
   }) : super(key: key ?? const ValueKey<String>('ScaffoldWithNavBar'));
 
   final Widget navigationShell;
+  final void Function(Widget) showBottomSheet;
 
   @override
   _ScaffoldWithNavBarState createState() => _ScaffoldWithNavBarState();
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
+  void showBottomSheet(Widget widget) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => widget,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

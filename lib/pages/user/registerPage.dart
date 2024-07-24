@@ -346,14 +346,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (showAuthCode)
                       Container(
                         // 인증번호 입력 컨테이너
+                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
                         margin: EdgeInsets.only(top: 5),
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF7B8794)),
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xFFFFFFFF),
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFAFAFA),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1, color: Color(0xFF90A4AE)),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                         ),
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
