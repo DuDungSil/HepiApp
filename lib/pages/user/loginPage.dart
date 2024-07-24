@@ -69,8 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: ShapeDecoration(
                             color: Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1, color: Color(0xFF90A4AE)),
+                              side: BorderSide(width: 1, color: Color(0xFF90A4AE)),
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
@@ -137,8 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: ShapeDecoration(
                             color: Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1, color: Color(0xFF90A4AE)),
+                              side: BorderSide(width: 1, color: Color(0xFF90A4AE)),
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
@@ -181,11 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                                       hoverPwd = !hoverPwd;
                                     });
                                   },
-                                  child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      child: Icon(
-                                          Icons.visibility_off_outlined)),
+                                  child: Container(width: 24, height: 24, child: Icon(Icons.visibility_off_outlined)),
                                 ),
                               ],
                             ),
@@ -215,11 +209,8 @@ class _LoginPageState extends State<LoginPage> {
                                         isCheckedSaveLogin = newValue!;
                                       });
                                     },
-                                    fillColor:
-                                        WidgetStateProperty.resolveWith(
-                                            (states) {
-                                      if (!states
-                                          .contains(WidgetState.selected)) {
+                                    fillColor: WidgetStateProperty.resolveWith((states) {
+                                      if (!states.contains(WidgetState.selected)) {
                                         return Color(0xFFFAFAFA);
                                       }
                                       return null;
@@ -227,11 +218,9 @@ class _LoginPageState extends State<LoginPage> {
                                     activeColor: Colors.blue,
                                     checkColor: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(6.5),
+                                      borderRadius: BorderRadius.circular(6.5),
                                     ),
-                                    side: BorderSide(
-                                        color: Color(0xFF90A4AE))),
+                                    side: BorderSide(color: Color(0xFF90A4AE))),
                               ),
                               Container(
                                 child: Text(
@@ -248,17 +237,22 @@ class _LoginPageState extends State<LoginPage> {
                               )
                             ],
                           )),
-                          Container(
-                            child: Text(
-                              '아이디/비밀번호 찾기',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                color: Color(0xFF9EA3B2),
-                                fontSize: 14,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
-                                height: 0.16,
-                                letterSpacing: -0.35,
+                          GestureDetector(
+                            onTap: () {
+                              context.push('/findAccount');
+                            },
+                            child: Container(
+                              child: Text(
+                                '아이디/비밀번호 찾기',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: Color(0xFF9EA3B2),
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.16,
+                                  letterSpacing: -0.35,
+                                ),
                               ),
                             ),
                           )
@@ -269,8 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                       margin: EdgeInsets.only(top: 50),
                       child: InkWell(
                         onTap: () async {
-                          var response =
-                              await login(context, idEdit.text, pwdEdit.text);
+                          var response = await login(context, idEdit.text, pwdEdit.text);
                           if (response == "0") {
                             showTopSnackBar(
                               Overlay.of(context),
@@ -279,7 +272,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               displayDuration: Duration(milliseconds: 500),
                             );
-                            if(isCheckedSaveLogin == true) {
+                            if (isCheckedSaveLogin == true) {
                               await secureStorage.write(key: 'loginID', value: idEdit.text);
                               await secureStorage.write(key: 'loginPWD', value: pwdEdit.text);
                             }
@@ -329,8 +322,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: ShapeDecoration(
                               color: Color(0xFFF5F5F5),
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFFEEEEEE)),
+                                side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
@@ -349,8 +341,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: ShapeDecoration(
                               color: Color(0xFFF5F5F5),
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFFEEEEEE)),
+                                side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
@@ -369,8 +360,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: ShapeDecoration(
                               color: Color(0xFFF5F5F5),
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFFEEEEEE)),
+                                side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
@@ -420,8 +410,7 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: TextDecoration.underline,
                                 decorationThickness: 1.4,
                                 // 밑줄 두께 조절
-                                decorationColor:
-                                    Color(0xFF2F80ED), // 밑줄 색상 설정
+                                decorationColor: Color(0xFF2F80ED), // 밑줄 색상 설정
                               ),
                             ),
                           ),
@@ -433,19 +422,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: CustomAppbar(
-                title: '로그인',
-                leading: CustomBackButton(
-                  onTap: (){
-                    if(!GoRouter.of(context).canPop()) context.go('/home');
-                    else context.pop();
-                  },
-                ),
-              )
-            ),
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CustomAppbar(
+                  title: '로그인',
+                  leading: CustomBackButton(
+                    onTap: () {
+                      if (!GoRouter.of(context).canPop())
+                        context.go('/home');
+                      else
+                        context.pop();
+                    },
+                  ),
+                )),
           ],
         ),
       ),
