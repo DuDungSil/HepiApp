@@ -15,7 +15,7 @@ class Constants {
       fontSize: _fontSize,
       fontFamily: 'Pretendard',
       fontWeight: FontWeight.w400,
-      height: 1.2,
+      height: 1.1,
       letterSpacing: -0.5,
     );
   }
@@ -26,7 +26,7 @@ class Constants {
       fontSize: _fontSize,
       'Roboto Condensed',
       fontWeight: FontWeight.w600,
-      height: 1.2,
+      height: 1.1,
       letterSpacing: -0.5,
     );
   }
@@ -38,7 +38,7 @@ class Constants {
       fontSize: _fontSize,
       fontFamily: 'Pretendard',
       fontWeight: FontWeight.w400,
-      height: 1.2,
+      height: 1.1,
       letterSpacing: -0.5,
       decoration: TextDecoration.lineThrough,
       decorationThickness: 2.0, // 선의 두께를 설정

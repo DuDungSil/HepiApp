@@ -142,10 +142,10 @@ class _HomeState extends State<HomePage> {
                 ),
                 Consumer<products>(builder: (consumer, products, child) {
                   if (products.eventProductList.isEmpty) {
-                    return Container(alignment: Alignment.center, height: 250, child: CircularProgressIndicator());
+                    return Container(alignment: Alignment.center, height: 200, child: CircularProgressIndicator());
                   } else {
                     return Container(
-                      height: 250,
+                      height: 200,
                       clipBehavior: Clip.none,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,

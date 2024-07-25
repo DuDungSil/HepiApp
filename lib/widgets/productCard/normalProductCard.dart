@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 Widget NormalProductCard(var product) {
   return Container(
-    width: 150,
+    width: 120,
     margin: EdgeInsets.all(3),
-    padding: EdgeInsets.all(10),
+    padding: EdgeInsets.all(8),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
       color: Color(0xFFFFFFFF),
       boxShadow: [
         BoxShadow(
@@ -20,16 +20,15 @@ Widget NormalProductCard(var product) {
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
             child: Column(
               children: [
                 Container(
-                  height: 130,
+                  height: 80,
                   decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                       fit: BoxFit.fitHeight,
                       image: NetworkImage(
@@ -50,47 +49,38 @@ Widget NormalProductCard(var product) {
               ],
             )
         ),
-        Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                child: Text(
-                  '₩ ' + product.price.toString(),
-                  style: Constants.getPretendardTxt(15, Colors.red)
-                ),
-              ),
-              Text(
-                '₩ 122,664',
-                style: Constants.getLineTxt(13, Colors.black38)
-              ),
-            ],
-          ),
+        Text(
+            '₩ 122,664',
+            style: Constants.getLineTxt(12, Colors.black38)
+        ),
+        Text(
+            '₩ ' + product.price.toString(),
+            style: Constants.getPretendardTxt(14, Colors.red)
         ),
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('⭐'),
-              Text('⭐'),
-              Text('⭐'),
+              Text('⭐', style: TextStyle(fontSize: 11)),
+              Text('⭐', style: TextStyle(fontSize: 11)),
+              Text('⭐', style: TextStyle(fontSize: 11)),
               ColorFiltered(
                 colorFilter: ColorFilter.mode(
                   Colors.white,
                   BlendMode.saturation,
                 ),
-                child: Text('⭐'),
+                child: Text('⭐', style: TextStyle(fontSize: 11)),
               ),
               ColorFiltered(
                 colorFilter: ColorFilter.mode(
                   Colors.white,
                   BlendMode.saturation,
                 ),
-                child: Text('⭐'),
+                child: Text('⭐', style: TextStyle(fontSize: 11)),
               ),
               Text(
                 '   '+'(673)',
-                style: Constants.getRobotoTxt(15, Colors.black45)
+                style: Constants.getRobotoTxt(12, Colors.black45)
               ),
             ],
           ),
