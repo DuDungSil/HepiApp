@@ -464,7 +464,7 @@ class _SearchPageState extends State<SearchPage> {
                             contentPadding: EdgeInsets.all(10),
                             border: InputBorder.none,
                             hintText: '제품을 찾아보세요',
-                            hintStyle: Constants.text15,
+                            hintStyle: Constants.getPretendardTxt(15, Colors.black),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
                             ),
@@ -472,7 +472,7 @@ class _SearchPageState extends State<SearchPage> {
                               borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
                             ),
                           ),
-                          style: Constants.text15,
+                          style: Constants.getPretendardTxt(15, Colors.black),
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               insertOverlay();
