@@ -39,16 +39,16 @@ class CustomBottombar extends StatelessWidget {
           backgroundColor: Colors.white,
           selectedItemColor: Colors.orange,
           unselectedItemColor: Colors.black,
-          selectedFontSize: 12.0,
-          unselectedFontSize: 10.0,
+          selectedFontSize: 11.0,
+          unselectedFontSize: 9.0,
           currentIndex: currentIndex,
           onTap: _onItemTapped,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/home_icon.svg',
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
                 color: currentIndex == 0 ? Colors.orange : Colors.black,
               ),
               label: "홈",
@@ -56,8 +56,8 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/search_icon.svg',
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
                 color: currentIndex == 1 ? Colors.orange : Colors.black,
               ),
               label: "검색",
@@ -65,8 +65,8 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/mypage_icon.svg',
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
                 color: currentIndex == 2 ? Colors.orange : Colors.black,
               ),
               label: "마이페이지",
@@ -74,8 +74,8 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/healthy_icon.svg',
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
                 color: currentIndex == 3 ? Colors.orange : Colors.black,
               ),
               label: "건강 관리",
@@ -83,8 +83,8 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/qr_icon.svg',
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
                 color: currentIndex == 4 ? Colors.orange : Colors.black,
               ),
               label: "QR코드",

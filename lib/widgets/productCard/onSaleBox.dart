@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../utils/constants.dart';
 
 class OnSaleBox extends StatelessWidget {
   @override
@@ -6,9 +9,7 @@ class OnSaleBox extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 55,
-          height: 25,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: EdgeInsets.all(8),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: Color(0x99FF0A00),
@@ -28,25 +29,7 @@ class OnSaleBox extends StatelessWidget {
               )
             ],
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                '할인 중',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF111111),
-                  fontSize: 12,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w500,
-                  height: 0.12,
-                  letterSpacing: -0.30,
-                ),
-              ),
-            ],
-          ),
+          child: Text('할인 중', textAlign: TextAlign.center, style: Constants.getPretendardTxt(10, Colors.black)),
         ),
       ],
     );

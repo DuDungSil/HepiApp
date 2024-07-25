@@ -168,248 +168,177 @@ class _SearchPageState extends State<SearchPage> {
           // 검색 결과 있음
           if (widget.category != null || widget.query != null) ...[
             Container(
-              decoration: BoxDecoration(
-                color: Color(0xFFFFFFFF),
-              ),
-              child: Container(
-                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                padding: EdgeInsets.only(top: 120),
-                child: CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFFFFFF),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            if (widget.category != null) ...[
-                              Container(
-                                child: Text(
-                                  widget.category.toString(),
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.2,
-                                    letterSpacing: -0.50,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Wrap(
-                                    spacing: 8,
-                                    runSpacing: 8,
-                                    children: [
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, 'WPI');
-                                          },
-                                          child: EclipseText(text: 'WPI')),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, 'WPC');
-                                          },
-                                          child: EclipseText(text: 'WPC')),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, '비건');
-                                          },
-                                          child: EclipseText(text: '비건')),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, '신상품');
-                                          },
-                                          child: EclipseText(text: '신상품')),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              // 검색 결과를 표시하는 위젯
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(
-                        minHeight: 60.0,
-                        maxHeight: 60.0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (widget.category != null) ...[
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Wrap(
+                            spacing: 5,
+                            runSpacing: 5,
                             children: [
-                              ResultFilter(
-                                setView: () {},
-                                filtering: () {
-                                  _showFilter();
-                                },
-                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, 'WPI');
+                                  },
+                                  child: EclipseText(text: 'WPI')),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, 'WPC');
+                                  },
+                                  child: EclipseText(text: 'WPC')),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, '비건');
+                                  },
+                                  child: EclipseText(text: '비건')),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, '신상품');
+                                  },
+                                  child: EclipseText(text: '신상품')),
                             ],
                           ),
-                        ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      minHeight: 60.0,
+                      maxHeight: 60.0,
+                      child: Column(
+                        children: [
+                          ResultFilter(
+                            setView: () {},
+                            filtering: () {
+                              _showFilter();
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
-                          child: WideOptionProductCard(),
-                        );
-                      }, childCount: 10),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(5),
+                        child: WideOptionProductCard(),
+                      );
+                    }, childCount: 10),
+                  ),
+                  SliverToBoxAdapter(
+                    child: const SizedBox(
+                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
                     ),
-                    SliverToBoxAdapter(
-                      child: const SizedBox(
-                        height: 100,
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             )
           ] else ...[
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(top: 120),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                ),
-                child: Container(
-                  margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          '최근 검색어',
-                          style: GoogleFonts.getFont(
-                            'Roboto Condensed',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            height: 1.2,
-                            letterSpacing: -0.5,
-                            color: Color(0xFF000000),
-                          ),
+                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('최근 검색어', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _autoComplete(_textEditingController, '삼대오백');
+                            _searchKeyword(context, '삼대오백');
+                          },
+                          child: EclipseText(text: '삼대오백'),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '삼대오백');
-                                  _searchKeyword(context, '삼대오백');
-                                },
-                                child: EclipseText(text: '삼대오백'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
-                                  _searchKeyword(context, '투퍼데이 종합비타민 120정');
-                                },
-                                child: EclipseText(text: '투퍼데이 종합비타민 120정'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '잠백이 흑마늘');
-                                  _searchKeyword(context, '잠백이 흑마늘');
-                                },
-                                child: EclipseText(text: '잠백이 흑마늘'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '프로틴');
-                                  _searchKeyword(context, '프로틴');
-                                },
-                                child: EclipseText(text: '프로틴'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '크레아틴 500g');
-                                  _searchKeyword(context, '크레아틴 500g');
-                                },
-                                child: EclipseText(text: '크레아틴 500g'),
-                              ),
-                            ],
-                          ),
+                        GestureDetector(
+                          onTap: () {
+                            _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
+                            _searchKeyword(context, '투퍼데이 종합비타민 120정');
+                          },
+                          child: EclipseText(text: '투퍼데이 종합비타민 120정'),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          '자주 구매한 상품',
-                          style: GoogleFonts.getFont(
-                            'Roboto Condensed',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            height: 1.2,
-                            letterSpacing: -0.5,
-                            color: Color(0xFF000000),
-                          ),
+                        GestureDetector(
+                          onTap: () {
+                            _autoComplete(_textEditingController, '잠백이 흑마늘');
+                            _searchKeyword(context, '잠백이 흑마늘');
+                          },
+                          child: EclipseText(text: '잠백이 흑마늘'),
                         ),
-                      ),
-                      Container(
-                        height: 280,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.center,
-                        decoration:
-                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            '할인 중인 상품',
-                            style: GoogleFonts.getFont(
-                              'Roboto Condensed',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              height: 1.2,
-                              letterSpacing: -0.5,
-                              color: Color(0xFF000000),
-                            ),
-                          ),
+                        GestureDetector(
+                          onTap: () {
+                            _autoComplete(_textEditingController, '프로틴');
+                            _searchKeyword(context, '프로틴');
+                          },
+                          child: EclipseText(text: '프로틴'),
                         ),
-                      ),
-                      Container(
-                        height: 280,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.center,
-                        decoration:
-                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
-                    ],
-                  ),
+                        GestureDetector(
+                          onTap: () {
+                            _autoComplete(_textEditingController, '크레아틴 500g');
+                            _searchKeyword(context, '크레아틴 500g');
+                          },
+                          child: EclipseText(text: '크레아틴 500g'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('자주 구매한 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                    ),
+                    const SizedBox(
+                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -417,7 +346,7 @@ class _SearchPageState extends State<SearchPage> {
           // 맨 위로 스크롤 하는 버튼
           if (widget.category != null || widget.query != null)
             Positioned(
-              bottom: 100.0,
+              bottom: Constants.BOTTOM_MARGIN_WITH_BAR,
               right: 20.0,
               child: FloatingActionButton(
                 onPressed: () {
