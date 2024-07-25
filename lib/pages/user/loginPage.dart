@@ -15,6 +15,10 @@ import '../../function/login.dart';
 import '../../widgets/customBackButton.dart';
 
 class LoginPage extends StatefulWidget {
+  final String? redirect;
+
+  LoginPage({this.redirect});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -283,7 +287,11 @@ class _LoginPageState extends State<LoginPage> {
                               await secureStorage.write(key: 'loginID', value: idEdit.text);
                               await secureStorage.write(key: 'loginPWD', value: pwdEdit.text);
                             }
-                            context.pop();
+                            if(!GoRouter.of(context).canPop()) {
+                              if(widget.redirect != null) context.go(widget.redirect!);
+                              else context.go('/home');
+                            }
+                            else context.pop();
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
