@@ -51,7 +51,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/startLogin',
-      builder: (BuildContext context, GoRouterState state) => startLoginPage(),
+      builder: (BuildContext context, GoRouterState state) => StartLoginPage(),
     ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,
@@ -117,7 +117,7 @@ final GoRouter router = GoRouter(
               if (context.read<user>().id != null)
                 return '/healthcare';
               else
-                return '/login';
+                return '/login?redirect=/healthcare';
             }),
         GoRoute(
             path: '/qr',
@@ -126,7 +126,7 @@ final GoRouter router = GoRouter(
               if (context.read<user>().id != null)
                 return '/qr';
               else
-                return '/login';
+                return '/login?redirect=/qr';
             }),
       ],
     ),
@@ -136,7 +136,11 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state) => LoginPage(),
+      builder: (BuildContext context, GoRouterState state){
+        final redirect = state.uri.queryParameters['redirect'];
+
+        return LoginPage(redirect : redirect);
+      },
     ),
     GoRoute(
       path: '/register',
