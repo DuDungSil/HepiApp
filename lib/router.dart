@@ -64,7 +64,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/startLogin',
-      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(startLoginPage()),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(StartLoginPage()),
     ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,
