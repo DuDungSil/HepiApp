@@ -430,86 +430,59 @@ class _SearchPageState extends State<SearchPage> {
             top: 0,
             left: 0,
             right: 0,
-            child: GestureDetector(
-              onTap: () {},
-              // Do nothing to prevent closing the overlay when tapping inside the search area
-              child: CustomAppbar(
-                title: '검색',
-                leading: CustomBackButton(
-                  onTap: () {
-                    context.go('/home');
-                  },
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
-                        width: 1,
+            child: CustomAppbar(
+              title: '검색',
+              leading: CustomBackButton(
+                onTap: () {
+                  context.go('/home');
+                },
+              ),
+              child: Container(
+                key: _searchBarKey,
+                child: CompositedTransformTarget(
+                  link: _searchBarLink,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.only(right: 10),
+                        child: SvgPicture.asset(
+                          'assets/vectors/search_normal_x2.svg',
+                        ),
                       ),
-                    ),
-                  ),
-                  child: Container(
-                    key: _searchBarKey,
-                    child: CompositedTransformTarget(
-                      link: _searchBarLink,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                            width: 24,
-                            height: 24,
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: SvgPicture.asset(
-                                'assets/vectors/search_normal_x2.svg',
-                              ),
+                      Expanded(
+                        child: TextField(
+                          controller: _textEditingController,
+                          autofocus: widget.autoFocus,
+                          onSubmitted: (value) {
+                            _searchKeyword(context, value);
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: InputBorder.none,
+                            hintText: '제품을 찾아보세요',
+                            hintStyle: Constants.text15,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
                             ),
                           ),
-                          Expanded(
-                            child: TextField(
-                              controller: _textEditingController,
-                              autofocus: widget.autoFocus,
-                              onSubmitted: (value) {
-                                _searchKeyword(context, value);
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(8),
-                                border: InputBorder.none,
-                                hintText: '제품을 찾아보세요',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2,
-                                  letterSpacing: -0.40,
-                                ),
-                              ),
-                              style: GoogleFonts.getFont(
-                                'Roboto Condensed',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                height: 1.2,
-                                letterSpacing: -1.2,
-                                color: Color(0xFF000000),
-                              ),
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  insertOverlay();
-                                } else {
-                                  removeOverlay();
-                                }
-                              },
-                            ),
-                          ),
-                        ],
+                          style: Constants.text15,
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              insertOverlay();
+                            } else {
+                              removeOverlay();
+                            }
+                          },
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),

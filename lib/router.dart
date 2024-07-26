@@ -19,13 +19,26 @@ import 'package:flutter_app/widgets/customBottombar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-
-
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 final GlobalKey<_ScaffoldWithNavBarState> _scaffoldKey = GlobalKey<_ScaffoldWithNavBarState>();
 
 final routerNotifier = ValueNotifier<int>(0);
+
+Page<dynamic> buildCustomTransitionPage(Widget child) {
+  return CustomTransitionPage(
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: Offset.zero,
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  );
+}
 
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -47,11 +60,11 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/onboarding',
-      builder: (BuildContext context, GoRouterState state) => startPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(startPage()),
     ),
     GoRoute(
       path: '/startLogin',
-      builder: (BuildContext context, GoRouterState state) => StartLoginPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(startLoginPage()),
     ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,
@@ -74,45 +87,43 @@ final GoRouter router = GoRouter(
       routes: <RouteBase>[
         GoRoute(
           path: '/home',
-          builder: (BuildContext context, GoRouterState state) => HomePage(),
+          pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(HomePage()),
           routes: [
             GoRoute(
               path: 'event/:id',
-              builder: (BuildContext context, GoRouterState state) {
+              pageBuilder: (BuildContext context, GoRouterState state) {
                 final id = int.parse(state.pathParameters['id']!);
-                return EventPage(viewID: id);
+                return buildCustomTransitionPage(EventPage(viewID: id));
               },
             ),
           ],
         ),
         GoRoute(
           path: '/search',
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
             final query = state.uri.queryParameters['query'];
-
-            return SearchPage(autoFocus: autoFocus, query: query);
+            return buildCustomTransitionPage(SearchPage(autoFocus: autoFocus, query: query));
           },
           routes: [
             GoRoute(
               path: 'c/:category',
-              builder: (BuildContext context, GoRouterState state) {
+              pageBuilder: (BuildContext context, GoRouterState state) {
                 final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
                 final category = state.pathParameters['category']!;
                 final query = state.uri.queryParameters['query'];
-
-                return SearchPage(autoFocus: autoFocus, category: category, query: query);
+                return buildCustomTransitionPage(SearchPage(autoFocus: autoFocus, category: category, query: query));
               },
             ),
           ],
         ),
         GoRoute(
           path: '/mypage',
-          builder: (BuildContext context, GoRouterState state) => MyPage(),
+          pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(MyPage()),
         ),
         GoRoute(
             path: '/healthcare',
-            builder: (BuildContext context, GoRouterState state) => HealthcarePage(),
+            pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(HealthcarePage()),
             redirect: (context, state) {
               if (context.read<user>().id != null)
                 return '/healthcare';
@@ -121,7 +132,7 @@ final GoRouter router = GoRouter(
             }),
         GoRoute(
             path: '/qr',
-            builder: (BuildContext context, GoRouterState state) => QRPage(),
+            pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(QRPage()),
             redirect: (context, state) {
               if (context.read<user>().id != null)
                 return '/qr';
@@ -132,31 +143,31 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/productDetail',
-      builder: (BuildContext context, GoRouterState state) => ProductDetailPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(ProductDetailPage()),
     ),
     GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state){
+      pageBuilder: (BuildContext context, GoRouterState state){
         final redirect = state.uri.queryParameters['redirect'];
 
-        return LoginPage(redirect : redirect);
+        return buildCustomTransitionPage(LoginPage(redirect : redirect));
       },
     ),
     GoRoute(
       path: '/register',
-      builder: (BuildContext context, GoRouterState state) => RegisterPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(RegisterPage()),
     ),
     GoRoute(
       path: '/order',
-      builder: (BuildContext context, GoRouterState state) => OrderPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(OrderPage()),
     ),
     GoRoute(
       path: '/findAccount',
-      builder: (BuildContext context, GoRouterState state) => findAccountPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(findAccountPage()),
     ),
     GoRoute(
       path: '/findId',
-      builder: (BuildContext context, GoRouterState state) => findIdPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(findIdPage()),
     ),
   ],
 );

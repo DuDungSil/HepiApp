@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 Widget NormalProductCard(var product) {
   return Container(
-    height: 220,
+    height: 120,
     width: 160,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
