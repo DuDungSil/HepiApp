@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../utils/constants.dart';
 
 Widget NormalProductCard(var product) {
   return Container(
@@ -24,13 +27,14 @@ Widget NormalProductCard(var product) {
         children: [
           Container(
             height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(
-                fit: BoxFit.fitHeight,
-                image: NetworkImage(
-                  product.main_image,
+            child: Container(
+              child: CachedNetworkImage(
+                imageUrl: product.main_image,
+                placeholder: (context, url) => Center(
+                  child: Constants.defalutProgressIndicatorWidget,
                 ),
+                errorWidget: (context, url, error) => Constants.defalutErrorWidget,
+                fit: BoxFit.contain,
               ),
             ),
           ),

@@ -95,8 +95,8 @@ class _EventPageState extends State<EventPage> {
                             children: List.generate(eventImages.eventImageList.length, (index) {
                               bool isSelected = innerCurrentPage == index;
                               return AnimatedContainer(
-                                width: 8,
-                                height: 8,
+                                width: 6,
+                                height: 6,
                                 margin: EdgeInsets.symmetric(horizontal: 3),
                                 duration: const Duration(milliseconds: 300),
                                 decoration: ShapeDecoration(

@@ -93,6 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                                 Expanded(
                                   child: TextFormField(
                                     controller: idEdit,
+                                    onTapOutside: (event){
+                                      FocusScope.of(context).unfocus();
+                                    },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '이메일을 입력해주세요.',
@@ -161,6 +164,9 @@ class _LoginPageState extends State<LoginPage> {
                                   child: TextFormField(
                                     obscureText: hoverPwd,
                                     controller: pwdEdit,
+                                    onTapOutside: (event){
+                                      FocusScope.of(context).unfocus();
+                                    },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '비밀번호를 입력해주세요.',

@@ -42,4 +42,6 @@ class Constants {
   letterSpacing: -0.5,
   );
 
+  static Widget defalutErrorWidget = Icon(Icons.error);
+  static Widget defalutProgressIndicatorWidget = CircularProgressIndicator();
 }

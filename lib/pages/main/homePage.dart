@@ -89,8 +89,9 @@ class _HomeState extends State<HomePage> {
                                         child: CachedNetworkImage(
                                           imageUrl: eventImage.url,
                                           placeholder: (context, url) => Center(
-                                            child: CircularProgressIndicator(),
+                                            child: Constants.defalutProgressIndicatorWidget,
                                           ),
+                                          errorWidget: (context, url, error) => Constants.defalutErrorWidget,
                                           fit: BoxFit.contain,
                                         ),
                                       );
@@ -118,8 +119,8 @@ class _HomeState extends State<HomePage> {
                               children: List.generate(eventImages.eventImageList.length, (index) {
                                 bool isSelected = innerCurrentPage == index;
                                 return AnimatedContainer(
-                                    width: isSelected ? 8 : 8,
-                                    height: 8,
+                                    width: isSelected ? 6 : 6,
+                                    height: 6,
                                     margin: EdgeInsets.symmetric(horizontal: isSelected ? 3 : 3),
                                     duration: const Duration(
                                       milliseconds: 300,
