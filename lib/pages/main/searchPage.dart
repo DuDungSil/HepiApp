@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/utils/DBHelper.dart';
+import 'package:flutter_app/utils/dbHelper.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:flutter_app/widgets/productCard/WideOptionProductCard.dart';
@@ -280,7 +280,6 @@ class _SearchPageState extends State<SearchPage> {
         ] else ...[
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(top: 120),
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
               ),

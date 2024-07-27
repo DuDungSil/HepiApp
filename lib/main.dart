@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/router.dart';
-import 'package:flutter_app/utils/DBHelper.dart';
+import 'package:flutter_app/utils/dbHelper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/store/chattings.dart';
@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
     );
     checkLoginStatus();
   }
+
 
   Future<void> checkLoginStatus() async {
     String? loginID = await secureStorage.read(key: 'loginID');

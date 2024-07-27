@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/pages/init/startLoginPage.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/store/user.dart';
 import 'package:flutter_app/widgets/customBottombar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +46,7 @@ final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
   refreshListenable: routerNotifier,
+
   redirect: (context, state) {
     final bool isOnboardingComplete = sharedPreferences.getBool('onboardingComplete') ?? false;
 
@@ -187,6 +190,8 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
+  DateTime? lastBackPressTime;
+
   void showBottomSheet(Widget widget) {
     showModalBottomSheet(
       context: context,
@@ -194,38 +199,63 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     );
   }
 
+  Future<bool> onWillPop(){
+    DateTime now = DateTime.now();
+    if(lastBackPressTime == null || now.difference(lastBackPressTime!) > Duration(seconds: 2)){
+      lastBackPressTime = now;
+      final msg = "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.";
+      Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(child: widget.navigationShell),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: -1,
-              child: ValueListenableBuilder<int>(
-                valueListenable: routerNotifier,
-                builder: (context, value, child) {
-                  return CustomBottombar(
-                    setTab: (index) {
-                      final String? location = _getLocationForIndex(index);
-                      if (location != null && location.isNotEmpty) {
-                        router.go(location);
-                      } else {
-                        print("Invalid location for index $index: $location");
-                      }
-                    },
-                    currentIndex: value,
-                  );
-                },
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if(await onWillPop()) SystemNavigator.pop();
+      },
+      child: Scaffold(
+        extendBody: true,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(child: widget.navigationShell),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: -1,
+                child: ValueListenableBuilder<int>(
+                  valueListenable: routerNotifier,
+                  builder: (context, value, child) {
+                    return CustomBottombar(
+                      setTab: (index) {
+                        final String? location = _getLocationForIndex(index);
+                        if (location != null && location.isNotEmpty) {
+                          router.go(location);
+                        } else {
+                          print("Invalid location for index $index: $location");
+                        }
+                      },
+                      currentIndex: value,
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
