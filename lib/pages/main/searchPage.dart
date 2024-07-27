@@ -43,7 +43,6 @@ class _SearchPageState extends State<SearchPage> {
   final LayerLink _searchBarLink = LayerLink();
   final TextEditingController _textEditingController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -51,13 +50,11 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.query != null) {
       _textEditingController.text = widget.query!;
     }
-
   }
 
   @override
   void didUpdateWidget(covariant SearchPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 여기서 상태를 업데이트
     if (widget.query != oldWidget.query) {
       _textEditingController.text = widget.query ?? '';
     }
@@ -198,14 +195,14 @@ class _SearchPageState extends State<SearchPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                        if (widget.category != null) ...[
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                            if (widget.category != null) ...[
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Container(
                                 child: Align(
                                   alignment: Alignment.topLeft,
@@ -240,7 +237,6 @@ class _SearchPageState extends State<SearchPage> {
                               const SizedBox(
                                 height: 40,
                               ),
-                              // 검색 결과를 표시하는 위젯
                             ],
                           ],
                         ),
@@ -251,70 +247,33 @@ class _SearchPageState extends State<SearchPage> {
                       delegate: _SliverAppBarDelegate(
                         minHeight: 60.0,
                         maxHeight: 60.0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                  onTap: () {
-                                    _searchCategory(context, 'WPI');
-                                  },
-                                  child: EclipseText(text: 'WPI')),
-                              GestureDetector(
-                                  onTap: () {
-                                    _searchCategory(context, 'WPC');
-                                  },
-                                  child: EclipseText(text: 'WPC')),
-                              GestureDetector(
-                                  onTap: () {
-                                    _searchCategory(context, '비건');
-                                  },
-                                  child: EclipseText(text: '비건')),
-                              GestureDetector(
-                                  onTap: () {
-                                    _searchCategory(context, '신상품');
-                                  },
-                                  child: EclipseText(text: '신상품')),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: _SliverAppBarDelegate(
-                      minHeight: 60.0,
-                      maxHeight: 60.0,
-                      child: Column(
-                        children: [
-                          ResultFilter(
-                            setView: () {},
-                            filtering: () {
-                              _showFilter();
-                            },
-                          ),
-                        ],
+                        child: Column(
+                          children: [
+                            ResultFilter(
+                              setView: () {},
+                              filtering: () {
+                                _showFilter();
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(5),
-                        child: WideOptionProductCard(),
-                      );
-                    }, childCount: 10),
-                  ),
-                  SliverToBoxAdapter(
-                    child: const SizedBox(
-                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return Container(
+                          padding: EdgeInsets.all(5),
+                          child: WideOptionProductCard(),
+                        );
+                      }, childCount: 10),
                     ),
-                  )
-                ],
+                    SliverToBoxAdapter(
+                      child: const SizedBox(
+                        height: Constants.BOTTOM_MARGIN_WITH_BAR,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           )
@@ -422,70 +381,70 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
         // 맨 위로 스크롤 하는 버튼
-          if (widget.category != null || widget.query != null)
-            Positioned(
-              bottom: Constants.BOTTOM_MARGIN_WITH_BAR,
-              right: 20.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  _scrollToTop();
-                },
-                child: Icon(Icons.arrow_upward),
-              ),
-            ),
+        if (widget.category != null || widget.query != null)
           Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: CustomAppbar(
-              title: '검색',
-              leading: CustomBackButton(
-                onTap: () {
-                  context.go('/home');
-                },
-              ),
-              child: Container(
-                key: _searchBarKey,
-                child: CompositedTransformTarget(
-                  link: _searchBarLink,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        margin: EdgeInsets.only(right: 10),
-                        child: SvgPicture.asset(
-                          'assets/vectors/search_normal_x2.svg',
-                        ),
+            bottom: Constants.BOTTOM_MARGIN_WITH_BAR,
+            right: 20.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                _scrollToTop();
+              },
+              child: Icon(Icons.arrow_upward),
+            ),
+          ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppbar(
+            title: '검색',
+            leading: CustomBackButton(
+              onTap: () {
+                context.go('/home');
+              },
+            ),
+            child: Container(
+              key: _searchBarKey,
+              child: CompositedTransformTarget(
+                link: _searchBarLink,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset(
+                        'assets/vectors/search_normal_x2.svg',
                       ),
-                      Expanded(
-                        child: TextField(
-                          controller: _textEditingController,
-                          autofocus: widget.autoFocus,
-                          onSubmitted: (value) {
-                            _searchKeyword(context, value);
-                          },
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10),
-                            border: InputBorder.none,
-                            hintText: '제품을 찾아보세요',
-                            hintStyle: Constants.getPretendardTxt(15, Colors.black),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
-                            ),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _textEditingController,
+                        autofocus: widget.autoFocus,
+                        onSubmitted: (value) {
+                          _searchKeyword(context, value);
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10),
+                          border: InputBorder.none,
+                          hintText: '제품을 찾아보세요',
+                          hintStyle: Constants.getPretendardTxt(15, Colors.black),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
                           ),
-                          style: Constants.getPretendardTxt(15, Colors.black),
-                          onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              insertOverlay();
-                            } else {
-                              removeOverlay();
-                            }
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
+                          ),
+                        ),
+                        style: Constants.getPretendardTxt(15, Colors.black),
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            insertOverlay();
+                          } else {
+                            removeOverlay();
+                          }
                         },
                       ),
                     ),
