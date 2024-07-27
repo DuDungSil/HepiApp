@@ -1,31 +1,36 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/constants.dart';
 
 Widget NormalProductCard(var product) {
   return Container(
-    height: 120,
-    width: 160,
+    width: 120,
+    margin: EdgeInsets.all(3),
+    padding: EdgeInsets.all(8),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
       color: Color(0xFFFFFFFF),
       boxShadow: [
         BoxShadow(
           color: Color(0xFFD6D6D6),
-          offset: Offset(6, 6),
-          blurRadius: 4,
+          offset: Offset(3, 3),
+          blurRadius: 3,
         ),
       ],
     ),
-    child: Container(
-      padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+            child: Column(
+              children: [
+                Container(
+                  height: 80,
+                  child: Container(
             height: 100,
             child: Container(
               child: CachedNetworkImage(
@@ -38,105 +43,56 @@ Widget NormalProductCard(var product) {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                product.name,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 3,
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
-                  height: 1.2,
-                  letterSpacing: -0.4,
-                  color: Color(0xFF111111),
                 ),
+                Container(
+                  margin: EdgeInsets.only(top: 3),
+                  child: Text(
+                      product.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: Constants.getPretendardTxt(13, Colors.black)
+                  ),
+                ),
+              ],
+            )
+        ),
+        Text(
+            '₩ 122,664',
+            style: Constants.getLineTxt(12, Colors.black38)
+        ),
+        Text(
+            '₩ ' + product.price.toString(),
+            style: Constants.getPretendardTxt(14, Colors.red)
+        ),
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text('⭐', style: TextStyle(fontSize: 11)),
+              Text('⭐', style: TextStyle(fontSize: 11)),
+              Text('⭐', style: TextStyle(fontSize: 11)),
+              ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.saturation,
+                ),
+                child: Text('⭐', style: TextStyle(fontSize: 11)),
               ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                    child: Text(
-                      '₩ ' + product.price.toString(),
-                      style: GoogleFonts.getFont(
-                        'Roboto Condensed',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        height: 1.2,
-                        letterSpacing: -0.3,
-                        color: Color(0xFFDC3644),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '₩ 122,664',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      decoration: TextDecoration.lineThrough,
-                      decorationThickness: 2.0, // 선의 두께를 설정
-                      height: 1.2,
-                      letterSpacing: -0.3,
-                      color: Color(0xFF767676),
-                      decorationColor: Color(0xFF767676),
-                    ),
-                  ),
-                ],
+              ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.saturation,
+                ),
+                child: Text('⭐', style: TextStyle(fontSize: 11)),
               ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: SizedBox(
-                      height : 20,
-                      child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.start,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          // 평점 들어가야햠 ( 별 )
-                          Container()
-                        ],
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '(673)',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      height: 1.2,
-                      letterSpacing: -0.3,
-                      color: Color(0xFF9EA3B2),
-                    ),
-                  ),
-                ],
+              Text(
+                '   '+'(673)',
+                style: Constants.getRobotoTxt(12, Colors.black45)
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }

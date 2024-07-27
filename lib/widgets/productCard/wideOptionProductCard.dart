@@ -3,12 +3,14 @@ import 'package:flutter_app/widgets/productCard/onSaleBox.dart';
 import 'package:flutter_app/widgets/productCard/qrAvailableBox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/constants.dart';
+
 class WideOptionProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 340,
-      height: 150,
+      height: 120,
+      padding: EdgeInsets.all(8),
       decoration: ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -16,18 +18,17 @@ class WideOptionProductCard extends StatelessWidget {
           ),
           shadows: [
             BoxShadow(
-              color: Color(0x0C000000),
-              blurRadius: 8,
-              offset: Offset(8, 8),
-              spreadRadius: 0,
-            )
+              color: Color(0xFFD6D6D6),
+              offset: Offset(3, 3),
+              blurRadius: 3,
+            ),
           ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 160,
+            width: 120,
             decoration: ShapeDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/example.png'),
@@ -39,83 +40,37 @@ class WideOptionProductCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 18,),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      QRAvailableBox(),
-                      Container(
-                        width: 10,
-                      ),
-                      OnSaleBox()
-                    ],
-                  ),
-                  Container(
-                    height: 40,
-                    margin: EdgeInsets.only(top: 10),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Optimum Nutrition, 더블 리치 초콜릿 Whey, 2.27kg(5lb)',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: GoogleFonts.getFont(
-                          'Roboto Condensed',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                          height: 1.2,
-                          letterSpacing: -0.4,
-                          color: Color(0xFF111111),
-                        ),
-                      ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    QRAvailableBox(),
+                    const SizedBox(
+                      width: 10,
                     ),
+                    OnSaleBox()
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Optimum Nutrition, 더블 리치 초콜릿 Whey, 2.27kg(5lb)',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: Constants.getPretendardTxt(15, Colors.black),
+                ),
+                const SizedBox(height: 5),
+                Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text('₩ 110,397', style: Constants.getPretendardTxt(15, Colors.red)),
+                  const SizedBox(
+                    width: 10,
                   ),
-                  Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                                  child: Text(
-                                    '₩ 110,397',
-                                    style: GoogleFonts.getFont(
-                                      'Roboto Condensed',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15,
-                                      height: 1.2,
-                                      letterSpacing: -0.3,
-                                      color: Color(0xFFDC3644),
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  '₩ 122,664',
-                                  style: GoogleFonts.getFont(
-                                    'Roboto Condensed',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15,
-                                    decoration: TextDecoration.lineThrough,
-                                    decorationThickness: 2.0,
-                                    // 선의 두께를 설정
-                                    height: 1.2,
-                                    letterSpacing: -0.3,
-                                    color: Color(0xFF767676),
-                                    decorationColor: Color(0xFF767676),
-                                  ),
-                                ),
-                              ])))
-                ],
-              ),
+                  Text('₩ 122,664', style: Constants.getLineTxt(12, Colors.black38)),
+                ])
+              ],
             ),
           )
         ],

@@ -41,7 +41,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
                   alignment: Alignment.center,
                   child: Text(
                     widget.title,
-                    style: Constants.text20,
+                    style: Constants.getRobotoTxt(20, Colors.black),
                   ),
                 ),
                 Align(

@@ -182,7 +182,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: Container(
               margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-              padding: EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
               child: ScrollConfiguration(
                 behavior: GlowBehavior(),
                 child: CustomScrollView(
@@ -198,32 +198,20 @@ class _SearchPageState extends State<SearchPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            if (widget.category != null) ...[
-                              Container(
-                                child: Text(
-                                  widget.category.toString(),
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.2,
-                                    letterSpacing: -0.50,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
+                        if (widget.category != null) ...[
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
+                          const SizedBox(
+                            height: 10,
+                          ),
                               Container(
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Wrap(
-                                    spacing: 8,
-                                    runSpacing: 8,
+                                    spacing: 5,
+                                    runSpacing: 5,
                                     children: [
                                       GestureDetector(
                                           onTap: () {
@@ -267,33 +255,66 @@ class _SearchPageState extends State<SearchPage> {
                           color: Colors.white,
                           child: Column(
                             children: [
-                              ResultFilter(
-                                setView: () {},
-                                filtering: () {
-                                  _showFilter();
-                                },
-                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, 'WPI');
+                                  },
+                                  child: EclipseText(text: 'WPI')),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, 'WPC');
+                                  },
+                                  child: EclipseText(text: 'WPC')),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, '비건');
+                                  },
+                                  child: EclipseText(text: '비건')),
+                              GestureDetector(
+                                  onTap: () {
+                                    _searchCategory(context, '신상품');
+                                  },
+                                  child: EclipseText(text: '신상품')),
                             ],
                           ),
-                        ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      minHeight: 60.0,
+                      maxHeight: 60.0,
+                      child: Column(
+                        children: [
+                          ResultFilter(
+                            setView: () {},
+                            filtering: () {
+                              _showFilter();
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
-                          child: WideOptionProductCard(),
-                        );
-                      }, childCount: 10),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(5),
+                        child: WideOptionProductCard(),
+                      );
+                    }, childCount: 10),
+                  ),
+                  SliverToBoxAdapter(
+                    child: const SizedBox(
+                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
                     ),
-                    SliverToBoxAdapter(
-                      child: const SizedBox(
-                        height: 100,
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           )
@@ -306,31 +327,25 @@ class _SearchPageState extends State<SearchPage> {
               ),
               child: Container(
                 margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        '최근 검색어',
-                        style: GoogleFonts.getFont(
-                          'Roboto Condensed',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          height: 1.2,
-                          letterSpacing: -0.5,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('최근 검색어', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20),
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                          spacing: 5,
+                          runSpacing: 5,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -371,55 +386,34 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        '자주 구매한 상품',
-                        style: GoogleFonts.getFont(
-                          'Roboto Condensed',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          height: 1.2,
-                          letterSpacing: -0.5,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('자주 구매한 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Container(
-                      height: 280,
+                      height: 200,
                       width: double.infinity,
-                      margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.center,
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '할인 중인 상품',
-                          style: GoogleFonts.getFont(
-                            'Roboto Condensed',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            height: 1.2,
-                            letterSpacing: -0.5,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 280,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
                     ),
                     const SizedBox(
-                      height: 100,
+                      height: 15,
+                    ),
+                    Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                    ),
+                    const SizedBox(
+                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
                     ),
                   ],
                 ),
@@ -428,74 +422,70 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
         // 맨 위로 스크롤 하는 버튼
-        if (widget.category != null || widget.query != null)
+          if (widget.category != null || widget.query != null)
+            Positioned(
+              bottom: Constants.BOTTOM_MARGIN_WITH_BAR,
+              right: 20.0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  _scrollToTop();
+                },
+                child: Icon(Icons.arrow_upward),
+              ),
+            ),
           Positioned(
-            bottom: 100.0,
-            right: 20.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                _scrollToTop();
-              },
-              child: Icon(Icons.arrow_upward),
-            ),
-          ),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: CustomAppbar(
-            title: '검색',
-            leading: CustomBackButton(
-              onTap: () {
-                context.go('/home');
-              },
-            ),
-            child: Container(
-              key: _searchBarKey,
-              child: CompositedTransformTarget(
-                link: _searchBarLink,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 20,
-                      height: 20,
-                      margin: EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset(
-                        'assets/vectors/search_normal_x2.svg',
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: _textEditingController,
-                        autofocus: widget.autoFocus,
-                        onTapOutside: (event){
-                          removeOverlay();
-                          FocusScope.of(context).unfocus();
-                        },
-                        onSubmitted: (value) {
-                          _searchKeyword(context, value);
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(10),
-                          border: InputBorder.none,
-                          hintText: '제품을 찾아보세요',
-                          hintStyle: Constants.text15,
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
-                          ),
+            top: 0,
+            left: 0,
+            right: 0,
+            child: CustomAppbar(
+              title: '검색',
+              leading: CustomBackButton(
+                onTap: () {
+                  context.go('/home');
+                },
+              ),
+              child: Container(
+                key: _searchBarKey,
+                child: CompositedTransformTarget(
+                  link: _searchBarLink,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.only(right: 10),
+                        child: SvgPicture.asset(
+                          'assets/vectors/search_normal_x2.svg',
                         ),
-                        style: Constants.text15,
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            insertOverlay();
-                          } else {
-                            removeOverlay();
-                          }
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _textEditingController,
+                          autofocus: widget.autoFocus,
+                          onSubmitted: (value) {
+                            _searchKeyword(context, value);
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: InputBorder.none,
+                            hintText: '제품을 찾아보세요',
+                            hintStyle: Constants.getPretendardTxt(15, Colors.black),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
+                            ),
+                          ),
+                          style: Constants.getPretendardTxt(15, Colors.black),
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              insertOverlay();
+                            } else {
+                              removeOverlay();
+                            }
                         },
                       ),
                     ),

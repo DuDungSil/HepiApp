@@ -56,7 +56,7 @@ class _HomeState extends State<HomePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text('진행 중인 이벤트', style: Constants.text17),
+                Text('진행 중인 이벤트', style: Constants.getRobotoTxt(17, Colors.black)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -137,16 +137,17 @@ class _HomeState extends State<HomePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text('카테고리 별 쇼핑', style: Constants.text17),
+                Text('할인 중인 품목', style: Constants.getRobotoTxt(17, Colors.black)),
                 const SizedBox(
                   height: 10,
                 ),
                 Consumer<products>(builder: (consumer, products, child) {
                   if (products.eventProductList.isEmpty) {
-                    return Container(alignment: Alignment.center, height: 230, child: CircularProgressIndicator());
+                    return Container(alignment: Alignment.center, height: 200, child: CircularProgressIndicator());
                   } else {
                     return Container(
-                      height: 230,
+                      height: 200,
+                      clipBehavior: Clip.none,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: products.eventProductList.length,
@@ -158,7 +159,7 @@ class _HomeState extends State<HomePage> {
                               child: NormalProductCard(products.eventProductList[index]));
                         },
                         separatorBuilder: (context, index) => const SizedBox(
-                          width: 10,
+                          width: 5,
                         ),
                       ),
                     );
@@ -167,7 +168,7 @@ class _HomeState extends State<HomePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text('카테고리 별 쇼핑', style: Constants.text17),
+                Text('카테고리 별 쇼핑', style: Constants.getRobotoTxt(17, Colors.black)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -222,6 +223,9 @@ class _HomeState extends State<HomePage> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: Constants.BOTTOM_MARGIN_WITH_BAR,
+                ),
               ],
             ),
           ),
@@ -254,7 +258,7 @@ class _HomeState extends State<HomePage> {
                       contentPadding: EdgeInsets.all(10),
                       border: InputBorder.none,
                       hintText: '제품을 찾아보세요',
-                      hintStyle: Constants.text15,
+                      hintStyle: Constants.getPretendardTxt(15, Colors.black),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
                       ),
@@ -262,7 +266,7 @@ class _HomeState extends State<HomePage> {
                         borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
                       ),
                     ),
-                    style: Constants.text15,
+                    style: Constants.getPretendardTxt(15, Colors.black),
                   ),
                 ),
               ],
