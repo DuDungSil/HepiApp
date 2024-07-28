@@ -11,7 +11,7 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTap!,
       child: Container(
         child: SvgPicture.asset(
           'assets/vectors/arrow_back.svg',

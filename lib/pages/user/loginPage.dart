@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Expanded(
                                     child: TextFormField(
                                       controller: idEdit,
-                                      onTapOutside: (event){
+                                      onTapOutside: (event) {
                                         FocusScope.of(context).unfocus();
                                       },
                                       decoration: InputDecoration(
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                     child: TextFormField(
                                       obscureText: hoverPwd,
                                       controller: pwdEdit,
-                                      onTapOutside: (event){
+                                      onTapOutside: (event) {
                                         FocusScope.of(context).unfocus();
                                       },
                                       decoration: InputDecoration(
@@ -294,11 +294,13 @@ class _LoginPageState extends State<LoginPage> {
                                 await secureStorage.write(key: 'loginID', value: idEdit.text);
                                 await secureStorage.write(key: 'loginPWD', value: pwdEdit.text);
                               }
-                              if(!GoRouter.of(context).canPop()) {
-                                if(widget.redirect != null) context.go(widget.redirect!);
-                                else context.go('/home');
-                              }
-                              else context.pop();
+                              if (!GoRouter.of(context).canPop()) {
+                                if (widget.redirect != null)
+                                  context.go(widget.redirect!);
+                                else
+                                  context.go('/home');
+                              } else
+                                context.pop();
                             } else {
                               showTopSnackBar(
                                 Overlay.of(context),
@@ -444,20 +446,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: CustomAppbar(
-                    title: '로그인',
-                    leading: CustomBackButton(
-                      onTap: () {
-                        if (!GoRouter.of(context).canPop())
-                          context.go('/home');
-                        else
-                          context.pop();
-                      },
-                    ),
-                  )),
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CustomAppbar(
+                  title: '로그인',
+                  leading: CustomBackButton(
+                    onTap: () {
+                      if (!GoRouter.of(context).canPop())
+                        context.go('/home');
+                      else
+                        context.pop();
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -137,7 +137,19 @@ class _HomeState extends State<HomePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text('할인 중인 품목', style: Constants.getRobotoTxt(17, Colors.black)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('할인 중인 품목', style: Constants.getRobotoTxt(17, Colors.black)),
+                    GestureDetector(
+                      onTap: (){
+                        context.go('/search/more');
+                      },
+                      child: Text('더보기 >', style: Constants.getPretendardTxt(11, Color(0xFF767676))),
+                    )
+                ],  
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -236,6 +248,13 @@ class _HomeState extends State<HomePage> {
           right: 0,
           child: CustomAppbar(
             title: "헤파이 스토어",
+            trailing: [
+              SvgPicture.asset(
+                'assets/vectors/bell.svg',
+                width: 25,
+                height: 25,
+              ),
+            ],
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,

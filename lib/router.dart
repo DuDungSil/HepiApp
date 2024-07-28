@@ -9,8 +9,10 @@ import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
 import 'package:flutter_app/pages/main/qrPage.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
+import 'package:flutter_app/pages/products/cartPage.dart';
 import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
+import 'package:flutter_app/pages/products/showMoreProducts.dart';
 import 'package:flutter_app/pages/user/findAccountPage.dart';
 import 'package:flutter_app/pages/user/findIdPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
@@ -118,6 +120,12 @@ final GoRouter router = GoRouter(
                 return buildCustomTransitionPage(SearchPage(autoFocus: autoFocus, category: category, query: query));
               },
             ),
+            GoRoute(
+              path: 'more',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return buildCustomTransitionPage(ShowMoreProducts());
+              },
+            ),
           ],
         ),
         GoRoute(
@@ -159,6 +167,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/register',
       pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(RegisterPage()),
+    ),
+    GoRoute(
+      path: '/cart',
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(CartPage()),
     ),
     GoRoute(
       path: '/order',
@@ -208,7 +220,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
+        timeInSecForIosWeb: 2,
         backgroundColor: Colors.black,
         textColor: Colors.white,
         fontSize: 16.0,

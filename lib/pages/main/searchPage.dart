@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/dbHelper.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
@@ -10,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../router.dart';
 import '../../utils/constants.dart';
 
@@ -28,15 +30,11 @@ class _SearchPageState extends State<SearchPage> {
   final List<String> filters = ['스토어 랭킹순', '높은 가격순', '낮은 가격순', '판매량순', '최신순', '리뷰 많은순'];
   int filterIndex = 0;
 
-  final ScrollController _scrollController = ScrollController();
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  List<int> _items = List.generate(10, (index) => index);
 
-  void _scrollToTop() {
-    _scrollController.animateTo(
-      0.0,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
+
+  final ScrollController _scrollController = ScrollController();
 
   late final OverlayEntry overlayEntry;
   final GlobalKey _searchBarKey = GlobalKey();
@@ -50,6 +48,12 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.query != null) {
       _textEditingController.text = widget.query!;
     }
+    // PullDown 오버스크롤 막기 (중요)
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels < _scrollController.position.minScrollExtent) {
+        _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+      }
+    });
   }
 
   @override
@@ -63,7 +67,21 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     removeOverlay();
+    _refreshController.dispose();
     super.dispose();
+  }
+
+  void _onLoading() async {
+    // Simulate fetching data from the server
+    await Future.delayed(Duration(seconds: 2));
+    List<int> newItems = List.generate(10, (index) => _items.length + index);
+
+    if (mounted) {
+      setState(() {
+        _items.addAll(newItems);
+      });
+      _refreshController.loadComplete();
+    }
   }
 
   void insertOverlay() {
@@ -77,6 +95,14 @@ class _SearchPageState extends State<SearchPage> {
     if (overlayEntry.mounted) {
       overlayEntry.remove();
     }
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   void _autoComplete(TextEditingController _textEditingController, String keyword) {
@@ -180,10 +206,19 @@ class _SearchPageState extends State<SearchPage> {
             child: Container(
               margin: Constants.SCREEN_HORIZONTAL_MARGIN,
               padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
-              child: ScrollConfiguration(
-                behavior: GlowBehavior(),
+              child: SmartRefresher(
+                controller: _refreshController,
+                enablePullDown: false,
+                enablePullUp: true,
+                onLoading: _onLoading,
+                footer: const ClassicFooter(
+                  spacing: 0,
+                  loadingText: '',
+                  canLoadingText: '',
+                  idleText: '',
+                ),
                 child: CustomScrollView(
-                  physics: const ClampingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
                   controller: _scrollController,
                   slivers: [
                     SliverToBoxAdapter(
@@ -265,13 +300,8 @@ class _SearchPageState extends State<SearchPage> {
                           padding: EdgeInsets.all(5),
                           child: WideOptionProductCard(),
                         );
-                      }, childCount: 10),
+                      }, childCount: _items.length),
                     ),
-                    SliverToBoxAdapter(
-                      child: const SizedBox(
-                        height: Constants.BOTTOM_MARGIN_WITH_BAR,
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -402,6 +432,18 @@ class _SearchPageState extends State<SearchPage> {
                 context.go('/home');
               },
             ),
+            trailing: [
+              GestureDetector(
+                onTap: (){
+                  context.push('/cart');
+                },
+                child: SvgPicture.asset(
+                  'assets/vectors/shoping_cart.svg',
+                  width: 25,
+                  height: 25,
+                ),
+              ),
+            ],
             child: Container(
               key: _searchBarKey,
               child: CompositedTransformTarget(
@@ -422,6 +464,10 @@ class _SearchPageState extends State<SearchPage> {
                       child: TextField(
                         controller: _textEditingController,
                         autofocus: widget.autoFocus,
+                        onTapOutside: (event){
+                          removeOverlay();
+                          FocusScope.of(context).unfocus();
+                        },
                         onSubmitted: (value) {
                           _searchKeyword(context, value);
                         },
@@ -667,9 +713,3 @@ class AutoCompleteKeywordList extends StatelessWidget {
   }
 }
 
-class GlowBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
-    return child; // glow 효과 제거
-  }
-}

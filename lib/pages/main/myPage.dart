@@ -4,6 +4,7 @@ import 'package:flutter_app/function/getProduct.dart';
 import 'package:flutter_app/pages/user/MyInfoSettingPage.dart';
 import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
@@ -200,7 +201,7 @@ class _MyPageState extends State<MyPage> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => cartPage()),
+                                MaterialPageRoute(builder: (context) => CartPage()),
                               );
                             },
                             child: Container(
@@ -293,6 +294,13 @@ class _MyPageState extends State<MyPage> {
         right: 0,
         child: CustomAppbar(
           title: '마이페이지',
+          trailing: [
+            SvgPicture.asset(
+              'assets/vectors/setting.svg',
+              width: 25,
+              height: 25,
+            ),
+          ],
           child: Container(
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정

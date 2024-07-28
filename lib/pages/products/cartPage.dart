@@ -12,12 +12,12 @@ import '../../utils/constants.dart';
 import '../../widgets/customAppbar.dart';
 import '../../widgets/customBackButton.dart';
 
-class cartPage extends StatefulWidget {
+class CartPage extends StatefulWidget {
   @override
-  State<cartPage> createState() => _cartPageState();
+  State<CartPage> createState() => _CartPageState();
 }
 
-class _cartPageState extends State<cartPage> {
+class _CartPageState extends State<CartPage> {
   List<bool> checkedProducts = [];
   List<int> productCount = []; // 구매할 특정 제품의 개수
   List<product> selectedProductList = []; // 선택된 제품들을 저장할 리스트

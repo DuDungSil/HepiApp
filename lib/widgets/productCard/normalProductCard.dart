@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/constants.dart';
@@ -68,22 +69,30 @@ Widget NormalProductCard(var product) {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('⭐', style: TextStyle(fontSize: 11)),
-              Text('⭐', style: TextStyle(fontSize: 11)),
-              Text('⭐', style: TextStyle(fontSize: 11)),
-              ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.saturation,
-                ),
-                child: Text('⭐', style: TextStyle(fontSize: 11)),
+              SvgPicture.asset(
+                'assets/vectors/star_fill.svg',
+                width: 11,
+                height: 11,
               ),
-              ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.saturation,
-                ),
-                child: Text('⭐', style: TextStyle(fontSize: 11)),
+              SvgPicture.asset(
+                'assets/vectors/star_fill.svg',
+                width: 11,
+                height: 11,
+              ),
+              SvgPicture.asset(
+                'assets/vectors/star_half.svg',
+                width: 11,
+                height: 11,
+              ),
+              SvgPicture.asset(
+                'assets/vectors/star_empty.svg',
+                width: 11,
+                height: 11,
+              ),
+              SvgPicture.asset(
+                'assets/vectors/star_empty.svg',
+                width: 11,
+                height: 11,
               ),
               Text(
                 '   '+'(673)',
