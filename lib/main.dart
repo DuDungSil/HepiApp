@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/router.dart';
 import 'package:flutter_app/utils/dbHelper.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/store/chattings.dart';
@@ -20,7 +21,11 @@ import 'function/login.dart';
 late SharedPreferences sharedPreferences;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  
+  // 초기화 ----------------------------------------------------------------
+
   HttpOverrides.global = MyHttpOverrides();
   await dotenv.load(fileName: "properties.env");
 
@@ -30,6 +35,10 @@ Future<void> main() async {
   // sqflite DB 초기화
   DBHelper dbHelper = DBHelper();
   await dbHelper.initAllDatabase();
+
+  // 초기화 끝 -------------------------------------------------------------
+
+  FlutterNativeSplash.remove();
 
   runApp(
     MultiProvider(
