@@ -143,12 +143,12 @@ class _HomeState extends State<HomePage> {
                   children: [
                     Text('할인 중인 품목', style: Constants.getRobotoTxt(17, Colors.black)),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         context.go('/search/more');
                       },
-                      child: Text('더보기 >', style: Constants.getPretendardTxt(11, Color(0xFF767676))),
+                      child: Text('더보기 >', style: Constants.getPretendardTxt(11, Colors.black45)),
                     )
-                ],  
+                  ],
                 ),
                 const SizedBox(
                   height: 10,

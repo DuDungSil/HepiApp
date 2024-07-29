@@ -13,6 +13,7 @@ import 'package:flutter_app/pages/products/cartPage.dart';
 import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
 import 'package:flutter_app/pages/products/showMoreProducts.dart';
+import 'package:flutter_app/pages/user/MyInfoSettingPage.dart';
 import 'package:flutter_app/pages/user/findAccountPage.dart';
 import 'package:flutter_app/pages/user/findIdPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
@@ -183,6 +184,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/findId',
       pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(findIdPage()),
+    ),
+    GoRoute(
+      path: '/myInfoSetting',
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(MyInfoSetting()),
     ),
   ],
 );

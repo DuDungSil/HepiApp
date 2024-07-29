@@ -34,19 +34,22 @@ class _HealthcarePageState extends State<HealthcarePage> {
       children: [
         SingleChildScrollView(
           child: Container(
+            padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
+            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
-            padding: EdgeInsets.only(top: 120),
-            child: Container(
-              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(height: 2000,)
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 500,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                )
+              ],
             ),
           ),
         ),
@@ -56,87 +59,57 @@ class _HealthcarePageState extends State<HealthcarePage> {
           right: 0,
           child: CustomAppbar(
             title: '건강 관리',
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 12),
-                        child: Image.asset(
-                          'assets/images/basic_user_profile.png',
-                          width: 40, // 원하는 이미지 너비
-                          height: 40, // 원하는 이미지 높이
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      (loginUser.id != null)
-                          ? Container(
-                        child: Text(
-                          loginUser.name + ' 님',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w400,
-                            height: 1.2,
-                            letterSpacing: -0.30,
-                          ),
-                        ),
-                      )
-                          : InkWell(
-                        onTap: () {
-                          context.push('/login');
-                        },
-                        child: Container(
-                          child: Text(
-                            "로그인을 해주세요 >",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                              height: 1.2,
-                              letterSpacing: -0.30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/basic_user_profile.png',
+                      width: 30, // 원하는 이미지 너비
+                      height: 30, // 원하는 이미지 높이
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    (loginUser.id != null)
+                        ? Text(
+                            loginUser.name + ' 님',
+                            style: Constants.getPretendardTxt(15, Colors.black),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              context.push('/login');
+                            },
+                            child: Container(
+                              child: Text(
+                                "로그인을 해주세요 >",
+                                style: Constants.getPretendardTxt(15, Colors.black),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  (loginUser.id != null)
-                      ? Container(
-                    child: InkWell(
-                      onTap: () {
-                        //context.read<user>().logout();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(14, 5, 14, 5),
-                        decoration: BoxDecoration(
-                          border:
-                          Border.all(color: const Color(0xFF9EA3B2)),
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: Text(
-                          '내 정보 설정',
-                          style: GoogleFonts.robotoCondensed(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            height: 1.2,
-                            letterSpacing: -0.4,
-                            color: const Color(0xFF191919),
+                  ],
+                ),
+                (loginUser.id != null)
+                    ? GestureDetector(
+                        onTap: () {
+                          context.push('/myInfoSetting');
+                        },
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF9EA3B2)),
+                            borderRadius: BorderRadius.circular(30),
                           ),
+                          child: Text('내 정보 설정', style: Constants.getPretendardTxt(12, Colors.black)),
                         ),
-                      ),
-                    ),
-                  )
-                      : Container()
-                ],
-              ),
+                      )
+                    : Container()
+              ],
             ),
           ),
         ),

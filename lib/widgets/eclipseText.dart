@@ -10,14 +10,14 @@ class EclipseText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF9EA3B2)),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
         text,
-        style: Constants.getPretendardTxt(12, Colors.black)
+        style: Constants.getPretendardTxt(13, Colors.black)
       ),
     );
   }

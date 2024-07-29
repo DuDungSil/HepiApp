@@ -7,6 +7,7 @@ class Constants {
   static const double APPBAR_TITLE_HEIGHT = 50;
   static const double APPBAR_CONTENT_HEIGHT = 40;
   static const double BOTTOM_MARGIN_WITH_BAR = 80;
+  static const double BOTTOM_MARGIN_WITHOUT_BAR = 20;
   static const EdgeInsets SCREEN_HORIZONTAL_MARGIN = EdgeInsets.symmetric(horizontal: 20);
 
   static getPretendardTxt(double _fontSize, Color _color) {
@@ -31,7 +32,7 @@ class Constants {
     );
   }
 
-    static getLineTxt(double _fontSize, Color _color) {
+  static getLineTxt(double _fontSize, Color _color) {
     return TextStyle(
       color: _color,
       decorationColor: _color,
@@ -47,5 +48,4 @@ class Constants {
 
   static Widget defalutErrorWidget = Icon(Icons.error);
   static Widget defalutProgressIndicatorWidget = CircularProgressIndicator();
-
 }

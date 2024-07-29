@@ -25,239 +25,189 @@ class StartLoginPage extends StatelessWidget {
                 });
               }
               return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '반갑습니다.\n우리는 헤파이입니다.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w600,
-                      height: 1.2,
-                      letterSpacing: -0.55,
-                    ),
-                  ),
-                  Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/onboard3.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                  Column(
+                  Expanded(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 60,
-                        width: double.infinity,
-                        margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFFAFAFA),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Image.asset(
-                                'assets/images/logo/logo_kakao.png',
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            Text(
-                              '카카오 로그인',
-                              style: TextStyle(
-                                color: Color(0xFF111111),
-                                fontSize: 16,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w500,
-                                height: 1.2,
-                                letterSpacing: -0.08,
-                              ),
-                            ),
-                          ],
-                        ),
+                      Text(
+                        '반갑습니다.\n우리는 헤파이입니다.',
+                        textAlign: TextAlign.center,
+                        style: Constants.getRobotoTxt(25, Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Container(
-                        height: 60,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 10),
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFFAFAFA),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
-                            borderRadius: BorderRadius.circular(16),
+                        width: 250,
+                        height: 250,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/onboard3.png"),
+                            fit: BoxFit.fill,
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Image.asset(
-                                'assets/images/logo/logo_google.png',
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            Text(
-                              '구글로 로그인',
-                              style: TextStyle(
-                                color: Color(0xFF111111),
-                                fontSize: 16,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w500,
-                                height: 1.2,
-                                letterSpacing: -0.08,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 60,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 10),
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFFAFAFA),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Image.asset(
-                                'assets/images/logo/logo_naver.png',
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            Text(
-                              '네이버 로그인',
-                              style: TextStyle(
-                                color: Color(0xFF111111),
-                                fontSize: 16,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w500,
-                                height: 1.2,
-                                letterSpacing: -0.08,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],
-                  ),
+                  )),
                   Column(
                     children: [
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFAFAFA),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo/logo_kakao.png',
+                              width: 25,
+                              height: 25,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text('카카오 로그인', style: Constants.getPretendardTxt(15, Colors.black)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFAFAFA),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo/logo_google.png',
+                              width: 25,
+                              height: 25,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text('구글로 로그인', style: Constants.getPretendardTxt(15, Colors.black)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFAFAFA),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo/logo_naver.png',
+                              width: 25,
+                              height: 25,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text('네이버 로그인', style: Constants.getPretendardTxt(15, Colors.black)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       GestureDetector(
                         onTap: () {
                           context.go('/home');
                         },
                         child: Container(
-                          height: 60,
-                          width: double.infinity,
+                          height: 50,
                           alignment: Alignment.center,
                           decoration: ShapeDecoration(
-                            color: Color(0xFF000000),
+                            color: Colors.black,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                           child: Text(
-                            '로그인 없이 계속',
+                            '로그인없이 계속',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w600,
-                              height: 1.2,
-                              letterSpacing: -0.45,
-                            ),
+                            style: Constants.getRobotoTxt(17, Colors.white),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       GestureDetector(
                         onTap: () {
                           context.push('/login');
                         },
                         child: Container(
-                          height: 60,
-                          width: double.infinity,
+                          height: 50,
                           alignment: Alignment.center,
                           decoration: ShapeDecoration(
                             color: Color(0xFFFF8A00),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                           child: Text(
                             '로그인',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w600,
-                              height: 1.2,
-                              letterSpacing: -0.45,
-                            ),
+                            style: Constants.getRobotoTxt(17, Colors.white),
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '아직 회원이 아니신가요?',
+                            textAlign: TextAlign.center,
+                            style: Constants.getRobotoTxt(17, Colors.grey),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text('회원가입', textAlign: TextAlign.center, style: Constants.getRobotoTxt(17, Colors.blueAccent)),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: Constants.BOTTOM_MARGIN_WITHOUT_BAR,
+                      ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '아직 회원이 아니신가요?   ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF9EA3B2),
-                          fontSize: 18,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w600,
-                          height: 1.2,
-                          letterSpacing: 0.09,
-                        ),
-                      ),
-                      Text(
-                        '회원가입',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF0075FF),
-                          fontSize: 18,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w600,
-                          decoration: TextDecoration.underline,
-                          height: 1.2,
-                          letterSpacing: 0.09,
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               );
             },

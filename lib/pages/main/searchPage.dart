@@ -11,9 +11,12 @@ import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../router.dart';
+import '../../store/products.dart';
 import '../../utils/constants.dart';
+import '../../widgets/productCard/normalProductCard.dart';
 
 class SearchPage extends StatefulWidget {
   final bool autoFocus;
@@ -328,7 +331,6 @@ class _SearchPageState extends State<SearchPage> {
                       height: 10,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20),
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Wrap(
@@ -390,16 +392,46 @@ class _SearchPageState extends State<SearchPage> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                        GestureDetector(
+                          onTap: (){
+                            context.go('/search/more');
+                          },
+                          child: Text('더보기 >', style: Constants.getPretendardTxt(11, Colors.black45)),
+                        )
+                      ],
+                    ),
                     const SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                    ),
+                    Consumer<products>(builder: (consumer, products, child) {
+                      if (products.eventProductList.isEmpty) {
+                        return Container(alignment: Alignment.center, height: 200, child: CircularProgressIndicator());
+                      } else {
+                        return Container(
+                          height: 200,
+                          clipBehavior: Clip.none,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: products.eventProductList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    context.push('/productdetail');
+                                  },
+                                  child: NormalProductCard(products.eventProductList[index]));
+                            },
+                            separatorBuilder: (context, index) => const SizedBox(
+                              width: 5,
+                            ),
+                          ),
+                        );
+                      }
+                    }),
                     const SizedBox(
                       height: Constants.BOTTOM_MARGIN_WITH_BAR,
                     ),
