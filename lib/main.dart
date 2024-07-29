@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/router.dart';
 import 'package:flutter_app/utils/dbHelper.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
