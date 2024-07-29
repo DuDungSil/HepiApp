@@ -10,6 +10,8 @@ import 'package:flutter_app/pages/main/qrPage.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
 import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
+import 'package:flutter_app/pages/user/findAccountPage.dart';
+import 'package:flutter_app/pages/user/findIdPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/store/user.dart';
@@ -147,6 +149,14 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/order',
       builder: (BuildContext context, GoRouterState state) => OrderPage(),
+    ),
+    GoRoute(
+      path: '/findAccount',
+      builder: (BuildContext context, GoRouterState state) => findAccountPage(),
+    ),
+    GoRoute(
+      path: '/findId',
+      builder: (BuildContext context, GoRouterState state) => findIdPage(),
     ),
   ],
 );
