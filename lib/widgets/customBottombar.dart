@@ -17,32 +17,30 @@ class CustomBottombar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 4,
-            blurRadius: 8,
-            offset: Offset(0, 3), // changes position of shadow
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 3,
+            blurRadius: 7,
+            offset: Offset(0, 2), // changes position of shadow
           ),
         ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          iconSize: 20.0,
-          selectedIconTheme: IconThemeData(size: 28.0),
           selectedItemColor: Colors.orange,
           unselectedItemColor: Colors.black,
-          selectedFontSize: 16.0,
-          unselectedFontSize: 12.0,
+          selectedFontSize: 11.0,
+          unselectedFontSize: 9.0,
           currentIndex: currentIndex,
           onTap: _onItemTapped,
           items: <BottomNavigationBarItem>[

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/pages/init/startLoginPage.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
@@ -8,18 +9,19 @@ import 'package:flutter_app/pages/main/homePage.dart';
 import 'package:flutter_app/pages/main/myPage.dart';
 import 'package:flutter_app/pages/main/qrPage.dart';
 import 'package:flutter_app/pages/main/searchPage.dart';
+import 'package:flutter_app/pages/products/cartPage.dart';
 import 'package:flutter_app/pages/products/orderPage.dart';
 import 'package:flutter_app/pages/products/productDetailPage.dart';
+import 'package:flutter_app/pages/products/showMoreProducts.dart';
 import 'package:flutter_app/pages/user/findAccountPage.dart';
 import 'package:flutter_app/pages/user/findIdPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/store/user.dart';
 import 'package:flutter_app/widgets/customBottombar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
-
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
@@ -27,10 +29,26 @@ final GlobalKey<_ScaffoldWithNavBarState> _scaffoldKey = GlobalKey<_ScaffoldWith
 
 final routerNotifier = ValueNotifier<int>(0);
 
+Page<dynamic> buildCustomTransitionPage(Widget child) {
+  return CustomTransitionPage(
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: Offset.zero,
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  );
+}
+
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
   refreshListenable: routerNotifier,
+
   redirect: (context, state) {
     final bool isOnboardingComplete = sharedPreferences.getBool('onboardingComplete') ?? false;
 
@@ -47,11 +65,11 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/onboarding',
-      builder: (BuildContext context, GoRouterState state) => startPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(startPage()),
     ),
     GoRoute(
       path: '/startLogin',
-      builder: (BuildContext context, GoRouterState state) => StartLoginPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(StartLoginPage()),
     ),
     ShellRoute(
       navigatorKey: _sectionANavigatorKey,
@@ -74,45 +92,49 @@ final GoRouter router = GoRouter(
       routes: <RouteBase>[
         GoRoute(
           path: '/home',
-          builder: (BuildContext context, GoRouterState state) => HomePage(),
+          pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(HomePage()),
           routes: [
             GoRoute(
               path: 'event/:id',
-              builder: (BuildContext context, GoRouterState state) {
+              pageBuilder: (BuildContext context, GoRouterState state) {
                 final id = int.parse(state.pathParameters['id']!);
-                return EventPage(viewID: id);
+                return buildCustomTransitionPage(EventPage(viewID: id));
               },
             ),
           ],
         ),
         GoRoute(
           path: '/search',
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
             final query = state.uri.queryParameters['query'];
-
-            return SearchPage(autoFocus: autoFocus, query: query);
+            return buildCustomTransitionPage(SearchPage(autoFocus: autoFocus, query: query));
           },
           routes: [
             GoRoute(
               path: 'c/:category',
-              builder: (BuildContext context, GoRouterState state) {
+              pageBuilder: (BuildContext context, GoRouterState state) {
                 final autoFocus = state.uri.queryParameters['focus'] == 'true' ?? false;
                 final category = state.pathParameters['category']!;
                 final query = state.uri.queryParameters['query'];
-
-                return SearchPage(autoFocus: autoFocus, category: category, query: query);
+                return buildCustomTransitionPage(SearchPage(autoFocus: autoFocus, category: category, query: query));
+              },
+            ),
+            GoRoute(
+              path: 'more',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return buildCustomTransitionPage(ShowMoreProducts());
               },
             ),
           ],
         ),
         GoRoute(
           path: '/mypage',
-          builder: (BuildContext context, GoRouterState state) => MyPage(),
+          pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(MyPage()),
         ),
         GoRoute(
             path: '/healthcare',
-            builder: (BuildContext context, GoRouterState state) => HealthcarePage(),
+            pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(HealthcarePage()),
             redirect: (context, state) {
               if (context.read<user>().id != null)
                 return '/healthcare';
@@ -121,7 +143,7 @@ final GoRouter router = GoRouter(
             }),
         GoRoute(
             path: '/qr',
-            builder: (BuildContext context, GoRouterState state) => QRPage(),
+            pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(QRPage()),
             redirect: (context, state) {
               if (context.read<user>().id != null)
                 return '/qr';
@@ -132,31 +154,35 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/productDetail',
-      builder: (BuildContext context, GoRouterState state) => ProductDetailPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(ProductDetailPage()),
     ),
     GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state){
+      pageBuilder: (BuildContext context, GoRouterState state){
         final redirect = state.uri.queryParameters['redirect'];
 
-        return LoginPage(redirect : redirect);
+        return buildCustomTransitionPage(LoginPage(redirect : redirect));
       },
     ),
     GoRoute(
       path: '/register',
-      builder: (BuildContext context, GoRouterState state) => RegisterPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(RegisterPage()),
+    ),
+    GoRoute(
+      path: '/cart',
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(CartPage()),
     ),
     GoRoute(
       path: '/order',
-      builder: (BuildContext context, GoRouterState state) => OrderPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(OrderPage()),
     ),
     GoRoute(
       path: '/findAccount',
-      builder: (BuildContext context, GoRouterState state) => findAccountPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(findAccountPage()),
     ),
     GoRoute(
       path: '/findId',
-      builder: (BuildContext context, GoRouterState state) => findIdPage(),
+      pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(findIdPage()),
     ),
   ],
 );
@@ -176,6 +202,8 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
+  DateTime? lastBackPressTime;
+
   void showBottomSheet(Widget widget) {
     showModalBottomSheet(
       context: context,
@@ -183,38 +211,63 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     );
   }
 
+  Future<bool> onWillPop(){
+    DateTime now = DateTime.now();
+    if(lastBackPressTime == null || now.difference(lastBackPressTime!) > Duration(seconds: 2)){
+      lastBackPressTime = now;
+      final msg = "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.";
+      Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(child: widget.navigationShell),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: -1,
-              child: ValueListenableBuilder<int>(
-                valueListenable: routerNotifier,
-                builder: (context, value, child) {
-                  return CustomBottombar(
-                    setTab: (index) {
-                      final String? location = _getLocationForIndex(index);
-                      if (location != null && location.isNotEmpty) {
-                        router.go(location);
-                      } else {
-                        print("Invalid location for index $index: $location");
-                      }
-                    },
-                    currentIndex: value,
-                  );
-                },
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if(await onWillPop()) SystemNavigator.pop();
+      },
+      child: Scaffold(
+        extendBody: true,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(child: widget.navigationShell),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: -1,
+                child: ValueListenableBuilder<int>(
+                  valueListenable: routerNotifier,
+                  builder: (context, value, child) {
+                    return CustomBottombar(
+                      setTab: (index) {
+                        final String? location = _getLocationForIndex(index);
+                        if (location != null && location.isNotEmpty) {
+                          router.go(location);
+                        } else {
+                          print("Invalid location for index $index: $location");
+                        }
+                      },
+                      currentIndex: value,
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -24,32 +24,24 @@ class _CustomAppbarState extends State<CustomAppbar> {
       child: Container(
         alignment: Alignment.center,
         margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
         decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
         height: (widget.child == null) ? Constants.APPBAR_TITLE_HEIGHT : Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT,
         width: double.infinity,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Stack(
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: widget.leading ?? SizedBox(width: 28), // 왼쪽 버튼 (leading)
+                  child: widget.leading ?? SizedBox(width: 25), // 왼쪽 버튼 (leading)
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     widget.title,
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      height: 1.2,
-                      letterSpacing: -0.5,
-                      color: Color(0xFF111111),
-                    ),
+                    style: Constants.getRobotoTxt(20, Colors.black),
                   ),
                 ),
                 Align(
@@ -59,7 +51,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
                           mainAxisSize: MainAxisSize.min,
                           children: widget.trailing!,
                         )
-                      : SizedBox(width: 28), // 오른쪽 버튼들 (trailing)
+                      : SizedBox(width: 25), // 오른쪽 버튼들 (trailing)
                 ),
               ],
             ),

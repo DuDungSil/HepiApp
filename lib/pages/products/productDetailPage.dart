@@ -18,7 +18,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   ScrollController _scrollController = ScrollController();
   List<GlobalKey> _sectionKeys = List.generate(5, (index) => GlobalKey());
   List<double> _sectionOffsets =
-      List.generate(5, (index) => 0.0); // 각 섹션의 위치를 저장할 리스트
+  List.generate(5, (index) => 0.0); // 각 섹션의 위치를 저장할 리스트
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void _calculateSectionOffsets(_) {
     for (int i = 0; i < _sectionKeys.length; i++) {
       RenderBox? box =
-          _sectionKeys[i].currentContext?.findRenderObject() as RenderBox?;
+      _sectionKeys[i].currentContext?.findRenderObject() as RenderBox?;
       if (box != null) {
         Offset position = box.localToGlobal(Offset.zero);
         _sectionOffsets[i] = position.dy;
@@ -58,7 +58,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   void _scrollToIndex(int index) {
     RenderBox box =
-        _sectionKeys[index].currentContext?.findRenderObject() as RenderBox;
+    _sectionKeys[index].currentContext?.findRenderObject() as RenderBox;
     Offset position = box.localToGlobal(Offset.zero);
 
     _scrollController.animateTo(
@@ -84,97 +84,101 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   }
                   return true;
                 },
-                child: CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Container(
-                          margin: EdgeInsets.all(10),
-                          child: DetailProductCard()),
-                    ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(
-                        minHeight: 60.0,
-                        maxHeight: 60.0,
+                child: ScrollConfiguration(
+                  behavior: GlowBehavior(),
+                  child: CustomScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    controller: _scrollController,
+                    slivers: [
+                      SliverToBoxAdapter(
                         child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    buildMenuItem('요약', 0),
-                                    buildMenuItem('정보', 1),
-                                    buildMenuItem('성분', 2),
-                                    buildMenuItem('분석', 3),
-                                    buildMenuItem('후기', 4),
-                                  ],
+                            margin: EdgeInsets.all(10),
+                            child: DetailProductCard()),
+                      ),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _SliverAppBarDelegate(
+                          minHeight: 60.0,
+                          maxHeight: 60.0,
+                          child: Container(
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      buildMenuItem('요약', 0),
+                                      buildMenuItem('정보', 1),
+                                      buildMenuItem('성분', 2),
+                                      buildMenuItem('분석', 3),
+                                      buildMenuItem('후기', 4),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: double.infinity,
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.zero,
-                          margin: EdgeInsets.only(top: 0),
-                          width: double.infinity,
-                          height: 2000,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFFFFFF),
+                      SliverToBoxAdapter(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: double.infinity,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 60),
-                                key: _sectionKeys[0],
-                                child: ProductSummary(),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 60),
-                                key: _sectionKeys[1],
-                                child: ProductInformation(),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 60),
-                                key: _sectionKeys[2],
-                                child: Column(
-                                  children: [
-                                    ProductIngredientInfo(),
-                                    Container(
-                                      height: 25,
-                                    ),
-                                    NutritionFacts(),
-                                  ],
+                          child: Container(
+                            padding: EdgeInsets.zero,
+                            margin: EdgeInsets.only(top: 0),
+                            width: double.infinity,
+                            height: 2000,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFFFFFFF),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 60),
+                                  key: _sectionKeys[0],
+                                  child: ProductSummary(),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 60),
-                                key: _sectionKeys[3],
-                                child: PersonalNutritionAnalysis(),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 60),
-                                key: _sectionKeys[4],
-                                child: CustomerReview(),
-                              ),
-                            ],
+                                Container(
+                                  margin: EdgeInsets.only(top: 60),
+                                  key: _sectionKeys[1],
+                                  child: ProductInformation(),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 60),
+                                  key: _sectionKeys[2],
+                                  child: Column(
+                                    children: [
+                                      ProductIngredientInfo(),
+                                      Container(
+                                        height: 25,
+                                      ),
+                                      NutritionFacts(),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 60),
+                                  key: _sectionKeys[3],
+                                  child: PersonalNutritionAnalysis(),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 60),
+                                  key: _sectionKeys[4],
+                                  child: CustomerReview(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -210,29 +214,34 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         },
         child: Container(
           height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: isSelected ? Color(0xFFFF8A00) : Color(0xFF767676),
-                width: 1,
+          child: Stack(
+            children: [
+              Center(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    // 텍스트 크기 조정
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w600,
+                    height: 1.2,
+                    letterSpacing: -0.5,
+                  ),
+                ),
               ),
-            ),
-          ),
-          child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                // 텍스트 크기 조정
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w600,
-                height: 1.2,
-                letterSpacing: -0.5,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  height: 2,
+                  color: isSelected ? Color(0xFFFF8A00) : Colors.transparent,
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -961,4 +970,11 @@ Widget NutritionFactsCell(color, name) {
       ),
     ),
   );
+}
+
+class GlowBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    return child; // glow 효과 제거
+  }
 }

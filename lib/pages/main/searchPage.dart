@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/dbHelper.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:flutter_app/widgets/productCard/WideOptionProductCard.dart';
@@ -9,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../router.dart';
 import '../../utils/constants.dart';
 
@@ -27,15 +30,11 @@ class _SearchPageState extends State<SearchPage> {
   final List<String> filters = ['스토어 랭킹순', '높은 가격순', '낮은 가격순', '판매량순', '최신순', '리뷰 많은순'];
   int filterIndex = 0;
 
-  final ScrollController _scrollController = ScrollController();
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  List<int> _items = List.generate(10, (index) => index);
 
-  void _scrollToTop() {
-    _scrollController.animateTo(
-      0.0,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
+
+  final ScrollController _scrollController = ScrollController();
 
   late final OverlayEntry overlayEntry;
   final GlobalKey _searchBarKey = GlobalKey();
@@ -49,12 +48,17 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.query != null) {
       _textEditingController.text = widget.query!;
     }
+    // PullDown 오버스크롤 막기 (중요)
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels < _scrollController.position.minScrollExtent) {
+        _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+      }
+    });
   }
 
   @override
   void didUpdateWidget(covariant SearchPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 여기서 상태를 업데이트
     if (widget.query != oldWidget.query) {
       _textEditingController.text = widget.query ?? '';
     }
@@ -63,7 +67,21 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     removeOverlay();
+    _refreshController.dispose();
     super.dispose();
+  }
+
+  void _onLoading() async {
+    // Simulate fetching data from the server
+    await Future.delayed(Duration(seconds: 2));
+    List<int> newItems = List.generate(10, (index) => _items.length + index);
+
+    if (mounted) {
+      setState(() {
+        _items.addAll(newItems);
+      });
+      _refreshController.loadComplete();
+    }
   }
 
   void insertOverlay() {
@@ -79,11 +97,19 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   void _autoComplete(TextEditingController _textEditingController, String keyword) {
     _textEditingController.text = keyword;
   }
 
-  void _searchKeyword(BuildContext context, String keyword) {
+  void _searchKeyword(BuildContext context, String keyword) async {
     if (keyword == '') return;
     if (widget.category != null) {
       context.go(Uri(
@@ -96,6 +122,15 @@ class _SearchPageState extends State<SearchPage> {
         queryParameters: {'query': keyword},
       ).toString());
     }
+
+    // 검색어 db 인서트(업데이트)
+    DBHelper dbHelper = DBHelper();
+    await dbHelper.insertOrUpdateSearchHistory(keyword);
+    List<SearchHistory> histories = await dbHelper.fetchAllSearchHistory();
+    histories.forEach((item) {
+      print('ID: ${item.id}, Word: ${item.word}, DateTime: ${item.dateTime}');
+    });
+
     removeOverlay();
     FocusScope.of(context).unfocus();
   }
@@ -124,13 +159,15 @@ class _SearchPageState extends State<SearchPage> {
         offset: Offset(0.0, size.height),
         child: Material(
           elevation: 4.0,
-          child: Container(
-            color: Colors.white,
-            child: AutoCompleteKeywordList(
-              autoComplete: (keyword) {
-                _autoComplete(_textEditingController, keyword);
-              },
-              searchKeyword: _searchKeyword,
+          child: TextFieldTapRegion( // onTapOutside 무시영역 설정 위젯
+            child: Container(
+              color: Colors.white,
+              child: AutoCompleteKeywordList(
+                autoComplete: (keyword) {
+                  _autoComplete(_textEditingController, keyword);
+                },
+                searchKeyword: _searchKeyword,
+              ),
             ),
           ),
         ),
@@ -158,23 +195,30 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        removeOverlay();
-        FocusScope.of(context).unfocus();
-      },
-      child: Stack(
-        children: [
-          // 검색 결과 있음
-          if (widget.category != null || widget.query != null) ...[
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xFFFFFFFF),
-              ),
-              child: Container(
-                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                padding: EdgeInsets.only(top: 120),
+    return Stack(
+      children: [
+        // 검색 결과 있음
+        if (widget.category != null || widget.query != null) ...[
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFFFFFFF),
+            ),
+            child: Container(
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
+              child: SmartRefresher(
+                controller: _refreshController,
+                enablePullDown: false,
+                enablePullUp: true,
+                onLoading: _onLoading,
+                footer: const ClassicFooter(
+                  spacing: 0,
+                  loadingText: '',
+                  canLoadingText: '',
+                  idleText: '',
+                ),
                 child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
                   controller: _scrollController,
                   slivers: [
                     SliverToBoxAdapter(
@@ -186,32 +230,20 @@ class _SearchPageState extends State<SearchPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
                             if (widget.category != null) ...[
-                              Container(
-                                child: Text(
-                                  widget.category.toString(),
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.2,
-                                    letterSpacing: -0.50,
-                                  ),
-                                ),
-                              ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
+                              ),
+                              Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
+                              const SizedBox(
+                                height: 10,
                               ),
                               Container(
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Wrap(
-                                    spacing: 8,
-                                    runSpacing: 8,
+                                    spacing: 5,
+                                    runSpacing: 5,
                                     children: [
                                       GestureDetector(
                                           onTap: () {
@@ -240,7 +272,6 @@ class _SearchPageState extends State<SearchPage> {
                               const SizedBox(
                                 height: 40,
                               ),
-                              // 검색 결과를 표시하는 위젯
                             ],
                           ],
                         ),
@@ -251,272 +282,224 @@ class _SearchPageState extends State<SearchPage> {
                       delegate: _SliverAppBarDelegate(
                         minHeight: 60.0,
                         maxHeight: 60.0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              ResultFilter(
-                                setView: () {},
-                                filtering: () {
-                                  _showFilter();
-                                },
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            ResultFilter(
+                              setView: () {},
+                              filtering: () {
+                                _showFilter();
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         return Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
+                          padding: EdgeInsets.all(5),
                           child: WideOptionProductCard(),
                         );
-                      }, childCount: 10),
+                      }, childCount: _items.length),
                     ),
-                    SliverToBoxAdapter(
-                      child: const SizedBox(
-                        height: 100,
-                      ),
-                    )
                   ],
                 ),
               ),
-            )
-          ] else ...[
-            SingleChildScrollView(
+            ),
+          )
+        ] else ...[
+          SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFFFFFFF),
+              ),
               child: Container(
-                padding: EdgeInsets.only(top: 120),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                ),
-                child: Container(
-                  margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          '최근 검색어',
-                          style: GoogleFonts.getFont(
-                            'Roboto Condensed',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            height: 1.2,
-                            letterSpacing: -0.5,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '삼대오백');
-                                  _searchKeyword(context, '삼대오백');
-                                },
-                                child: EclipseText(text: '삼대오백'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
-                                  _searchKeyword(context, '투퍼데이 종합비타민 120정');
-                                },
-                                child: EclipseText(text: '투퍼데이 종합비타민 120정'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '잠백이 흑마늘');
-                                  _searchKeyword(context, '잠백이 흑마늘');
-                                },
-                                child: EclipseText(text: '잠백이 흑마늘'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '프로틴');
-                                  _searchKeyword(context, '프로틴');
-                                },
-                                child: EclipseText(text: '프로틴'),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _autoComplete(_textEditingController, '크레아틴 500g');
-                                  _searchKeyword(context, '크레아틴 500g');
-                                },
-                                child: EclipseText(text: '크레아틴 500g'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          '자주 구매한 상품',
-                          style: GoogleFonts.getFont(
-                            'Roboto Condensed',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            height: 1.2,
-                            letterSpacing: -0.5,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 280,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.center,
-                        decoration:
-                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            '할인 중인 상품',
-                            style: GoogleFonts.getFont(
-                              'Roboto Condensed',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              height: 1.2,
-                              letterSpacing: -0.5,
-                              color: Color(0xFF000000),
+                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+                padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('최근 검색어', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          spacing: 5,
+                          runSpacing: 5,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _autoComplete(_textEditingController, '삼대오백');
+                                _searchKeyword(context, '삼대오백');
+                              },
+                              child: EclipseText(text: '삼대오백'),
                             ),
-                          ),
+                            GestureDetector(
+                              onTap: () {
+                                _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
+                                _searchKeyword(context, '투퍼데이 종합비타민 120정');
+                              },
+                              child: EclipseText(text: '투퍼데이 종합비타민 120정'),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _autoComplete(_textEditingController, '잠백이 흑마늘');
+                                _searchKeyword(context, '잠백이 흑마늘');
+                              },
+                              child: EclipseText(text: '잠백이 흑마늘'),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _autoComplete(_textEditingController, '프로틴');
+                                _searchKeyword(context, '프로틴');
+                              },
+                              child: EclipseText(text: '프로틴'),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _autoComplete(_textEditingController, '크레아틴 500g');
+                                _searchKeyword(context, '크레아틴 500g');
+                              },
+                              child: EclipseText(text: '크레아틴 500g'),
+                            ),
+                          ],
                         ),
-                      ),
-                      Container(
-                        height: 280,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.center,
-                        decoration:
-                            BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-          // 맨 위로 스크롤 하는 버튼
-          if (widget.category != null || widget.query != null)
-            Positioned(
-              bottom: 100.0,
-              right: 20.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  _scrollToTop();
-                },
-                child: Icon(Icons.arrow_upward),
-              ),
-            ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: GestureDetector(
-              onTap: () {},
-              // Do nothing to prevent closing the overlay when tapping inside the search area
-              child: CustomAppbar(
-                title: '검색',
-                leading: CustomBackButton(
-                  onTap: () {
-                    context.go('/home');
-                  },
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF), // 배경색을 흰색으로 설정
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color(0xFF9EA3B2), // 밑 선 색상을 회색으로 설정
-                        width: 1,
                       ),
                     ),
-                  ),
-                  child: Container(
-                    key: _searchBarKey,
-                    child: CompositedTransformTarget(
-                      link: _searchBarLink,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                            width: 24,
-                            height: 24,
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: SvgPicture.asset(
-                                'assets/vectors/search_normal_x2.svg',
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: _textEditingController,
-                              autofocus: widget.autoFocus,
-                              onSubmitted: (value) {
-                                _searchKeyword(context, value);
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(8),
-                                border: InputBorder.none,
-                                hintText: '제품을 찾아보세요',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2,
-                                  letterSpacing: -0.40,
-                                ),
-                              ),
-                              style: GoogleFonts.getFont(
-                                'Roboto Condensed',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                height: 1.2,
-                                letterSpacing: -1.2,
-                                color: Color(0xFF000000),
-                              ),
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  insertOverlay();
-                                } else {
-                                  removeOverlay();
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                    const SizedBox(
+                      height: 15,
                     ),
-                  ),
+                    Text('자주 구매한 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                    ),
+                    const SizedBox(
+                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
         ],
-      ),
+        // 맨 위로 스크롤 하는 버튼
+        if (widget.category != null || widget.query != null)
+          Positioned(
+            bottom: Constants.BOTTOM_MARGIN_WITH_BAR,
+            right: 20.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                _scrollToTop();
+              },
+              child: Icon(Icons.arrow_upward),
+            ),
+          ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppbar(
+            title: '검색',
+            leading: CustomBackButton(
+              onTap: () {
+                context.go('/home');
+              },
+            ),
+            trailing: [
+              GestureDetector(
+                onTap: (){
+                  context.push('/cart');
+                },
+                child: SvgPicture.asset(
+                  'assets/vectors/shoping_cart.svg',
+                  width: 25,
+                  height: 25,
+                ),
+              ),
+            ],
+            child: Container(
+              key: _searchBarKey,
+              child: CompositedTransformTarget(
+                link: _searchBarLink,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset(
+                        'assets/vectors/search_normal_x2.svg',
+                      ),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _textEditingController,
+                        autofocus: widget.autoFocus,
+                        onTapOutside: (event){
+                          removeOverlay();
+                          FocusScope.of(context).unfocus();
+                        },
+                        onSubmitted: (value) {
+                          _searchKeyword(context, value);
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10),
+                          border: InputBorder.none,
+                          hintText: '제품을 찾아보세요',
+                          hintStyle: Constants.getPretendardTxt(15, Colors.black),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey), // 기본 밑줄 색상
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFF8A00)), // 포커스된 밑줄 색상
+                          ),
+                        ),
+                        style: Constants.getPretendardTxt(15, Colors.black),
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            insertOverlay();
+                          } else {
+                            removeOverlay();
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -584,11 +567,11 @@ class _SearchPageState extends State<SearchPage> {
       height: 60,
       alignment: Alignment.center,
       decoration: ShapeDecoration(
-        color: isSelected ? Colors.black.withOpacity(0.20000000298023224) : Color(0xFFFAFAFA),
+        color: isSelected ? Colors.black.withOpacity(0.2) : Color(0xFFFAFAFA),
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 1,
-            color: Colors.black.withOpacity(0.20000000298023224),
+            color: Colors.black.withOpacity(0.2),
           ),
         ),
       ),
@@ -729,3 +712,4 @@ class AutoCompleteKeywordList extends StatelessWidget {
     );
   }
 }
+

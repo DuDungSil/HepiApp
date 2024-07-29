@@ -159,6 +159,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                       Expanded(
                                         child: TextFormField(
                                           controller: tryRegist.nameText,
+                                          onTapOutside: (event){
+                                            FocusScope.of(context).unfocus();
+                                          },
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: '이름을 입력해주세요.',
@@ -228,6 +231,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           child: TextFormField(
                                             controller: tryRegist.phoneText,
                                             enabled: !phoneLock,
+                                            onTapOutside: (event){
+                                              FocusScope.of(context).unfocus();
+                                            },
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '01012345678',
@@ -373,6 +379,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                         Expanded(
                                           child: TextFormField(
                                             controller: authCodeText,
+                                            onTapOutside: (event){
+                                              FocusScope.of(context).unfocus();
+                                            },
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '000000',
@@ -495,6 +504,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                         Expanded(
                                           child: TextFormField(
                                             controller: tryRegist.idText,
+                                            onTapOutside: (event){
+                                              FocusScope.of(context).unfocus();
+                                            },
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '이메일을 입력해주세요.',
@@ -565,6 +577,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           child: TextFormField(
                                             obscureText: hoverPwd,
                                             controller: tryRegist.pwdText,
+                                            onTapOutside: (event){
+                                              FocusScope.of(context).unfocus();
+                                            },
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '비밀번호를 입력해주세요.',
@@ -648,6 +663,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           child: TextFormField(
                                             obscureText: hoverRePwd,
                                             controller: tryRegist.rePwdText,
+                                            onTapOutside: (event){
+                                              FocusScope.of(context).unfocus();
+                                            },
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: '비밀번호를 다시 입력해주세요.',
