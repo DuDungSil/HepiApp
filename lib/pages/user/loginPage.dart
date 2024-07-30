@@ -379,7 +379,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -387,7 +387,7 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             '아직 회원이 아니신가요?',
                             textAlign: TextAlign.center,
-                            style: Constants.getRobotoTxt(17, Colors.grey),
+                            style: Constants.getRobotoTxt(13, Colors.grey),
                           ),
                           const SizedBox(
                             width: 10,
@@ -396,7 +396,7 @@ class _LoginPageState extends State<LoginPage> {
                               onTap: () {
                                 context.push('/register');
                               },
-                              child: Text('회원가입', textAlign: TextAlign.center, style: Constants.getRobotoTxt(17, Colors.blueAccent))),
+                              child: Text('회원가입', textAlign: TextAlign.center, style: Constants.getRobotoTxt(13, Colors.blueAccent))),
                         ],
                       ),
                       const SizedBox(
