@@ -6,6 +6,7 @@ import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/constants.dart';
 import '../../widgets/productCard/detailProductCard.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -76,7 +77,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         child: Stack(
           children: [
             Container(
-              padding: EdgeInsets.fromLTRB(10, 40, 10, 0),
+              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT),
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
               child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
                   if (scrollInfo is ScrollEndNotification) {
@@ -92,7 +94,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     slivers: [
                       SliverToBoxAdapter(
                         child: Container(
-                            margin: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(5),
                             child: DetailProductCard()),
                       ),
                       SliverPersistentHeader(

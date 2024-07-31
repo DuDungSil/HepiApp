@@ -18,7 +18,6 @@ class _DetailProductCardState extends State<DetailProductCard> {
     return LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            width: 342,
             height: 390,
             decoration: ShapeDecoration(
               color: Colors.white,
@@ -28,8 +27,8 @@ class _DetailProductCardState extends State<DetailProductCard> {
               shadows: [
                 BoxShadow(
                   color: Color(0x0C000000),
-                  blurRadius: 8,
-                  offset: Offset(8, 8),
+                  blurRadius: 5,
+                  offset: Offset(5, 5),
                   spreadRadius: 0,
                 )
               ],

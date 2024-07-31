@@ -36,7 +36,6 @@ class _SearchPageState extends State<SearchPage> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   List<int> _items = List.generate(10, (index) => index);
 
-
   final ScrollController _scrollController = ScrollController();
 
   late final OverlayEntry overlayEntry;
@@ -162,7 +161,8 @@ class _SearchPageState extends State<SearchPage> {
         offset: Offset(0.0, size.height),
         child: Material(
           elevation: 4.0,
-          child: TextFieldTapRegion( // onTapOutside 무시영역 설정 위젯
+          child: TextFieldTapRegion(
+            // onTapOutside 무시영역 설정 위젯
             child: Container(
               color: Colors.white,
               child: AutoCompleteKeywordList(
@@ -203,240 +203,237 @@ class _SearchPageState extends State<SearchPage> {
         // 검색 결과 있음
         if (widget.category != null || widget.query != null) ...[
           Container(
+            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+            padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
-            child: Container(
-              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
-              child: SmartRefresher(
-                controller: _refreshController,
-                enablePullDown: false,
-                enablePullUp: true,
-                onLoading: _onLoading,
-                footer: const ClassicFooter(
-                  spacing: 0,
-                  loadingText: '',
-                  canLoadingText: '',
-                  idleText: '',
-                ),
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
-                  controller: _scrollController,
-                  slivers: [
-                    SliverToBoxAdapter(
+            child: SmartRefresher(
+              controller: _refreshController,
+              enablePullDown: false,
+              enablePullUp: true,
+              onLoading: _onLoading,
+              footer: const ClassicFooter(
+                spacing: 0,
+                loadingText: '',
+                canLoadingText: '',
+                idleText: '',
+              ),
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
+                controller: _scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFFFFF),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.category != null) ...[
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Wrap(
+                                  spacing: 5,
+                                  runSpacing: 5,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, 'WPI');
+                                        },
+                                        child: EclipseText(text: 'WPI')),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, 'WPC');
+                                        },
+                                        child: EclipseText(text: 'WPC')),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, '비건');
+                                        },
+                                        child: EclipseText(text: '비건')),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, '신상품');
+                                        },
+                                        child: EclipseText(text: '신상품')),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      minHeight: 60.0,
+                      maxHeight: 60.0,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFFFFFFFF),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (widget.category != null) ...[
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Wrap(
-                                    spacing: 5,
-                                    runSpacing: 5,
-                                    children: [
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, 'WPI');
-                                          },
-                                          child: EclipseText(text: 'WPI')),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, 'WPC');
-                                          },
-                                          child: EclipseText(text: 'WPC')),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, '비건');
-                                          },
-                                          child: EclipseText(text: '비건')),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _searchCategory(context, '신상품');
-                                          },
-                                          child: EclipseText(text: '신상품')),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                            ],
-                          ],
+                        child: ResultFilter(
+                          setView: () {},
+                          filtering: () {
+                            _showFilter();
+                          },
                         ),
                       ),
                     ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(
-                        minHeight: 60.0,
-                        maxHeight: 60.0,
-                        child: Column(
-                          children: [
-                            ResultFilter(
-                              setView: () {},
-                              filtering: () {
-                                _showFilter();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Container(
-                          padding: EdgeInsets.all(5),
-                          child: WideOptionProductCard(),
-                        );
-                      }, childCount: _items.length),
-                    ),
-                  ],
-                ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(5),
+                        child: WideOptionProductCard(),
+                      );
+                    }, childCount: _items.length),
+                  ),
+                ],
               ),
             ),
           )
         ] else ...[
           SingleChildScrollView(
             child: Container(
+              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
               ),
-              child: Container(
-                margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-                padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text('최근 검색어', style: Constants.getRobotoTxt(17, Colors.black)),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Wrap(
-                          spacing: 5,
-                          runSpacing: 5,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                _autoComplete(_textEditingController, '삼대오백');
-                                _searchKeyword(context, '삼대오백');
-                              },
-                              child: EclipseText(text: '삼대오백'),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
-                                _searchKeyword(context, '투퍼데이 종합비타민 120정');
-                              },
-                              child: EclipseText(text: '투퍼데이 종합비타민 120정'),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _autoComplete(_textEditingController, '잠백이 흑마늘');
-                                _searchKeyword(context, '잠백이 흑마늘');
-                              },
-                              child: EclipseText(text: '잠백이 흑마늘'),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _autoComplete(_textEditingController, '프로틴');
-                                _searchKeyword(context, '프로틴');
-                              },
-                              child: EclipseText(text: '프로틴'),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _autoComplete(_textEditingController, '크레아틴 500g');
-                                _searchKeyword(context, '크레아틴 500g');
-                              },
-                              child: EclipseText(text: '크레아틴 500g'),
-                            ),
-                          ],
-                        ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text('최근 검색어', style: Constants.getRobotoTxt(17, Colors.black)),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _autoComplete(_textEditingController, '삼대오백');
+                              _searchKeyword(context, '삼대오백');
+                            },
+                            child: EclipseText(text: '삼대오백'),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _autoComplete(_textEditingController, '투퍼데이 종합비타민 120정');
+                              _searchKeyword(context, '투퍼데이 종합비타민 120정');
+                            },
+                            child: EclipseText(text: '투퍼데이 종합비타민 120정'),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _autoComplete(_textEditingController, '잠백이 흑마늘');
+                              _searchKeyword(context, '잠백이 흑마늘');
+                            },
+                            child: EclipseText(text: '잠백이 흑마늘'),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _autoComplete(_textEditingController, '프로틴');
+                              _searchKeyword(context, '프로틴');
+                            },
+                            child: EclipseText(text: '프로틴'),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _autoComplete(_textEditingController, '크레아틴 500g');
+                              _searchKeyword(context, '크레아틴 500g');
+                            },
+                            child: EclipseText(text: '크레아틴 500g'),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text('자주 구매한 상품', style: Constants.getRobotoTxt(17, Colors.black)),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
-                        GestureDetector(
-                          onTap: (){
-                            context.go('/search/more');
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text('자주 구매한 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 200,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('할인 중인 상품', style: Constants.getRobotoTxt(17, Colors.black)),
+                      GestureDetector(
+                        onTap: () {
+                          context.go('/search/more');
+                        },
+                        child: Text('더보기 >', style: Constants.getPretendardTxt(11, Colors.black45)),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Consumer<products>(builder: (consumer, products, child) {
+                    if (products.eventProductList.isEmpty) {
+                      return Container(alignment: Alignment.center, height: 200, child: CircularProgressIndicator());
+                    } else {
+                      return Container(
+                        height: 200,
+                        clipBehavior: Clip.none,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: products.eventProductList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () {
+                                  context.push('/productdetail');
+                                },
+                                child: NormalProductCard(products.eventProductList[index]));
                           },
-                          child: Text('더보기 >', style: Constants.getPretendardTxt(11, Colors.black45)),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Consumer<products>(builder: (consumer, products, child) {
-                      if (products.eventProductList.isEmpty) {
-                        return Container(alignment: Alignment.center, height: 200, child: CircularProgressIndicator());
-                      } else {
-                        return Container(
-                          height: 200,
-                          clipBehavior: Clip.none,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: products.eventProductList.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  onTap: () {
-                                    context.push('/productdetail');
-                                  },
-                                  child: NormalProductCard(products.eventProductList[index]));
-                            },
-                            separatorBuilder: (context, index) => const SizedBox(
-                              width: 5,
-                            ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            width: 5,
                           ),
-                        );
-                      }
-                    }),
-                    const SizedBox(
-                      height: Constants.BOTTOM_MARGIN_WITH_BAR,
-                    ),
-                  ],
-                ),
+                        ),
+                      );
+                    }
+                  }),
+                  const SizedBox(
+                    height: Constants.BOTTOM_MARGIN_WITH_BAR,
+                  ),
+                ],
               ),
             ),
           ),
@@ -466,7 +463,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             trailing: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   context.push('/cart');
                 },
                 child: SvgPicture.asset(
@@ -496,7 +493,7 @@ class _SearchPageState extends State<SearchPage> {
                       child: TextField(
                         controller: _textEditingController,
                         autofocus: widget.autoFocus,
-                        onTapOutside: (event){
+                        onTapOutside: (event) {
                           removeOverlay();
                           FocusScope.of(context).unfocus();
                         },
@@ -541,14 +538,14 @@ class _SearchPageState extends State<SearchPage> {
     if (showBottomSheet != null) {
       showBottomSheet(
         Container(
-          height: 420,
+          height: 350,
           width: double.infinity,
           decoration: ShapeDecoration(
             color: Color(0xFFFAFAFA),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(32),
-                topRight: Radius.circular(32),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
             ),
           ),
@@ -558,8 +555,8 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  width: 40,
-                  height: 4,
+                  width: 50,
+                  height: 5,
                   decoration: ShapeDecoration(
                     color: Color(0xFFDBDBDB),
                     shape: RoundedRectangleBorder(
@@ -568,7 +565,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -596,7 +593,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildBorderContainer(String text, bool isSelected) {
     return Container(
       width: double.infinity,
-      height: 60,
+      height: 50,
       alignment: Alignment.center,
       decoration: ShapeDecoration(
         color: isSelected ? Colors.black.withOpacity(0.2) : Color(0xFFFAFAFA),
@@ -610,14 +607,7 @@ class _SearchPageState extends State<SearchPage> {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 14,
-          fontFamily: 'Pretendard',
-          fontWeight: FontWeight.w400,
-          height: 1.2,
-          letterSpacing: -0.35,
-        ),
+        style: Constants.getPretendardTxt(13, Colors.black)
       ),
     );
   }
@@ -744,4 +734,3 @@ class AutoCompleteKeywordList extends StatelessWidget {
     );
   }
 }
-

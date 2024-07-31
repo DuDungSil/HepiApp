@@ -40,113 +40,112 @@ class _EventPageState extends State<EventPage> {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 80),
+          margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+          padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT),
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
-          child: Container(
-            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Consumer<eventImages>(
-                    builder: (context, eventImages, child) {
-                      if (eventImages.eventImageList.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: 250,
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 250,
-                            child: CarouselSlider(
-                              carouselController: innerCarouselController,
-                              items: eventImages.eventImageList.map((eventImage) {
-                                return Container(
-                                  child: CachedNetworkImage(
-                                    imageUrl: eventImage.url,
-                                    placeholder: (context, url) => Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    fit: BoxFit.contain,
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Consumer<eventImages>(
+                  builder: (context, eventImages, child) {
+                    if (eventImages.eventImageList.isEmpty) {
+                      return Container(
+                        alignment: Alignment.center,
+                        height: 200,
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return Column(
+                      children: [
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 200,
+                          child: CarouselSlider(
+                            carouselController: innerCarouselController,
+                            items: eventImages.eventImageList.map((eventImage) {
+                              return Container(
+                                child: CachedNetworkImage(
+                                  imageUrl: eventImage.url,
+                                  placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(),
                                   ),
-                                );
-                              }).toList(),
-                              options: CarouselOptions(
-                                initialPage: innerCurrentPage,
-                                onPageChanged: (index, reason) {
-                                  if (innerCurrentPage != index) {
-                                    setState(() {
-                                      innerCurrentPage = index;
-                                    });
-                                  }
-                                },
-                                viewportFraction: 1.0,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 25),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(eventImages.eventImageList.length, (index) {
-                              bool isSelected = innerCurrentPage == index;
-                              return AnimatedContainer(
-                                width: 6,
-                                height: 6,
-                                margin: EdgeInsets.symmetric(horizontal: 3),
-                                duration: const Duration(milliseconds: 300),
-                                decoration: ShapeDecoration(
-                                  color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
-                                  shape: OvalBorder(),
+                                  fit: BoxFit.contain,
                                 ),
                               );
-                            }),
+                            }).toList(),
+                            options: CarouselOptions(
+                              initialPage: innerCurrentPage,
+                              onPageChanged: (index, reason) {
+                                if (innerCurrentPage != index) {
+                                  setState(() {
+                                    innerCurrentPage = index;
+                                  });
+                                }
+                              },
+                              viewportFraction: 1.0,
+                            ),
                           ),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(eventImages.eventImageList.length, (index) {
+                            bool isSelected = innerCurrentPage == index;
+                            return AnimatedContainer(
+                              width: 6,
+                              height: 6,
+                              margin: EdgeInsets.symmetric(horizontal: 3),
+                              duration: const Duration(milliseconds: 300),
+                              decoration: ShapeDecoration(
+                                color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
+                                shape: OvalBorder(),
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                SliverToBoxAdapter(
-                  child: const SizedBox(height: 20,),
-                ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: _SliverAppBarDelegate(
-                    minHeight: 60.0,
-                    maxHeight: 60.0,
-                    child: Container(
-                      color: Colors.white,
-                      child: ResultFilter(
-                        setView: () {},
-                        filtering: () {},
-                      ),
+              ),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _SliverAppBarDelegate(
+                  minHeight: 60.0,
+                  maxHeight: 60.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFFFFF),
+                    ),
+                    child: ResultFilter(
+                      setView: () {},
+                      filtering: () {},
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
-                        child: WideOptionProductCard(),
-                      );
-                    },
-                    childCount: 10,
-                  ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return Container(
+                      padding: EdgeInsets.all(5),
+                      child: WideOptionProductCard(),
+                    );
+                  },
+                  childCount: 10,
                 ),
-                SliverToBoxAdapter(
-                  child: const SizedBox(
-                    height: 100,
-                  ),
+              ),
+              SliverToBoxAdapter(
+                child: const SizedBox(
+                  height: Constants.BOTTOM_MARGIN_WITH_BAR,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         Positioned(
@@ -191,8 +190,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
   }
 }
