@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/customAppbar.dart';
 import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -162,6 +163,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   key: _sectionKeys[4],
                                   child: CustomerReview(),
                                 ),
+                                const SizedBox(height: Constants.BOTTOM_MARGIN_WITH_BAR),
                               ],
                             ),
                           ),
@@ -365,33 +367,11 @@ Widget NutritionFacts() {
                 ),
                 Container(
                   padding: EdgeInsets.all(5),
-                  child: Text(
-                    '1회 제공량 당 함량',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
+                  child: Text('1회 제공량 당 함량', textAlign: TextAlign.center, style: Constants.getPretendardTxt(13, Colors.black)),
                 ),
                 Container(
                   padding: EdgeInsets.all(5),
-                  child: Text(
-                    '1일 영양성분\n기준치에 대한 비율',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
+                  child: Text('1일 영양성분\n기준치에 대한 비율', textAlign: TextAlign.center, style: Constants.getPretendardTxt(13, Colors.black)),
                 ),
               ]),
           TableRow(children: [
@@ -554,9 +534,348 @@ Widget PersonalNutritionAnalysis() {
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('개인 영양 분석', style: Constants.getPretendardTxt(18, Colors.black)),
-      Container(
-        height: 200,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('개인 영양 분석', style: Constants.getPretendardTxt(18, Colors.black)),
+          Text('부족 0건 적합 0건 초과 0건', style: Constants.getPretendardTxt(12, Colors.grey)),
+        ],
+      ),
+      const SizedBox(height: 10),
+      Table(
+        children: [
+          TableRow(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              children: [
+                Container(
+                  height: 40,
+                  padding: EdgeInsets.all(5),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '성분/함량',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '부족',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '적합',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: Text(
+                    '초과',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+              ]),
+          TableRow(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              children: [
+                Container(
+                  height: 40,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '비타민 A',
+                        style: Constants.getPretendardTxt(14, Colors.black),
+                      ),
+                      Text(
+                        '1740mcg RAE',
+                        style: Constants.getPretendardTxt(12, Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '부족',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.blueAccent.withOpacity(0.5),
+                      border: Border(
+                        right: BorderSide(
+                          width: 1,
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      )),
+                  child: Text(
+                    '적합',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: Text(
+                    '초과',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+              ]),
+          TableRow(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              children: [
+                Container(
+                  height: 40,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '비타민 B6',
+                        style: Constants.getPretendardTxt(14, Colors.black),
+                      ),
+                      Text(
+                        '120mg',
+                        style: Constants.getPretendardTxt(12, Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '부족',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '적합',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  color: Colors.redAccent.withOpacity(0.5),
+                  child: Text(
+                    '초과',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+              ]),
+          TableRow(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              children: [
+                Container(
+                  height: 40,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '칼슘',
+                        style: Constants.getPretendardTxt(14, Colors.black),
+                      ),
+                      Text(
+                        '1400mg',
+                        style: Constants.getPretendardTxt(12, Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.yellowAccent.withOpacity(0.5),
+                      border: Border(
+                        right: BorderSide(
+                          width: 1,
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      )),
+                  child: Text(
+                    '부족',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  )),
+                  child: Text(
+                    '적합',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: Text(
+                    '초과',
+                    style: Constants.getPretendardTxt(14, Colors.black),
+                  ),
+                ),
+              ]),
+        ],
+      ),
+      const SizedBox(height: 10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 130,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                color: Color(0xFFFF8A00),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                '상세정보 보기',
+                textAlign: TextAlign.center,
+                style: Constants.getRobotoTxt(12, Colors.white),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 130,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                color: Color(0xFFFF8A00),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                '내 정보 수정',
+                textAlign: TextAlign.center,
+                style: Constants.getRobotoTxt(12, Colors.white),
+              ),
+            ),
+          ),
+        ],
       )
     ],
   );
@@ -567,9 +886,101 @@ Widget CustomerReview() {
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('구매 후기', style: Constants.getPretendardTxt(18, Colors.black)),
-      Container(
-        height: 200,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('구매 후기', style: Constants.getPretendardTxt(18, Colors.black)),
+          Text('더보기 >', style: Constants.getPretendardTxt(12, Colors.grey)),
+        ],
+      ),
+      const SizedBox(height: 10),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          SvgPicture.asset(
+            'assets/vectors/star_fill.svg',
+            width: 25,
+            height: 25,
+          ),
+          const SizedBox(width: 5),
+          SvgPicture.asset(
+            'assets/vectors/star_fill.svg',
+            width: 25,
+            height: 25,
+          ),
+          const SizedBox(width: 5),
+          SvgPicture.asset(
+            'assets/vectors/star_fill.svg',
+            width: 25,
+            height: 25,
+          ),
+          const SizedBox(width: 5),
+          SvgPicture.asset(
+            'assets/vectors/star_fill.svg',
+            width: 25,
+            height: 25,
+          ),
+          const SizedBox(width: 5),
+          SvgPicture.asset(
+            'assets/vectors/star_fill.svg',
+            width: 25,
+            height: 25,
+          ),
+          const SizedBox(width: 15),
+          Text('(673)', style: Constants.getRobotoTxt(15, Colors.black45)),
+        ],
+      ),
+      const SizedBox(height: 10),
+      Table(
+        border: TableBorder.all(color: Colors.black.withOpacity(0.5), width: 1),
+        children: [
+          TableRow(
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('이**', style: Constants.getRobotoTxt(13, Colors.black)),
+                        Text('내 정보와 비교하기 >', style: Constants.getPretendardTxt(11, Colors.grey)),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    Text('20대 / 남 / 운동 강도 높음', style: Constants.getPretendardTxt(12, Colors.grey)),
+                    const SizedBox(height: 5),
+                    Text('좋아요! 추천합니다!', style: Constants.getPretendardTxt(13, Colors.black), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ],
+                ),
+              )
+            ]
+          ),
+          TableRow(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('오**', style: Constants.getRobotoTxt(13, Colors.black)),
+                          Text('내 정보와 비교하기 >', style: Constants.getPretendardTxt(11, Colors.grey)),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Text('20대 / 남 / 운동 강도 낮음', style: Constants.getPretendardTxt(12, Colors.grey)),
+                      const SizedBox(height: 5),
+                      Text('맛있어요, 또 먹고싶어요 !', style: Constants.getPretendardTxt(13, Colors.black), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    ],
+                  ),
+                )
+              ]
+          ),
+        ],
       )
     ],
   );
