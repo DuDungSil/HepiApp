@@ -206,6 +206,7 @@ class _SearchPageState extends State<SearchPage> {
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
+<<<<<<< Updated upstream
             child: Container(
               margin: Constants.SCREEN_HORIZONTAL_MARGIN,
               padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
@@ -225,6 +226,84 @@ class _SearchPageState extends State<SearchPage> {
                   controller: _scrollController,
                   slivers: [
                     SliverToBoxAdapter(
+=======
+            child: SmartRefresher(
+              controller: _refreshController,
+              enablePullDown: false,
+              enablePullUp: true,
+              onLoading: _onLoading,
+              footer: const ClassicFooter(
+                spacing: 0,
+                loadingText: '',
+                canLoadingText: '',
+                idleText: '',
+              ),
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                controller: _scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFFFFF),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.category != null) ...[
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(widget.category.toString(), style: Constants.getRobotoTxt(17, Colors.black)),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Wrap(
+                                  spacing: 5,
+                                  runSpacing: 5,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, 'WPI');
+                                        },
+                                        child: EclipseText(text: 'WPI')),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, 'WPC');
+                                        },
+                                        child: EclipseText(text: 'WPC')),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, '비건');
+                                        },
+                                        child: EclipseText(text: '비건')),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _searchCategory(context, '신상품');
+                                        },
+                                        child: EclipseText(text: '신상품')),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      minHeight: 60.0,
+                      maxHeight: 60.0,
+>>>>>>> Stashed changes
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFFFFFFFF),
@@ -280,6 +359,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     ),
+<<<<<<< Updated upstream
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: _SliverAppBarDelegate(
@@ -307,6 +387,23 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ],
                 ),
+=======
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(5),
+                        child: WideOptionProductCard(),
+                      );
+                    }, childCount: _items.length),
+                  ),
+                  SliverToBoxAdapter(
+                    child: const SizedBox(
+                      height: 10,
+                    ),
+                  ),
+                ],
+>>>>>>> Stashed changes
               ),
             ),
           )

@@ -1,6 +1,8 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/pages/healthcare/myNutritionScore.dart';
 import 'package:flutter_app/pages/init/startLoginPage.dart';
 import 'package:flutter_app/pages/init/startPage.dart';
 import 'package:flutter_app/pages/main/eventPage.dart';
@@ -19,6 +21,7 @@ import 'package:flutter_app/pages/user/findIdPage.dart';
 import 'package:flutter_app/pages/user/loginPage.dart';
 import 'package:flutter_app/pages/user/registerPage.dart';
 import 'package:flutter_app/store/user.dart';
+import 'package:flutter_app/utils/constants.dart';
 import 'package:flutter_app/widgets/customBottombar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -49,7 +52,6 @@ final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
   refreshListenable: routerNotifier,
-
   redirect: (context, state) {
     final bool isOnboardingComplete = sharedPreferences.getBool('onboardingComplete') ?? false;
 
@@ -134,14 +136,24 @@ final GoRouter router = GoRouter(
           pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(MyPage()),
         ),
         GoRoute(
-            path: '/healthcare',
-            pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(HealthcarePage()),
-            redirect: (context, state) {
-              if (context.read<user>().id != null)
-                return '/healthcare';
-              else
-                return '/login?redirect=/healthcare';
-            }),
+          path: '/healthcare',
+          pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(HealthcarePage()),
+          redirect: (context, state) {
+            final loginUser = context.read<user>();
+            if (loginUser.id == null) {
+              return '/login?redirect=${state.uri.toString()}';
+            }
+            return null;
+          },
+          routes: [
+            GoRoute(
+              path: 'nutritionScore',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return buildCustomTransitionPage(MyNutritionScore());
+              },
+            ),
+          ],
+        ),
         GoRoute(
             path: '/qr',
             pageBuilder: (BuildContext context, GoRouterState state) => buildCustomTransitionPage(QRPage()),
@@ -159,10 +171,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/login',
-      pageBuilder: (BuildContext context, GoRouterState state){
+      pageBuilder: (BuildContext context, GoRouterState state) {
         final redirect = state.uri.queryParameters['redirect'];
 
-        return buildCustomTransitionPage(LoginPage(redirect : redirect));
+        return buildCustomTransitionPage(LoginPage(redirect: redirect));
       },
     ),
     GoRoute(
@@ -208,6 +220,28 @@ class ScaffoldWithNavBar extends StatefulWidget {
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   DateTime? lastBackPressTime;
+  late FToast fToast;
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  Future<bool> myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) async {
+    if (GoRouter.of(context).canPop())
+      context.pop();
+    else if (await onWillPop()) SystemNavigator.pop();
+    return true;
+  }
 
   void showBottomSheet(Widget widget) {
     showModalBottomSheet(
@@ -216,70 +250,100 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     );
   }
 
-  Future<bool> onWillPop(){
+  Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if(lastBackPressTime == null || now.difference(lastBackPressTime!) > Duration(seconds: 2)){
+    if (lastBackPressTime == null || now.difference(lastBackPressTime!) > Duration(seconds: 2)) {
       lastBackPressTime = now;
       final msg = "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.";
-      Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 2,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      _showToast(msg);
       return Future.value(false);
     }
     return Future.value(true);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) async {
-        if(await onWillPop()) SystemNavigator.pop();
-      },
-      child: Scaffold(
-        extendBody: true,
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        body: SafeArea(
+  _showToast(String msg) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.greenAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.check),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text(
+            msg,
+            style: Constants.getPretendardTxt(16, Colors.black),
+          ),
+        ],
+      ),
+    );
+
+    // Custom Toast Position
+    fToast.showToast(
+      child: toast,
+      toastDuration: Duration(seconds: 2),
+      positionedToastBuilder: (context, child) {
+        return Container(
+          alignment: Alignment.center,
           child: Stack(
-            children: <Widget>[
-              Positioned.fill(child: widget.navigationShell),
+            children: [
               Positioned(
+                child: child,
                 left: 0,
                 right: 0,
-                bottom: -1,
-                child: ValueListenableBuilder<int>(
-                  valueListenable: routerNotifier,
-                  builder: (context, value, child) {
-                    return CustomBottombar(
-                      setTab: (index) {
-                        final String? location = _getLocationForIndex(index);
-                        if (location != null && location.isNotEmpty) {
-                          router.go(location);
-                        } else {
-                          print("Invalid location for index $index: $location");
-                        }
-                      },
-                      currentIndex: value,
-                    );
-                  },
-                ),
+                bottom: Constants.BOTTOM_MARGIN_WITH_BAR,
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Positioned.fill(child: widget.navigationShell),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: -1,
+              child: ValueListenableBuilder<int>(
+                valueListenable: routerNotifier,
+                builder: (context, value, child) {
+                  return CustomBottombar(
+                    setTab: (index) {
+                      final String? location = _getLocationForIndex(index);
+                      if (location != null && location.isNotEmpty) {
+                        router.go(location);
+                      } else {
+                        print("Invalid location for index $index: $location");
+                      }
+                    },
+                    currentIndex: value,
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-String getFirstPathSegment(Uri uri) {
+String _getFirstPathSegment(Uri uri) {
   if (uri.pathSegments.isNotEmpty) {
     return '/' + uri.pathSegments.first;
   }
@@ -287,7 +351,7 @@ String getFirstPathSegment(Uri uri) {
 }
 
 int _getIndexForLocation(Uri uri) {
-  final firstPath = getFirstPathSegment(uri);
+  final firstPath = _getFirstPathSegment(uri);
   switch (firstPath) {
     case '/home':
       return 0;

@@ -47,6 +47,7 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/home_icon.svg',
+                key: Key('home_icon'),
                 width: 20,
                 height: 20,
                 color: currentIndex == 0 ? Colors.orange : Colors.black,
@@ -56,6 +57,7 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/search_icon.svg',
+                key: Key('search_icon'),
                 width: 20,
                 height: 20,
                 color: currentIndex == 1 ? Colors.orange : Colors.black,
@@ -65,6 +67,7 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/mypage_icon.svg',
+                key: Key('mypage_icon'),
                 width: 20,
                 height: 20,
                 color: currentIndex == 2 ? Colors.orange : Colors.black,
@@ -74,6 +77,7 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/healthy_icon.svg',
+                key: Key('healthy_icon'),
                 width: 20,
                 height: 20,
                 color: currentIndex == 3 ? Colors.orange : Colors.black,
@@ -83,6 +87,7 @@ class CustomBottombar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/vectors/Bottombar/qr_icon.svg',
+                key: Key('qr_icon'),
                 width: 20,
                 height: 20,
                 color: currentIndex == 4 ? Colors.orange : Colors.black,

@@ -40,15 +40,107 @@ class _HealthcarePageState extends State<HealthcarePage> {
               color: Color(0xFFFFFFFF),
             ),
             child: Column(
+              // 전체 레이아웃
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 500,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(border: Border.all(color: Color(0x1A000000)), borderRadius: BorderRadius.circular(6), color: Color(0x1A000000)),
-                )
+                  height: 280,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFF1F3F5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x0A000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text.rich(
+                            textAlign: TextAlign.center,
+                            TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  child: Container(
+                                    padding: EdgeInsets.only(bottom: 1),
+                                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFFF8A00), width: 1))),
+                                    child: Text('이윤구', style: Constants.getPretendardTxt(18, Color(0xFFFF8A00))),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '님, 오늘도 힘내세요!',
+                                  style: Constants.getPretendardTxt(18, Colors.black)
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 280,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFF1F3F5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x0A000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text.rich(
+                            textAlign: TextAlign.center,
+                            TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  child: Container(
+                                    padding: EdgeInsets.only(bottom: 1),
+                                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFFF8A00), width: 1))),
+                                    child: Text('이윤구', style: Constants.getPretendardTxt(18, Color(0xFFFF8A00))),
+                                  ),
+                                ),
+                                TextSpan(
+                                    text: '님의 영양점수',
+                                    style: Constants.getPretendardTxt(18, Colors.black)
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              context.go('/healthcare/nutritionScore');
+                            },
+                                child: Text('자세히 알아보기 >', style: Constants.getPretendardTxt(11, Colors.black45),),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -94,27 +186,11 @@ class _HealthcarePageState extends State<HealthcarePage> {
                           ),
                   ],
                 ),
-                (loginUser.id != null)
-                    ? GestureDetector(
-                        onTap: () {
-                          context.push('/myInfoSetting');
-                        },
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFF9EA3B2)),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Text('내 정보 설정', style: Constants.getPretendardTxt(12, Colors.black)),
-                        ),
-                      )
-                    : Container()
               ],
             ),
           ),
         ),
       ],
     );
-    ;
   }
 }
