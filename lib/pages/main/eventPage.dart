@@ -70,11 +70,6 @@ class _EventPageState extends State<EventPage> {
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
-<<<<<<< Updated upstream
-          child: Container(
-            margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-            child: CustomScrollView(
-=======
           child: SmartRefresher(
             controller: _refreshController,
             enablePullDown: false,
@@ -89,7 +84,6 @@ class _EventPageState extends State<EventPage> {
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               controller: _scrollController,
->>>>>>> Stashed changes
               slivers: [
                 SliverToBoxAdapter(
                   child: Consumer<eventImages>(
@@ -97,28 +91,18 @@ class _EventPageState extends State<EventPage> {
                       if (eventImages.eventImageList.isEmpty) {
                         return Container(
                           alignment: Alignment.center,
-<<<<<<< Updated upstream
-                          height: 250,
-=======
                           height: 200,
->>>>>>> Stashed changes
                           child: CircularProgressIndicator(),
                         );
                       }
                       return Column(
                         children: [
-<<<<<<< Updated upstream
-                          Container(
-                            width: double.infinity,
-                            height: 250,
-=======
                           const SizedBox(
                             height: 15,
                           ),
                           Container(
                             width: double.infinity,
                             height: 200,
->>>>>>> Stashed changes
                             child: CarouselSlider(
                               carouselController: innerCarouselController,
                               items: eventImages.eventImageList.map((eventImage) {
@@ -145,11 +129,7 @@ class _EventPageState extends State<EventPage> {
                               ),
                             ),
                           ),
-<<<<<<< Updated upstream
-                          const SizedBox(height: 25),
-=======
                           const SizedBox(height: 5),
->>>>>>> Stashed changes
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(eventImages.eventImageList.length, (index) {
@@ -171,25 +151,15 @@ class _EventPageState extends State<EventPage> {
                     },
                   ),
                 ),
-<<<<<<< Updated upstream
-                SliverToBoxAdapter(
-                  child: const SizedBox(height: 20,),
-                ),
-=======
->>>>>>> Stashed changes
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: _SliverAppBarDelegate(
                     minHeight: 60.0,
                     maxHeight: 60.0,
                     child: Container(
-<<<<<<< Updated upstream
-                      color: Colors.white,
-=======
                       decoration: BoxDecoration(
                         color: Color(0xFFFFFFFF),
                       ),
->>>>>>> Stashed changes
                       child: ResultFilter(
                         setView: () {},
                         filtering: () {},
@@ -199,16 +169,9 @@ class _EventPageState extends State<EventPage> {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-<<<<<<< Updated upstream
-                        (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
-=======
                     (context, index) {
                       return Container(
                         padding: EdgeInsets.all(5),
->>>>>>> Stashed changes
                         child: WideOptionProductCard(),
                       );
                     },
@@ -217,11 +180,7 @@ class _EventPageState extends State<EventPage> {
                 ),
                 SliverToBoxAdapter(
                   child: const SizedBox(
-<<<<<<< Updated upstream
-                    height: 100,
-=======
                     height: 10,
->>>>>>> Stashed changes
                   ),
                 ),
               ],

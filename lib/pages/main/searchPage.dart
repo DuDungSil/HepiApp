@@ -206,27 +206,6 @@ class _SearchPageState extends State<SearchPage> {
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
             ),
-<<<<<<< Updated upstream
-            child: Container(
-              margin: Constants.SCREEN_HORIZONTAL_MARGIN,
-              padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT + Constants.APPBAR_CONTENT_HEIGHT),
-              child: SmartRefresher(
-                controller: _refreshController,
-                enablePullDown: false,
-                enablePullUp: true,
-                onLoading: _onLoading,
-                footer: const ClassicFooter(
-                  spacing: 0,
-                  loadingText: '',
-                  canLoadingText: '',
-                  idleText: '',
-                ),
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
-                  controller: _scrollController,
-                  slivers: [
-                    SliverToBoxAdapter(
-=======
             child: SmartRefresher(
               controller: _refreshController,
               enablePullDown: false,
@@ -303,7 +282,6 @@ class _SearchPageState extends State<SearchPage> {
                     delegate: _SliverAppBarDelegate(
                       minHeight: 60.0,
                       maxHeight: 60.0,
->>>>>>> Stashed changes
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFFFFFFFF),
@@ -359,35 +337,6 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     ),
-<<<<<<< Updated upstream
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(
-                        minHeight: 60.0,
-                        maxHeight: 60.0,
-                        child: Column(
-                          children: [
-                            ResultFilter(
-                              setView: () {},
-                              filtering: () {
-                                _showFilter();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Container(
-                          padding: EdgeInsets.all(5),
-                          child: WideOptionProductCard(),
-                        );
-                      }, childCount: _items.length),
-                    ),
-                  ],
-                ),
-=======
                   ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
@@ -403,7 +352,6 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ],
->>>>>>> Stashed changes
               ),
             ),
           )

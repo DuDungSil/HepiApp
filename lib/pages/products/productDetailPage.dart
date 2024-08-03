@@ -5,6 +5,7 @@ import 'package:flutter_app/widgets/customBackButton.dart';
 import 'package:flutter_app/widgets/eclipseText.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../utils/constants.dart';
 import '../../widgets/productCard/detailProductCard.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -41,17 +42,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       for (int i = 0; i < _sectionOffsets.length; i++) {
         double top = _sectionOffsets[i];
-<<<<<<< Updated upstream
-        double bottom =
-            top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
-
-        if (_scrollController.offset + kToolbarHeight + 90 >= top &&
-            _scrollController.offset + kToolbarHeight + 90 < bottom) {
-=======
         double bottom = top + (_sectionKeys[i].currentContext?.size?.height ?? 0);
       print(_scrollController.offset);
         if (_scrollController.offset + Constants.APPBAR_TITLE_HEIGHT + 110 >= top && _scrollController.offset + Constants.APPBAR_TITLE_HEIGHT + 110 < bottom) {
->>>>>>> Stashed changes
           setState(() {
             selectedIndex = i;
           });
@@ -67,11 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     Offset position = box.localToGlobal(Offset.zero);
 
     _scrollController.animateTo(
-<<<<<<< Updated upstream
-      _scrollController.offset + position.dy - kToolbarHeight - 60,
-=======
       _scrollController.offset + position.dy - Constants.APPBAR_TITLE_HEIGHT - 110,
->>>>>>> Stashed changes
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
@@ -181,10 +170,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   key: _sectionKeys[4],
                                   child: CustomerReview(),
                                 ),
-<<<<<<< Updated upstream
-=======
                                 const SizedBox(height: Constants.BOTTOM_MARGIN_WITH_BAR + 20),
->>>>>>> Stashed changes
                               ],
                             ),
                           ),

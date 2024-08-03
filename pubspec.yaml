@@ -21,7 +21,7 @@ dependencies:
   encrypt: ^5.0.3
   flutter_svg : ^2.0.1
   getwidget: ^4.0.0
-  go_router: ^14.2.2                        # PopScope 호환성 문제로 12버전 사용
+  go_router: ^14.2.2                        
   shared_preferences: ^2.2.3
   carousel_slider: ^4.2.1
   cached_network_image: ^3.2.0
