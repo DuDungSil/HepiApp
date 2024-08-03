@@ -195,12 +195,12 @@ class StartLoginPage extends StatelessWidget {
                           Text(
                             '아직 회원이 아니신가요?',
                             textAlign: TextAlign.center,
-                            style: Constants.getRobotoTxt(17, Colors.grey),
+                            style: Constants.getRobotoTxt(13, Colors.grey),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
-                          Text('회원가입', textAlign: TextAlign.center, style: Constants.getRobotoTxt(17, Colors.blueAccent)),
+                          Text('회원가입', textAlign: TextAlign.center, style: Constants.getRobotoTxt(13, Colors.blueAccent)),
                         ],
                       ),
                       const SizedBox(

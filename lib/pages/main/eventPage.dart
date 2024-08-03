@@ -66,7 +66,8 @@ class _EventPageState extends State<EventPage> {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 80),
+          margin: Constants.SCREEN_HORIZONTAL_MARGIN,
+          padding: EdgeInsets.only(top: Constants.APPBAR_TITLE_HEIGHT),
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
           ),
@@ -144,12 +145,40 @@ class _EventPageState extends State<EventPage> {
                                   shape: OvalBorder(),
                                 ),
                               );
-                            }),
+                            }).toList(),
+                            options: CarouselOptions(
+                              initialPage: innerCurrentPage,
+                              onPageChanged: (index, reason) {
+                                if (innerCurrentPage != index) {
+                                  setState(() {
+                                    innerCurrentPage = index;
+                                  });
+                                }
+                              },
+                              viewportFraction: 1.0,
+                            ),
                           ),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(eventImages.eventImageList.length, (index) {
+                            bool isSelected = innerCurrentPage == index;
+                            return AnimatedContainer(
+                              width: 6,
+                              height: 6,
+                              margin: EdgeInsets.symmetric(horizontal: 3),
+                              duration: const Duration(milliseconds: 300),
+                              decoration: ShapeDecoration(
+                                color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
+                                shape: OvalBorder(),
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 SliverPersistentHeader(
                   pinned: true,
@@ -183,8 +212,8 @@ class _EventPageState extends State<EventPage> {
                     height: 10,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         Positioned(
@@ -229,8 +258,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
   }
 }

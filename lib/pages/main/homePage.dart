@@ -112,22 +112,20 @@ class _HomeState extends State<HomePage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: List.generate(eventImages.eventImageList.length, (index) {
-                                bool isSelected = innerCurrentPage == index;
-                                return AnimatedContainer(
-                                    width: isSelected ? 6 : 6,
-                                    height: 6,
-                                    margin: EdgeInsets.symmetric(horizontal: isSelected ? 3 : 3),
-                                    duration: const Duration(
-                                      milliseconds: 300,
-                                    ),
-                                    decoration: ShapeDecoration(color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2), shape: OvalBorder()));
-                              }),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: List.generate(eventImages.eventImageList.length, (index) {
+                              bool isSelected = innerCurrentPage == index;
+                              return AnimatedContainer(
+                                  width: isSelected ? 6 : 6,
+                                  height: 6,
+                                  margin: EdgeInsets.symmetric(horizontal: isSelected ? 3 : 3),
+                                  duration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                  decoration: ShapeDecoration(color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2), shape: OvalBorder()));
+                            }),
                           )
                         ],
                       ),
