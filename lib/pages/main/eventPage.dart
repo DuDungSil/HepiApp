@@ -146,39 +146,11 @@ class _EventPageState extends State<EventPage> {
                                 ),
                               );
                             }).toList(),
-                            options: CarouselOptions(
-                              initialPage: innerCurrentPage,
-                              onPageChanged: (index, reason) {
-                                if (innerCurrentPage != index) {
-                                  setState(() {
-                                    innerCurrentPage = index;
-                                  });
-                                }
-                              },
-                              viewportFraction: 1.0,
-                            ),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(eventImages.eventImageList.length, (index) {
-                            bool isSelected = innerCurrentPage == index;
-                            return AnimatedContainer(
-                              width: 6,
-                              height: 6,
-                              margin: EdgeInsets.symmetric(horizontal: 3),
-                              duration: const Duration(milliseconds: 300),
-                              decoration: ShapeDecoration(
-                                color: isSelected ? Color(0xFF111111) : Color(0xFF9EA3B2),
-                                shape: OvalBorder(),
-                              ),
-                            );
-                          }),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
                 SliverPersistentHeader(
                   pinned: true,
@@ -212,8 +184,8 @@ class _EventPageState extends State<EventPage> {
                     height: 10,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Positioned(

@@ -32,6 +32,7 @@ dependencies:
   pull_to_refresh_flutter3: ^2.0.2
   flutter_native_splash: ^2.4.1
   back_button_interceptor: ^7.0.3
+  percent_indicator: ^4.2.2
 
 
 dev_dependencies:
