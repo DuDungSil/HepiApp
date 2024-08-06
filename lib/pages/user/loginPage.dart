@@ -258,27 +258,21 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '아직 회원이 아니신가요?',
-                          textAlign: TextAlign.center,
-                          style: Constants.getRobotoTxt(13, Colors.grey),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              context.push('/register');
-                            },
-                            child: Text('회원가입', textAlign: TextAlign.center, style: Constants.getRobotoTxt(13, Colors.blueAccent))),
-                      ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/logo/logo_kakao.png',
+                            width: 25,
+                            height: 25,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text('카카오 로그인', style: Constants.getPretendardTxt(15, Colors.black)),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 10,

@@ -49,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   var auth = false;
   var authCode = "";
-  var showAuthCode = true;
+  var showAuthCode = false;
   var authCodeText = TextEditingController();
 
   late Timer timer;
